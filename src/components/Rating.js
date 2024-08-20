@@ -24,8 +24,7 @@ const Rating = ({ totalStars = 5 }) => {
 const Star = ({ filled, onClick }) => (
   <svg
     onClick={onClick}
-    width="24"
-    height="24"
+    className="w-4 h-4 sm:w-6 sm:h-6"
     viewBox="0 0 24 24"
     fill={filled ? "#384353" : "rgba(124, 127, 132, 0.5)"}
     xmlns="http://www.w3.org/2000/svg"

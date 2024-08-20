@@ -15,8 +15,8 @@ const theme = {
     dark: "#1a202c",
   },
   fonts: {
-    body: "Arial, sans-serif",
-    heading: "Georgia, serif",
+    body: "Inter, sans-serif",
+    heading: "RecklessNeue, sans-serif",
   },
 };
 
