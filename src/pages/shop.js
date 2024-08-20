@@ -1,21 +1,26 @@
+import Rating from "../components/Rating.js";
 export default function Shop() {
   return (
     <>
-      <section class="text-black body-font">
+      <section class="text-black bg-primary body-font">
         <div class="container px-5 py-24 mx-auto">
           <div class="flex flex-wrap -m-4">
-            <div class="p-4 md:w-1/3">
-              <div class="lg:h-full  border-2 rounded-lg overflow-hidden">
+            <div class="p-4 md:w-1/3 ">
+              <div class="lg:h-full  shadow-xl rounded-lg overflow-hidden bg-surface">
                 <img
-                  class="lg:h-96 md:h-64  w-full object-cover object-center rounded-xl"
-                  src="https://ih1.redbubble.net/image.4789831581.5724/flat,750x,075,f-pad,750x1000,f8f8f8.jpg"
+                  class="lg:h-96 md:h-64  w-full object-cover object-center "
+                  src="https://img.lazcdn.com/g/p/be2723539cde48470da1dc1b9f80f0b1.jpg_720x720q80.jpg"
                   alt="blog"
                 />
                 <div class="p-3 flex mx-auto justify-center items-center">
                   <div class="flex flex-col items-center space-y-1">
-                    <p class=" inline-flex items-center">Product Name</p>
-                    <p class=" inline-flex items-center">Product Rating</p>
-                    <p class=" inline-flex items-center">Product Price</p>
+                    <p class=" inline-flex items-center">
+                      Silver Diamond Ring{" "}
+                    </p>
+                    <p class=" inline-flex items-center">
+                      <Rating totalStars={5} />
+                    </p>
+                    <p class=" inline-flex items-center">3000$</p>
                   </div>
                 </div>
               </div>
