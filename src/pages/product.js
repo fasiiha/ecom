@@ -6,7 +6,7 @@ export default function Product() {
   const [isMobile, setIsMobile] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
-  const [isZoomed, setIsZoomed] = useState(false); // New state for zoom
+  const [isZoomed, setIsZoomed] = useState(false);
 
   const images = [
     "https://img.lazcdn.com/g/p/be2723539cde48470da1dc1b9f80f0b1.jpg_720x720q80.jpg",
@@ -41,7 +41,7 @@ export default function Product() {
   const closeModal = () => {
     setIsModalOpen(false);
     setSelectedImage(null);
-    setIsZoomed(false); // Reset zoom state
+    setIsZoomed(false);
   };
 
   const toggleZoom = () => {
