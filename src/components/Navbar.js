@@ -1,5 +1,5 @@
+import Link from "next/link";
 import { useState } from "react";
-
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -39,42 +39,42 @@ const Navbar = () => {
         }`}
       >
         <div className="text-md lg:flex-grow">
-          <a
-            href="#responsive-header"
+          <Link
+            href="/"
             className="block mt-4 lg:inline-block lg:mt-0 px-4 py-2 hover:bg-gray-200 mr-2"
           >
             Home
-          </a>
-          <a
-            href="#responsive-header"
+          </Link>
+          <Link
+            href="/shop"
             className="block mt-4 lg:inline-block lg:mt-0 px-4 py-2 hover:bg-gray-200 mr-2"
           >
             All Collections
-          </a>
-          <a
-            href="#responsive-header"
+          </Link>
+          <Link
+            href="/cart"
             className="block mt-4 lg:inline-block lg:mt-0 px-4 py-2 hover:bg-gray-200 mr-2"
           >
             New Arrivals
-          </a>
-          <a
-            href="#responsive-header"
+          </Link>
+          <Link
+            href="/wishlist"
             className="block mt-4 lg:inline-block lg:mt-0 px-4 py-2 hover:bg-gray-200 mr-2"
           >
             Best Selling Products
-          </a>
-          <a
-            href="#responsive-header"
+          </Link>
+          <Link
+            href="/product"
             className="block mt-4 lg:inline-block lg:mt-0 px-4 py-2 hover:bg-gray-200 mr-2"
           >
             Sale
-          </a>
-          <a
-            href="#responsive-header"
+          </Link>
+          <Link
+            href="/"
             className="block mt-4 lg:inline-block lg:mt-0 px-4 py-2 hover:bg-gray-200 mr-2"
           >
             Reviews
-          </a>
+          </Link>
         </div>
         <div className="relative mx-auto text-gray-600 lg:block hidden mr-5">
           <span className="absolute inset-y-0 left-0 flex items-center pl-3">

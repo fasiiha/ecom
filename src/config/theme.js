@@ -3,7 +3,7 @@ const theme = {
   colors: {
     primary: "#DFDEDB",
     secondary: "#384353",
-    accent: "#e3342f", //Highlight or emphasis color
+    accent: "#800020", //Highlight or emphasis color
     background: "#F5F4F3", //General background color for the app
     surface: "#F5F4F3", //Background color for cards and other surfaces
     error: "#e53e3e",

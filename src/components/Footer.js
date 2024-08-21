@@ -53,7 +53,7 @@ const Footer = () => {
                   href="/"
                   className="text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400 sm:text-base text-sm"
                 >
-                  News
+                  item
                 </Link>
               </li>
               <li>
@@ -61,7 +61,7 @@ const Footer = () => {
                   href="/"
                   className="text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400 sm:text-base text-sm"
                 >
-                  World
+                  item
                 </Link>
               </li>
               <li>
@@ -69,7 +69,7 @@ const Footer = () => {
                   href="/"
                   className="text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400 sm:text-base text-sm"
                 >
-                  Games
+                  item
                 </Link>
               </li>
               <li>
@@ -77,14 +77,14 @@ const Footer = () => {
                   href="/"
                   className="text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400 sm:text-base text-sm"
                 >
-                  References
+                  item
                 </Link>
               </li>
             </ul>
           </div>
           <div>
             <p className="font-semibold tracking-wide text-gray-800">
-              Business
+              Category
             </p>
             <ul className="sm:space-y-2 space-y-1">
               <li>
@@ -92,7 +92,7 @@ const Footer = () => {
                   href="/"
                   className="text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400 sm:text-base text-sm"
                 >
-                  Web
+                  item
                 </Link>
               </li>
               <li>
@@ -100,7 +100,7 @@ const Footer = () => {
                   href="/"
                   className="text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400 sm:text-base text-sm"
                 >
-                  eCommerce
+                  item
                 </Link>
               </li>
               <li>
@@ -108,7 +108,7 @@ const Footer = () => {
                   href="/"
                   className="text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400 sm:text-base text-sm"
                 >
-                  Business
+                  item
                 </Link>
               </li>
               <li>
@@ -116,7 +116,7 @@ const Footer = () => {
                   href="/"
                   className="text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400 sm:text-base text-sm"
                 >
-                  Entertainment
+                  item
                 </Link>
               </li>
               <li>
@@ -124,20 +124,22 @@ const Footer = () => {
                   href="/"
                   className="text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400 sm:text-base text-sm"
                 >
-                  Portfolio
+                  item
                 </Link>
               </li>
             </ul>
           </div>
           <div>
-            <p className="font-semibold tracking-wide text-gray-800">Apples</p>
+            <p className="font-semibold tracking-wide text-gray-800">
+              Category
+            </p>
             <ul className="sm:space-y-2 space-y-1">
               <li>
                 <Link
                   href="/"
                   className="text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400 sm:text-base text-sm"
                 >
-                  Media
+                  item
                 </Link>
               </li>
               <li>
@@ -145,7 +147,7 @@ const Footer = () => {
                   href="/"
                   className="text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400 sm:text-base text-sm"
                 >
-                  Brochure
+                  item
                 </Link>
               </li>
               <li>
@@ -153,7 +155,7 @@ const Footer = () => {
                   href="/"
                   className="text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400 sm:text-base text-sm"
                 >
-                  Nonprofit
+                  item
                 </Link>
               </li>
               <li>
@@ -161,7 +163,7 @@ const Footer = () => {
                   href="/"
                   className="text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400 sm:text-base text-sm"
                 >
-                  Educational
+                  item
                 </Link>
               </li>
               <li>
@@ -169,20 +171,22 @@ const Footer = () => {
                   href="/"
                   className="text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400 sm:text-base text-sm"
                 >
-                  Projects
+                  item
                 </Link>
               </li>
             </ul>
           </div>
           <div>
-            <p className="font-semibold tracking-wide text-gray-800">Cherry</p>
+            <p className="font-semibold tracking-wide text-gray-800">
+              Category
+            </p>
             <ul className="sm:space-y-2 space-y-1">
               <li>
                 <Link
                   href="/"
                   className="text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400 sm:text-base text-sm"
                 >
-                  Infopreneur
+                  item
                 </Link>
               </li>
               <li>
@@ -190,7 +194,7 @@ const Footer = () => {
                   href="/"
                   className="text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400 sm:text-base text-sm"
                 >
-                  Personal
+                  item
                 </Link>
               </li>
               <li>
@@ -198,7 +202,7 @@ const Footer = () => {
                   href="/"
                   className="text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400 sm:text-base text-sm"
                 >
-                  Wiki
+                  item
                 </Link>
               </li>
               <li>
@@ -206,7 +210,7 @@ const Footer = () => {
                   href="/"
                   className="text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400 sm:text-base text-sm"
                 >
-                  Forum
+                  item
                 </Link>
               </li>
             </ul>

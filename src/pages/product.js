@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
@@ -49,8 +50,8 @@ export default function Product() {
   };
 
   return (
-    <div className="flex flex-col md:flex-row">
-      <div className="flex-1 flex items-center justify-center lg:px-20 lg:py-2 md:px-10 md:py-2 p-4">
+    <div className="flex flex-col md:flex-row lg:mt-14 md:mt-7 h-screen">
+      <div className="flex-1 flex items-start justify-center lg:px-20 lg:py-2 md:px-10 md:py-2 p-4">
         {isMobile ? (
           <Carousel showArrows={true} showThumbs={false} infiniteLoop={true}>
             {images.map((src, index) => (
@@ -138,18 +139,23 @@ export default function Product() {
             </span>
           </button>
         </div>
+
         <div className="flex flex-wrap gap-4 mt-5 ">
-          <button class="relative px-20  py-2 overflow-hidden group bg-gradient-to-r from-gray-800 to-black hover:bg-gradient-to-r hover:from-gray-700 hover:to-black text-white transition-all ease-out duration-100">
-            <span class="absolute right-0 w-10 h-full top-0 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 -skew-x-12 group-hover:-translate-x-36 ease"></span>
-            <span class="relative sm:text-lg text-base font-body">
-              Add to Cart
-            </span>
-          </button>
-          <button class="px-20 py-2 overflow-hidden border-2 border-black">
-            <span class="relative sm:text-lg text-base font-body text-black">
-              Add to Cart
-            </span>
-          </button>
+          <Link href="/cart">
+            <div class="relative px-20  py-2.5 overflow-hidden group cursor-pointer bg-gradient-to-r from-gray-800 to-black hover:bg-gradient-to-r hover:from-gray-700 hover:to-black text-white transition-all ease-out duration-100">
+              <span class="absolute right-0 w-10 h-full top-0 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 -skew-x-12 group-hover:-translate-x-36 ease"></span>
+              <span class="relative sm:text-lg text-base font-body">
+                Add to Cart
+              </span>
+            </div>
+          </Link>
+          <Link href="/">
+            <div class="px-20 py-2 overflow-hidden border-2 border-black cursor-pointer">
+              <span class="relative sm:text-lg text-base font-body text-black">
+                Buy Now
+              </span>
+            </div>
+          </Link>
         </div>
       </div>
 
