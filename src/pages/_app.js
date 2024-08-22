@@ -1,6 +1,8 @@
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import "@/styles/globals.css";
+import { Provider } from "react-redux";
+import store from "../store/store";
 
 export default function App({ Component, pageProps }) {
   return (
@@ -8,7 +10,9 @@ export default function App({ Component, pageProps }) {
       <div className="flex-grow ">
         <Navbar />
 
-        <Component {...pageProps} />
+        <Provider store={store}>
+          <Component {...pageProps} />
+        </Provider>
       </div>
       <Footer />
     </div>
