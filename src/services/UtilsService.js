@@ -1,4 +1,5 @@
 import axios from "axios";
+import APIConstant from "@/constant/APIConstant";
 
 const Request = (options) => {
   const BASE_URL = process.env.BACKEND_API_PATH;

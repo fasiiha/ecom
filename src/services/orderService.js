@@ -1,10 +1,11 @@
 import axios from "axios";
 import BASE_URL from "../config/baseUrls";
+import APIConstant from "@/constant/APIConstant";
 
 export const addOrder = async (data) => {
   try {
     const { response } = await axios.post(
-      `${BASE_URL}${APIEndpoints.ORDER}/add`,
+      `${BASE_URL}${APIConstant.ORDER}/add`,
       data
     );
     return response;
@@ -16,9 +17,7 @@ export const addOrder = async (data) => {
 
 export const getAllOrder = async () => {
   try {
-    const { response } = await axios.get(
-      `${BASE_URL}${APIEndpoints.ORDER}/all`
-    );
+    const { response } = await axios.get(`${BASE_URL}${APIConstant.ORDER}/all`);
     return response;
   } catch (error) {
     console.error("Error fetching Order data:", error);
@@ -29,7 +28,7 @@ export const getAllOrder = async () => {
 export const deleteOrder = async (id) => {
   try {
     const response = await axios.delete(
-      `${BASE_URL}${APIEndpoints.ORDER}/delete/${id}`
+      `${BASE_URL}${APIConstant.ORDER}/delete/${id}`
     );
     return response.data;
   } catch (error) {
@@ -41,7 +40,7 @@ export const deleteOrder = async (id) => {
 export const updateOrder = async (data) => {
   try {
     const { response } = await axios.put(
-      `${BASE_URL}${APIEndpoints.ORDER}/update`,
+      `${BASE_URL}${APIConstant.ORDER}/update`,
       data
     );
     return response;

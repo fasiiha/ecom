@@ -10,7 +10,7 @@ export const fetchCartItems = createAsyncThunk(
   "cart/fetchCartItems",
   async () => {
     const response = await getAllCart();
-    console.log(response);
+    console.log("cart: ", response.data);
     return response.data;
   }
 );

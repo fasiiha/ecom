@@ -1,10 +1,11 @@
+import APIConstant from "@/constant/APIConstant";
 import axios from "axios";
 import BASE_URL from "../config/baseUrls";
 
 export const addWishlist = async (data) => {
   try {
     const { response } = await axios.post(
-      `${BASE_URL}${APIEndpoints.WISHLIST}/add`,
+      `${BASE_URL}${APIConstant.WISHLIST}/add`,
       data
     );
     return response;
@@ -17,7 +18,7 @@ export const addWishlist = async (data) => {
 export const getAllWishlist = async () => {
   try {
     const { response } = await axios.get(
-      `${BASE_URL}${APIEndpoints.WISHLIST}/all`
+      `${BASE_URL}${APIConstant.WISHLIST}/all`
     );
     return response;
   } catch (error) {
@@ -29,7 +30,7 @@ export const getAllWishlist = async () => {
 export const deleteWishlist = async (id) => {
   try {
     const response = await axios.delete(
-      `${BASE_URL}${APIEndpoints.WISHLIST}/delete/${id}`
+      `${BASE_URL}${APIConstant.WISHLIST}/delete/${id}`
     );
     return response.data;
   } catch (error) {
@@ -41,7 +42,7 @@ export const deleteWishlist = async (id) => {
 export const updateWishlist = async (data) => {
   try {
     const { response } = await axios.put(
-      `${BASE_URL}${APIEndpoints.WISHLIST}/update`,
+      `${BASE_URL}${APIConstant.WISHLIST}/update`,
       data
     );
     return response;

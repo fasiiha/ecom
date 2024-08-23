@@ -1,10 +1,11 @@
 import axios from "axios";
 import BASE_URL from "../config/baseUrls";
+import APIConstant from "@/constant/APIConstant";
 
 export const addShippingAddress = async (data) => {
   try {
     const { response } = await axios.post(
-      `${BASE_URL}${APIEndpoints.SHIPPING_ADDRESS}/add`,
+      `${BASE_URL}${APIConstant.SHIPPING_ADDRESS}/add`,
       data
     );
     return response;
@@ -17,7 +18,7 @@ export const addShippingAddress = async (data) => {
 export const getAllShippingAddress = async () => {
   try {
     const { response } = await axios.get(
-      `${BASE_URL}${APIEndpoints.SHIPPING_ADDRESS}/all`
+      `${BASE_URL}${APIConstant.SHIPPING_ADDRESS}/all`
     );
     return response;
   } catch (error) {
@@ -29,7 +30,7 @@ export const getAllShippingAddress = async () => {
 export const deleteShippingAddress = async (id) => {
   try {
     const response = await axios.delete(
-      `${BASE_URL}${APIEndpoints.SHIPPING_ADDRESS}/delete/${id}`
+      `${BASE_URL}${APIConstant.SHIPPING_ADDRESS}/delete/${id}`
     );
     return response.data;
   } catch (error) {
@@ -41,7 +42,7 @@ export const deleteShippingAddress = async (id) => {
 export const updateShippingAddress = async (data) => {
   try {
     const { response } = await axios.put(
-      `${BASE_URL}${APIEndpoints.SHIPPING_ADDRESS}/update`,
+      `${BASE_URL}${APIConstant.SHIPPING_ADDRESS}/update`,
       data
     );
     return response;

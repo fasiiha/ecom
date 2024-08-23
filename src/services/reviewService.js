@@ -1,10 +1,11 @@
 import axios from "axios";
 import BASE_URL from "../config/baseUrls";
+import APIConstant from "@/constant/APIConstant";
 
 export const addReview = async (data) => {
   try {
     const { response } = await axios.post(
-      `${BASE_URL}${APIEndpoints.REVIEW}/add`,
+      `${BASE_URL}${APIConstant.REVIEW}/add`,
       data
     );
     return response;
@@ -17,7 +18,7 @@ export const addReview = async (data) => {
 export const getAllReview = async () => {
   try {
     const { response } = await axios.get(
-      `${BASE_URL}${APIEndpoints.REVIEW}/all`
+      `${BASE_URL}${APIConstant.REVIEW}/all`
     );
     return response;
   } catch (error) {
@@ -29,7 +30,7 @@ export const getAllReview = async () => {
 export const deleteReview = async (id) => {
   try {
     const response = await axios.delete(
-      `${BASE_URL}${APIEndpoints.REVIEW}/delete/${id}`
+      `${BASE_URL}${APIConstant.REVIEW}/delete/${id}`
     );
     return response.data;
   } catch (error) {
@@ -41,7 +42,7 @@ export const deleteReview = async (id) => {
 export const updateReview = async (data) => {
   try {
     const { response } = await axios.put(
-      `${BASE_URL}${APIEndpoints.REVIEW}/update`,
+      `${BASE_URL}${APIConstant.REVIEW}/update`,
       data
     );
     return response;

@@ -1,10 +1,11 @@
 import axios from "axios";
 import BASE_URL from "../config/baseUrls";
+import APIConstant from "@/constant/APIConstant";
 
 export const addPayment = async (data) => {
   try {
     const { response } = await axios.post(
-      `${BASE_URL}${APIEndpoints.PAYMENT}/add`,
+      `${BASE_URL}${APIConstant.PAYMENT}/add`,
       data
     );
     return response;
@@ -17,7 +18,7 @@ export const addPayment = async (data) => {
 export const getAllPayment = async () => {
   try {
     const { response } = await axios.get(
-      `${BASE_URL}${APIEndpoints.PAYMENT}/all`
+      `${BASE_URL}${APIConstant.PAYMENT}/all`
     );
     return response;
   } catch (error) {
@@ -29,7 +30,7 @@ export const getAllPayment = async () => {
 export const deletePayment = async (id) => {
   try {
     const response = await axios.delete(
-      `${BASE_URL}${APIEndpoints.PAYMENT}/delete/${id}`
+      `${BASE_URL}${APIConstant.PAYMENT}/delete/${id}`
     );
     return response.data;
   } catch (error) {
@@ -41,7 +42,7 @@ export const deletePayment = async (id) => {
 export const updatePayment = async (data) => {
   try {
     const { response } = await axios.put(
-      `${BASE_URL}${APIEndpoints.PAYMENT}/update`,
+      `${BASE_URL}${APIConstant.PAYMENT}/update`,
       data
     );
     return response;
