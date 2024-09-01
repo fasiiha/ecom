@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -8,15 +9,24 @@ import {
 } from "../store/slices/cartSlice";
 export default function Cart() {
   const dispatch = useDispatch();
+  const router = useRouter();
+
   const cart = useSelector((state) => state.cart.items);
   const cartStatus = useSelector((state) => state.cart.status);
   const error = useSelector((state) => state.cart.error);
+  const user = useSelector((state) => state.user.user);
 
+  console.log("user in cart: ", user);
   useEffect(() => {
-    if (cartStatus === "idle") {
-      dispatch(fetchCartItems());
+    if (user?.id === undefined) {
+      // router.push("/");
+      <div>Please Log in first</div>;
+    } else {
+      if (cartStatus === "idle") {
+        dispatch(fetchCartItems(user?.id));
+      }
     }
-  }, [cartStatus, dispatch]);
+  }, [user, cartStatus, dispatch, router]);
 
   console.log(cart);
   console.log(cartStatus);
@@ -36,6 +46,7 @@ export default function Cart() {
   if (cartStatus === "failed") {
     return <div>Error loading cart: {error}</div>;
   }
+
   return (
     <>
       <div className="flex flex-col md:flex-row lg:mt-14 md:mt-7 max-w-[1400px] w-full  mx-auto">
@@ -51,11 +62,11 @@ export default function Cart() {
               key={item.id}
               className="md:py-4 py-2 flex sm:flex-row flex-col justify-start  sm:text-left"
             >
-              <img
+              {/* <img
                 alt={item.Product.product_name}
                 className="flex-shrink-0 w-36 h-36 object-cover object-center sm:mb-0 mb-4 text-xs"
                 src={require(`${item.Product.ProductImages.image_url}`)}
-              />
+              /> */}
 
               <div className="flex-grow sm:pl-8">
                 <h2 className="title-font font-semibold font-heading text-2xl text-gray-900">
@@ -64,11 +75,11 @@ export default function Cart() {
 
                 <div className="font-body my-2 text-gray-500">
                   Color:
-                  <span className="ml-1">{item.color}</span>
+                  <span className="ml-1">{item?.Product?.color}</span>
                 </div>
                 <div className="font-body text-gray-500">
                   Quantity:
-                  <span className="ml-1">{item.quantity}</span>
+                  <span className="ml-1">{item?.Product?.stock_quantity}</span>
                 </div>
                 <div className="flex justify-between max-w-[350px] w-full mt-3">
                   <div className="sm:text-xl text-lg font-medium font-heading">

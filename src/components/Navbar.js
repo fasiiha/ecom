@@ -101,12 +101,16 @@ const Navbar = () => {
         </div>
 
         <div className="flex flex-col lg:flex-row items-start ">
-          <button className="lg:px-5 px-4 py-2  mt-4 lg:mt-0 w-full items-start flex overflow-hidden sm:text-base text-sm font-body hover:bg-gray-200">
-            Signup
-          </button>
-          <button className="lg:px-5 px-4 py-2  mt-4 lg:mt-0 w-full items-start flex overflow-hidden sm:text-base text-sm font-body hover:bg-gray-200">
-            Login
-          </button>
+          <Link href="/signup">
+            <div className="lg:px-5 px-4 py-2  mt-4 lg:mt-0 w-full items-start flex overflow-hidden sm:text-base text-sm font-body hover:bg-gray-200">
+              Signup
+            </div>
+          </Link>
+          <Link href="/login">
+            <div className="lg:px-5 px-4 py-2  mt-4 lg:mt-0 w-full items-start flex overflow-hidden sm:text-base text-sm font-body hover:bg-gray-200">
+              Login
+            </div>
+          </Link>
         </div>
       </div>
     </nav>

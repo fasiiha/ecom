@@ -15,9 +15,11 @@ const addCart = async (data) => {
   }
 };
 
-const getAllCart = async () => {
+const getAllCart = async (userId) => {
   try {
-    const response = await axios.get(`${BASE_URL}${APIConstant.CART}/all/1`);
+    const response = await axios.get(
+      `${BASE_URL}${APIConstant.CART}/all/${userId}`
+    );
     console.log(response.data);
     return response.data;
   } catch (error) {

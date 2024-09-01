@@ -8,8 +8,8 @@ import {
 
 export const fetchCartItems = createAsyncThunk(
   "cart/fetchCartItems",
-  async () => {
-    const response = await getAllCart();
+  async (userId) => {
+    const response = await getAllCart(userId);
     console.log("cart: ", response.data);
     return response.data;
   }
