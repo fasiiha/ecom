@@ -2,7 +2,7 @@ import Link from "next/link";
 
 const Footer = () => {
   return (
-    <div className="w-full px-4 pt-10 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen  md:px-24 lg:px-16 border-t border-black ">
+    <div className="w-full px-4 sm:pt-8 pt-5 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen  md:px-24 lg:px-16 border-t border-black ">
       <div className="grid sm:gap-16 gap-7 row-gap-10 sm:mb-8 mb-4 lg:grid-cols-6">
         <div className="md:max-w-md lg:col-span-2">
           <Link
@@ -31,194 +31,129 @@ const Footer = () => {
             </span>
           </Link>
           <div className="mt-4 lg:max-w-sm">
-            <p className="text-sm text-gray-800">
+            <p className="text-xs text-gray-800">
               Lorem ipsum dolor sit amet, consectetur adip nonum soc et
               justo.Lorem ipsum dolor sit amet, consectetur adip nonum soc et
               justo.Lorem ipsum dolor sit amet, consectetur adip nonum soc et
               justo.
             </p>
-            <p className="mt-4 text-sm text-gray-800">
+            <p className="mt-4 text-xs text-gray-800">
               Lorem ipsum dolor sit amet, consectetur adip nonum soc et justo.
             </p>
           </div>
         </div>
-        <div className="grid grid-cols-2 gap-5 row-gap-8 lg:col-span-4 md:grid-cols-4">
+        <div className="grid grid-cols-2 gap-5 row-gap-8 lg:col-span-3 md:grid-cols-3">
           <div>
             <p className="font-semibold tracking-wide text-gray-800">
-              Category
+              Customer Service
             </p>
-            <ul className="sm:space-y-2 space-y-1">
+            <ul className="space-y-1">
               <li>
                 <Link
                   href="/"
-                  className="text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400 sm:text-base text-sm"
+                  className="text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400 sm:text-sm text-xs"
                 >
-                  item
+                  Contact Us
                 </Link>
               </li>
               <li>
                 <Link
                   href="/"
-                  className="text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400 sm:text-base text-sm"
+                  className="text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400 sm:text-sm text-xs"
                 >
-                  item
+                  FAQ
                 </Link>
               </li>
               <li>
                 <Link
                   href="/"
-                  className="text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400 sm:text-base text-sm"
+                  className="text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400 sm:text-sm text-xs"
                 >
-                  item
+                  Returns & Exchanges
                 </Link>
               </li>
               <li>
                 <Link
                   href="/"
-                  className="text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400 sm:text-base text-sm"
+                  className="text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400 sm:text-sm text-xs"
                 >
-                  item
+                  Shipping Information
+                </Link>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <p className="font-semibold tracking-wide text-gray-800">Shop</p>
+            <ul className="space-y-1">
+              <li>
+                <Link
+                  href="/"
+                  className="text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400 sm:text-sm text-xs"
+                >
+                  Clothing
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/"
+                  className="text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400 sm:text-sm text-xs"
+                >
+                  Jewelry
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/"
+                  className="text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400 sm:text-sm text-xs"
+                >
+                  New Arrivals
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/"
+                  className="text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400 sm:text-sm text-xs"
+                >
+                  Sale
                 </Link>
               </li>
             </ul>
           </div>
           <div>
             <p className="font-semibold tracking-wide text-gray-800">
-              Category
+              Connect With Us
             </p>
-            <ul className="sm:space-y-2 space-y-1">
+            <ul className="space-y-1">
               <li>
                 <Link
                   href="/"
-                  className="text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400 sm:text-base text-sm"
+                  className="text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400 sm:text-sm text-xs"
                 >
-                  item
+                  Mail
                 </Link>
               </li>
               <li>
                 <Link
                   href="/"
-                  className="text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400 sm:text-base text-sm"
+                  className="text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400 sm:text-sm text-xs"
                 >
-                  item
+                  Instagram
                 </Link>
               </li>
               <li>
                 <Link
                   href="/"
-                  className="text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400 sm:text-base text-sm"
+                  className="text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400 sm:text-sm text-xs"
                 >
-                  item
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/"
-                  className="text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400 sm:text-base text-sm"
-                >
-                  item
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/"
-                  className="text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400 sm:text-base text-sm"
-                >
-                  item
-                </Link>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <p className="font-semibold tracking-wide text-gray-800">
-              Category
-            </p>
-            <ul className="sm:space-y-2 space-y-1">
-              <li>
-                <Link
-                  href="/"
-                  className="text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400 sm:text-base text-sm"
-                >
-                  item
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/"
-                  className="text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400 sm:text-base text-sm"
-                >
-                  item
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/"
-                  className="text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400 sm:text-base text-sm"
-                >
-                  item
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/"
-                  className="text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400 sm:text-base text-sm"
-                >
-                  item
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/"
-                  className="text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400 sm:text-base text-sm"
-                >
-                  item
-                </Link>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <p className="font-semibold tracking-wide text-gray-800">
-              Category
-            </p>
-            <ul className="sm:space-y-2 space-y-1">
-              <li>
-                <Link
-                  href="/"
-                  className="text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400 sm:text-base text-sm"
-                >
-                  item
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/"
-                  className="text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400 sm:text-base text-sm"
-                >
-                  item
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/"
-                  className="text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400 sm:text-base text-sm"
-                >
-                  item
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/"
-                  className="text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400 sm:text-base text-sm"
-                >
-                  item
+                  Facebook
                 </Link>
               </li>
             </ul>
           </div>
         </div>
       </div>
-      <div className="flex flex-col justify-between pt-5 pb-5 border-t sm:flex-row">
-        <p className="sm:text-sm text-xs text-gray-600">
+      <div className="flex flex-col justify-between py-2 border-t sm:flex-row">
+        <p className="text-xs text-gray-600">
           © Copyright 2020 Lorem Inc. All rights reserved.
         </p>
         <div className="flex items-center mt-4 space-x-4 sm:mt-0">

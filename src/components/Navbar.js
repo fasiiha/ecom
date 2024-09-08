@@ -1,11 +1,33 @@
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { logoutUser } from "../store/slices/userSlice";
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isUser, setIsUser] = useState(false);
+
+  const dispatch = useDispatch();
+
+  const user = useSelector((state) => state.user.user);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+
+  const handleLogout = () => {
+    dispatch(logoutUser());
+    setIsUser(false);
+    setIsDropdownOpen(false);
+  };
+
+  useEffect(() => {
+    if (user) {
+      setIsUser(true);
+    } else {
+      setIsUser(false);
+    }
+  }, [user]);
 
   return (
     <nav className="flex items-center justify-between flex-wrap bg-white py-3 lg:px-12 shadow  border-b border-black font-body">
@@ -41,37 +63,37 @@ const Navbar = () => {
         <div className="text-md lg:flex-grow">
           <Link
             href="/"
-            className="block mt-4 lg:inline-block lg:mt-0 px-4 py-2 hover:bg-gray-200 mr-2"
+            className="block mt-4 lg:inline-block lg:mt-0 px-4 py-2 hover:bg-gray-200 "
           >
             Home
           </Link>
           <Link
             href="/shop"
-            className="block mt-4 lg:inline-block lg:mt-0 px-4 py-2 hover:bg-gray-200 mr-2"
+            className="block mt-4 lg:inline-block lg:mt-0 px-4 py-2 hover:bg-gray-200 "
           >
             All Collections
           </Link>
           <Link
             href="/cart"
-            className="block mt-4 lg:inline-block lg:mt-0 px-4 py-2 hover:bg-gray-200 mr-2"
+            className="block mt-4 lg:inline-block lg:mt-0 px-4 py-2 hover:bg-gray-200 "
           >
             New Arrivals
           </Link>
           <Link
             href="/wishlist"
-            className="block mt-4 lg:inline-block lg:mt-0 px-4 py-2 hover:bg-gray-200 mr-2"
+            className="block mt-4 lg:inline-block lg:mt-0 px-4 py-2 hover:bg-gray-200 "
           >
             Best Selling Products
           </Link>
           <Link
             href="/product"
-            className="block mt-4 lg:inline-block lg:mt-0 px-4 py-2 hover:bg-gray-200 mr-2"
+            className="block mt-4 lg:inline-block lg:mt-0 px-4 py-2 hover:bg-gray-200 "
           >
             Sale
           </Link>
           <Link
             href="/"
-            className="block mt-4 lg:inline-block lg:mt-0 px-4 py-2 hover:bg-gray-200 mr-2"
+            className="block mt-4 lg:inline-block lg:mt-0 px-4 py-2 hover:bg-gray-200 "
           >
             Reviews
           </Link>
@@ -101,16 +123,49 @@ const Navbar = () => {
         </div>
 
         <div className="flex flex-col lg:flex-row items-start ">
-          <Link href="/signup">
-            <div className="lg:px-5 px-4 py-2  mt-4 lg:mt-0 w-full items-start flex overflow-hidden sm:text-base text-sm font-body hover:bg-gray-200">
-              Signup
+          {isUser ? (
+            <div className="relative">
+              <button
+                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                className="lg:px-5 px-4 py-2  mt-4 lg:mt-0 w-full items-start flex overflow-hidden sm:text-base text-sm font-body hover:bg-gray-200"
+              >
+                {user.first_name}
+              </button>
+              {isDropdownOpen && (
+                <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 shadow-lg">
+                  <Link href="/cart">
+                    <div className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-200">
+                      Cart
+                    </div>
+                  </Link>
+                  <Link href="/wishlist">
+                    <div className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-200">
+                      Wishlist
+                    </div>
+                  </Link>
+                  <button
+                    onClick={handleLogout}
+                    className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-200"
+                  >
+                    Logout
+                  </button>
+                </div>
+              )}
             </div>
-          </Link>
-          <Link href="/login">
-            <div className="lg:px-5 px-4 py-2  mt-4 lg:mt-0 w-full items-start flex overflow-hidden sm:text-base text-sm font-body hover:bg-gray-200">
-              Login
-            </div>
-          </Link>
+          ) : (
+            <>
+              <Link href="/signup">
+                <div className="lg:px-5 px-4 py-2  mt-4 lg:mt-0 w-full items-start flex overflow-hidden sm:text-base text-sm font-body hover:bg-gray-200">
+                  Signup
+                </div>
+              </Link>
+              <Link href="/login">
+                <div className="lg:px-5 px-4 py-2  mt-4 lg:mt-0 w-full items-start flex overflow-hidden sm:text-base text-sm font-body hover:bg-gray-200">
+                  Login
+                </div>
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </nav>

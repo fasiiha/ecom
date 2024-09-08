@@ -26,7 +26,16 @@ export default function Signup() {
       alert("Passwords do not match");
       return;
     }
-    dispatch(registerNewUser(formData));
+    try {
+      const result = dispatch(registerNewUser(formData));
+      if (result.payload.status != 500) {
+        router.push("/");
+      } else {
+        console.error("Registration failed", result.payload.message);
+      }
+    } catch (error) {
+      console.error("An unexpected error occurred", error);
+    }
   };
 
   return (

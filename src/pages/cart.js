@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addCartItem,
@@ -15,8 +15,21 @@ export default function Cart() {
   const cartStatus = useSelector((state) => state.cart.status);
   const error = useSelector((state) => state.cart.error);
   const user = useSelector((state) => state.user.user);
+  const [orderDetails, setOrderDetails] = useState({
+    totalCost: 0,
+    totalQuantity: 0,
+    tax: 0,
+    shippingCost: 10,
+    discount: 0,
+  });
 
-  console.log("user in cart: ", user);
+  // Calculate current date
+  const currentDate = new Date().toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
   useEffect(() => {
     if (user?.id === undefined) {
       // router.push("/");
@@ -30,6 +43,28 @@ export default function Cart() {
 
   console.log(cart);
   console.log(cartStatus);
+
+  useEffect(() => {
+    const calculateOrderDetails = () => {
+      let totalCost = 0;
+      let totalQuantity = 0;
+      cart.forEach((item) => {
+        console.log("item: ", item);
+        totalCost += parseInt(item.Product.price, 10);
+        totalQuantity += 1;
+      });
+      const tax = totalCost * 0.07;
+      setOrderDetails({
+        totalCost,
+        totalQuantity,
+        tax,
+        shippingCost: orderDetails.shippingCost,
+        discount: orderDetails.discount,
+      });
+    };
+
+    calculateOrderDetails();
+  }, [cart]);
 
   const handleAddItem = async (item) => {
     await dispatch(addCartItem(item));
@@ -46,7 +81,6 @@ export default function Cart() {
   if (cartStatus === "failed") {
     return <div>Error loading cart: {error}</div>;
   }
-
   return (
     <>
       <div className="flex flex-col md:flex-row lg:mt-14 md:mt-7 max-w-[1400px] w-full  mx-auto">
@@ -102,33 +136,39 @@ export default function Cart() {
           <h1 className="sm:text-4xl text-2xl font-bold mb-4 font-heading sm:mt-0 mt-14">
             Order Details
           </h1>
-          <div className="font-body md:text-lg text-base md:mt-10 mt-5 flex max-w-[700px] w-full justify-between">
-            <div> Order Number: </div>
-            <div className="ml-1">#123456789</div>
-          </div>
+
           <div className="font-body  md:text-lg text-base mt-2 flex max-w-[700px] w-full justify-between">
             <div> Order Date: </div>
-            <div className="ml-1">August 21, 2024</div>
+            <div className="ml-1">{currentDate}</div>
           </div>
           <div className="font-body  md:text-lg text-base mt-2 flex max-w-[700px] w-full justify-between">
             <div> Product Cost: </div>
-            <div className="ml-1">$79.99</div>
+            <div className="ml-1">${orderDetails.totalCost}</div>
+          </div>
+          <div className="font-body  md:text-lg text-base mt-2 flex max-w-[700px] w-full justify-between">
+            <div> Products Quantity: </div>
+            <div className="ml-1">{orderDetails.totalQuantity}</div>
           </div>
           <div className="font-body  md:text-lg text-base mt-2 flex max-w-[700px] w-full justify-between">
             <div> Discount: </div>
-            <div className="ml-1">$0</div>
+            <div className="ml-1">${orderDetails.discount.toFixed(2)}</div>
           </div>
           <div className="font-body  md:text-lg text-base mt-2 flex max-w-[700px] w-full justify-between">
             <div> Shipping Cost: </div>
-            <div className="ml-1">$10</div>
+            <div className="ml-1">${orderDetails.shippingCost.toFixed(2)}</div>
           </div>
           <div className="font-body  md:text-lg text-base mt-2 pb-3 border-b border-black flex max-w-[700px] w-full justify-between">
             <div> Tax: </div>
-            <div className="ml-1">$5.59</div>
+            <div className="ml-1">${orderDetails.tax.toFixed(2)}</div>
           </div>
           <div className="font-body  md:text-lg text-base mt-2 flex max-w-[700px] w-full justify-between">
             <div> Total Amount: </div>
-            <div className="ml-1">$95</div>
+            <div className="ml-1">
+              $
+              {orderDetails.totalCost +
+                orderDetails.shippingCost +
+                orderDetails.tax}
+            </div>
           </div>
           <Link href="/checkout">
             <div className="relative mt-8 max-w-[700px] w-full py-3 overflow-hidden flex justify-center items-center group cursor-pointer bg-gradient-to-r from-gray-800 to-black hover:bg-gradient-to-r hover:from-gray-700 hover:to-black text-white transition-all ease-out duration-100">

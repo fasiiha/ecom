@@ -33,10 +33,13 @@ export const initializeAuth = () => {
         store.dispatch(logoutUser());
       } else {
         console.log("setting data in user");
-
         store.dispatch(
           setUser({
-            user: { id: decodedToken.id, email: decodedToken.email },
+            user: {
+              id: decodedToken.id,
+              email: decodedToken.email,
+              first_name: decodedToken.first_name,
+            },
             token,
           })
         );

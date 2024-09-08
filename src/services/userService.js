@@ -8,9 +8,10 @@ export const registerUser = async (data) => {
       `${BASE_URL}${APIConstant.USER}/register`,
       data
     );
-    const { user, token } = response.data;
-
-    return response.data;
+    const user = response.data.data.user;
+    const token = response.data.data.token;
+    localStorage.setItem("token", token);
+    return { user, token };
   } catch (error) {
     console.error("Error registering User:", error);
     throw error;
@@ -25,8 +26,7 @@ export const loginUser = async (data) => {
     );
     const user = response.data.data.user;
     const token = response.data.data.token;
-    console.log("user: ", user);
-    console.log("token: ", token);
+    localStorage.setItem("token", token);
     console.log("user, token: ", { user, token });
     return { user, token };
   } catch (error) {

@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { loginExistingUser } from "../store/slices/userSlice";
 
 export default function Login() {
@@ -12,17 +12,24 @@ export default function Login() {
     email: "",
     password: "",
   });
+  const loginStatus = useSelector((state) => state.user.status);
+  const user = useSelector((state) => state.user.user);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  useEffect(() => {
+    if (loginStatus === "succeeded" && user) {
+      router.push("/");
+    }
+  }, [loginStatus, user, router]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(formData);
     dispatch(loginExistingUser(formData));
-    router.push("/");
   };
 
   return (
