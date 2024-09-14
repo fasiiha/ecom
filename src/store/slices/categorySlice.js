@@ -1,10 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getAllCategory } from "../../services/categoryService";
+import { getAllCategoryAndSubcategory } from "../../services/categoryService";
 
-export const fetchCategoryItems = createAsyncThunk(
-  "category/fetchCategoryItems",
+export const fetchCategoryAndSubcategoryItems = createAsyncThunk(
+  "category/fetchCategoryAndSubcategoryItems",
   async () => {
-    const response = await getAllCategory();
+    const response = await getAllCategoryAndSubcategory();
     console.log("Category: ", response.data);
     return response.data;
   }
@@ -22,14 +22,14 @@ const categorySlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchCategoryItems.pending, (state) => {
+      .addCase(fetchCategoryAndSubcategoryItems.pending, (state) => {
         state.status = "loading";
       })
-      .addCase(fetchCategoryItems.fulfilled, (state, action) => {
+      .addCase(fetchCategoryAndSubcategoryItems.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.items = action.payload;
       })
-      .addCase(fetchCategoryItems.rejected, (state, action) => {
+      .addCase(fetchCategoryAndSubcategoryItems.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
       });

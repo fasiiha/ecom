@@ -1,10 +1,23 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getAllProduct, getProductById } from "../../services/productService";
+import {
+  getAllProduct,
+  getLatestProducts,
+  getProductById,
+} from "../../services/productService";
 
 export const fetchProduct = createAsyncThunk(
   "product/fetchProduct",
   async () => {
     const response = await getAllProduct();
+    console.log("products: ", response.data);
+    return response.data;
+  }
+);
+
+export const fetchLatestProduct = createAsyncThunk(
+  "product/fetchLatestProduct",
+  async () => {
+    const response = await getLatestProducts();
     console.log("products: ", response.data);
     return response.data;
   }
@@ -39,6 +52,17 @@ const productSlice = createSlice({
         state.items = action.payload;
       })
       .addCase(fetchProduct.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message;
+      })
+      .addCase(fetchLatestProduct.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(fetchLatestProduct.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.items = action.payload;
+      })
+      .addCase(fetchLatestProduct.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
       })

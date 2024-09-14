@@ -71,10 +71,10 @@ const Navbar = () => {
             href="/shop"
             className="block mt-4 lg:inline-block lg:mt-0 px-4 py-2 hover:bg-gray-200 "
           >
-            All Collections
+            Shop
           </Link>
           <Link
-            href="/cart"
+            href="/latest"
             className="block mt-4 lg:inline-block lg:mt-0 px-4 py-2 hover:bg-gray-200 "
           >
             New Arrivals
@@ -89,13 +89,25 @@ const Navbar = () => {
             href="/product"
             className="block mt-4 lg:inline-block lg:mt-0 px-4 py-2 hover:bg-gray-200 "
           >
-            Sale
+            Categories
           </Link>
           <Link
             href="/"
             className="block mt-4 lg:inline-block lg:mt-0 px-4 py-2 hover:bg-gray-200 "
           >
             Reviews
+          </Link>
+          <Link
+            href="/"
+            className="block mt-4 lg:inline-block lg:mt-0 px-4 py-2 hover:bg-gray-200 "
+          >
+            Contact Us
+          </Link>
+          <Link
+            href="/"
+            className="block mt-4 lg:inline-block lg:mt-0 px-4 py-2 hover:bg-gray-200 "
+          >
+            FAQs
           </Link>
         </div>
         <div className="relative mx-auto text-gray-600 lg:block hidden mr-5">

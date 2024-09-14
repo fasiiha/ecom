@@ -25,6 +25,18 @@ export const getAllProduct = async () => {
   }
 };
 
+export const getLatestProducts = async () => {
+  try {
+    const { data } = await axios.get(
+      `${BASE_URL}${APIConstant.PRODUCT}/latest`
+    );
+    return data;
+  } catch (error) {
+    console.error("Error fetching product data:", error);
+    throw error;
+  }
+};
+
 export const getProductById = async (productId) => {
   try {
     const { data } = await axios.get(
