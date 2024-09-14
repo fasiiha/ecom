@@ -5,7 +5,6 @@ export const fetchCategoryAndSubcategoryItems = createAsyncThunk(
   "category/fetchCategoryAndSubcategoryItems",
   async () => {
     const response = await getAllCategoryAndSubcategory();
-    console.log("Category: ", response.data);
     return response.data;
   }
 );

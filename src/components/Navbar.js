@@ -1,13 +1,27 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { fetchCategoryAndSubcategoryItems } from "../store/slices/categorySlice";
 import { logoutUser } from "../store/slices/userSlice";
+
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isUser, setIsUser] = useState(false);
+  const [isCategoryHovered, setIsCategoryHovered] = useState(false);
+  const [hoveredCategoryId, setHoveredCategoryId] = useState(null);
 
   const dispatch = useDispatch();
+  const categories = useSelector((state) => state.category?.items);
+
+  console.log("categories: ", categories);
+  useEffect(() => {
+    dispatch(fetchCategoryAndSubcategoryItems());
+  }, [dispatch]);
+
+  const handleCategoryHover = (categoryId) => {
+    setHoveredCategoryId(categoryId);
+  };
 
   const user = useSelector((state) => state.user.user);
 
@@ -85,12 +99,50 @@ const Navbar = () => {
           >
             Best Selling Products
           </Link>
-          <Link
-            href="/product"
-            className="block mt-4 lg:inline-block lg:mt-0 px-4 py-2 hover:bg-gray-200 "
-          >
-            Categories
-          </Link>
+          <span className="relative">
+            <button
+              onMouseEnter={() => setIsCategoryHovered(true)}
+              onMouseLeave={() => setIsCategoryHovered(false)}
+              className="block mt-4 lg:inline-block lg:mt-0 px-4 py-2 hover:bg-gray-200"
+            >
+              Categories
+            </button>
+
+            {isCategoryHovered && (
+              <div
+                onMouseLeave={() => setIsCategoryHovered(false)}
+                className="absolute left-0 mt-2 w-48 bg-white border border-gray-200 shadow-lg"
+              >
+                {categories.map((category) => (
+                  <div
+                    key={category.id}
+                    onMouseEnter={() => handleCategoryHover(category.id)}
+                    className="relative group"
+                  >
+                    <Link href={`/category/${category.id}`}>
+                      <div className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-200">
+                        {category.category_name}
+                      </div>
+                    </Link>
+
+                    {/* Subcategories dropdown */}
+                    {hoveredCategoryId === category.id &&
+                      category.subcategories && (
+                        <div className="absolute left-full top-0 mt-0 w-48 bg-white border border-gray-200 shadow-lg">
+                          {category.subcategories.map((sub) => (
+                            <Link href={`/subcategory/${sub.id}`} key={sub.id}>
+                              <div className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-200">
+                                {sub.subcategory_name}
+                              </div>
+                            </Link>
+                          ))}
+                        </div>
+                      )}
+                  </div>
+                ))}
+              </div>
+            )}
+          </span>
           <Link
             href="/"
             className="block mt-4 lg:inline-block lg:mt-0 px-4 py-2 hover:bg-gray-200 "
@@ -136,13 +188,29 @@ const Navbar = () => {
 
         <div className="flex flex-col lg:flex-row items-start ">
           {isUser ? (
-            <div className="relative">
+            <div className="flex">
               <button
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                 className="lg:px-5 px-4 py-2  mt-4 lg:mt-0 w-full items-start flex overflow-hidden sm:text-base text-sm font-body hover:bg-gray-200"
               >
                 {user.first_name}
               </button>
+              <Link href="/wishlist">
+                <img
+                  width="48"
+                  height="48"
+                  src="https://img.icons8.com/external-anggara-glyph-anggara-putra/48/external-wishlist-ecommerce-interface-anggara-glyph-anggara-putra.png"
+                  alt="external-wishlist-ecommerce-interface-anggara-glyph-anggara-putra"
+                />
+              </Link>
+              <Link href="/cart">
+                <img
+                  width="48"
+                  height="48"
+                  src="https://img.icons8.com/material-rounded/48/shopping-cart.png"
+                  alt="shopping-cart"
+                />
+              </Link>
               {isDropdownOpen && (
                 <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 shadow-lg">
                   <Link href="/cart">
