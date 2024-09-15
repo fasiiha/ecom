@@ -2,11 +2,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  addCartItem,
-  fetchCartItems,
-  removeCartItem,
-} from "../store/slices/cartSlice";
+import { fetchCartItems, removeCartItem } from "../store/slices/cartSlice";
 export default function Cart() {
   const dispatch = useDispatch();
   const router = useRouter();
@@ -61,10 +57,6 @@ export default function Cart() {
 
     calculateOrderDetails();
   }, [cart]);
-
-  const handleAddItem = async (item) => {
-    await dispatch(addCartItem(item));
-  };
 
   const handleRemoveItem = async (id) => {
     await dispatch(removeCartItem(id));

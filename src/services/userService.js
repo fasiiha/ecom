@@ -45,3 +45,24 @@ export const resetPassword = async (id) => {
     throw error;
   }
 };
+
+export const getUser = async (id) => {
+  try {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      throw new Error("No authentication token found");
+    }
+    const response = await axios.get(
+      `${BASE_URL}${APIConstant.USER}/fetch/${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error reseting password:", error);
+    throw error;
+  }
+};

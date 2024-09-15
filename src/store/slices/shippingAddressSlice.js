@@ -4,7 +4,7 @@ import {
   deleteShippingAddress,
   getAllShippingAddress,
   updateShippingAddress,
-} from "../../services/shippingAddressService";
+} from "../../services/shippingAddress";
 
 export const fetchShippingAddressItems = createAsyncThunk(
   "shippingAddress/fetchShippingAddressItems",

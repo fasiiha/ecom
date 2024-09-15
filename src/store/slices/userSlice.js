@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import {
+  getUser,
   loginUser,
   registerUser,
   resetPassword,
@@ -34,6 +35,18 @@ export const resetUserPassword = createAsyncThunk(
   async (userId, { rejectWithValue }) => {
     try {
       const response = await resetPassword(userId);
+      return response;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const getUserDetails = createAsyncThunk(
+  "user/getUserDetails",
+  async (userId, { rejectWithValue }) => {
+    try {
+      const response = await getUser(userId);
       return response;
     } catch (error) {
       return rejectWithValue(error.response.data);

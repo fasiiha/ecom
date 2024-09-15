@@ -1,15 +1,61 @@
 import Link from "next/link";
-import { useState } from "react";
-export default function Checkout() {
-  const [step, setStep] = useState("shipping");
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchCartItems } from "../store/slices/cartSlice";
+import { addShippingAddressItem } from "../store/slices/shippingAddressSlice";
+import { getUserDetails } from "../store/slices/userSlice";
 
+export default function Checkout() {
+  const dispatch = useDispatch();
+  const [step, setStep] = useState("shipping");
+  const [shippingAddress, setShippingAddress] = useState({
+    phone_number: "",
+    address_line1: "",
+    address_line2: "",
+    city: "",
+    country: "",
+    postal_code: "",
+  });
+  const cart = useSelector((state) => state.cart.items);
+  const user = useSelector((state) => state.user.user);
+  const cartStatus = useSelector((state) => state.cart.status);
+  const error = useSelector((state) => state.cart.error);
+
+  useEffect(() => {
+    dispatch(getUserDetails(user.id));
+  });
+  console.log(user);
   const handleContinue = () => {
+    dispatch(addShippingAddressItem({ ...shippingAddress, user_id: user.id }));
     setStep("payment");
   };
 
   const handleBack = () => {
     setStep("shipping");
   };
+  const handleChange = (e) => {
+    setShippingAddress({
+      ...shippingAddress,
+      [e.target.name]: e.target.value,
+    });
+  };
+  useEffect(() => {
+    if (user?.id === undefined) {
+      <div>Please Log in first</div>;
+    } else {
+      if (cartStatus === "idle") {
+        dispatch(fetchCartItems(user?.id));
+      }
+    }
+  }, [user, cartStatus, dispatch]);
+
+  if (cartStatus === "loading") {
+    return <div>Loading your cart...</div>;
+  }
+
+  if (cartStatus === "failed") {
+    return <div>Error loading cart: {error}</div>;
+  }
 
   return (
     <div className="flex flex-col md:flex-row lg:mt-14 md:mt-7 max-w-[1400px] w-full mx-auto">
@@ -25,48 +71,75 @@ export default function Checkout() {
             <div className="mt-8 font-body">
               <div className="flex">
                 <input
+                  name="firstName"
+                  value={shippingAddress.firstName}
+                  onChange={handleChange}
                   className="border-2 border-gray-500 bg-white h-12 px-3 sm:w-64 w-full focus:outline-none"
                   type="text"
                   placeholder="First Name"
                 />
                 <input
+                  name="lastName"
+                  value={shippingAddress.lastName}
+                  onChange={handleChange}
                   className="border-2 border-gray-500 bg-white h-12 px-3 ml-2 sm:w-64 w-full focus:outline-none"
                   type="text"
                   placeholder="Last Name"
                 />
               </div>
               <input
+                name="email"
+                value={shippingAddress.email}
+                onChange={handleChange}
                 className="border-2 mt-2 border-gray-500 bg-white h-12 px-3 sm:w-[520px] w-full focus:outline-none"
                 type="email"
                 placeholder="Email"
               />
               <input
+                name="phone"
+                value={shippingAddress.phone}
+                onChange={handleChange}
                 className="border-2 mt-2 border-gray-500 bg-white h-12 px-3 sm:w-[520px] w-full focus:outline-none"
                 type="number"
                 placeholder="Phone Number"
               />
               <input
+                name="address"
+                value={shippingAddress.address}
+                onChange={handleChange}
                 className="border-2 mt-2 border-gray-500 bg-white h-12 px-3 sm:w-[520px] w-full focus:outline-none"
                 type="text"
                 placeholder="Address"
               />
               <input
+                name="apartment"
+                value={shippingAddress.apartment}
+                onChange={handleChange}
                 className="border-2 mt-2 border-gray-500 bg-white h-12 px-3 sm:w-[520px] w-full focus:outline-none"
                 type="text"
                 placeholder="Apartment, suite, etc (optional)"
               />
               <div className="flex mt-2">
                 <input
+                  name="city"
+                  value={shippingAddress.city}
+                  onChange={handleChange}
                   className="border-2 border-gray-500 bg-white h-12 px-3 sm:w-[168px] w-full focus:outline-none"
                   type="text"
                   placeholder="City"
                 />
                 <input
+                  name="country"
+                  value={shippingAddress.country}
+                  onChange={handleChange}
                   className="border-2 border-gray-500 bg-white h-12 px-3 ml-2 sm:w-[168px] w-full focus:outline-none"
                   type="text"
                   placeholder="Country"
                 />
                 <input
+                  name="zipcode"
+                  value={shippingAddress.zipcode}
+                  onChange={handleChange}
                   className="border-2 border-gray-500 bg-white h-12 px-3 ml-2 sm:w-[168px] w-full focus:outline-none"
                   type="text"
                   placeholder="Zipcode"
@@ -159,37 +232,38 @@ export default function Checkout() {
         <h2 className="sm:text-xl text-base font-body">
           Not ready to checkout? Continue shopping
         </h2>
-        <div className="md:py-4 py-2 flex sm:flex-row flex-col justify-start sm:text-left">
-          <img
-            alt="order"
-            className="flex-shrink-0 w-36 h-36 object-cover object-center sm:mb-0 mb-4"
-            src="https://img.lazcdn.com/g/p/be2723539cde48470da1dc1b9f80f0b1.jpg_720x720q80.jpg"
-          />
-          <div className="flex-grow sm:pl-8">
-            <h2 className="title-font font-semibold font-heading text-2xl text-gray-900">
-              Elegant Sterling Silver Ring
-            </h2>
+        {cart.map((item) => (
+          <div
+            key={item.id}
+            className="md:py-4 py-2 flex sm:flex-row flex-col justify-start sm:text-left"
+          >
+            <img
+              alt="order"
+              className="flex-shrink-0 w-36 h-36 object-cover object-center sm:mb-0 mb-4"
+              src="https://img.lazcdn.com/g/p/be2723539cde48470da1dc1b9f80f0b1.jpg_720x720q80.jpg"
+            />
+            <div className="flex-grow sm:pl-8">
+              <h2 className="title-font font-semibold font-heading text-2xl text-gray-900">
+                {item.Product?.product_name}
+              </h2>
 
-            <div className="font-body my-2 text-gray-500">
-              Color:
-              <span className="ml-1">Silver</span>
-            </div>
-            <div className="font-body text-gray-500">
-              Quantity:
-              <span className="ml-1">2</span>
-            </div>
-            <div className="flex justify-between max-w-[350px] w-full mt-3">
-              <div className="sm:text-xl text-lg font-medium font-heading">
-                <span className="text-2xl">$</span>
-                159.98
+              <div className="font-body my-2 text-gray-500">
+                Color:
+                <span className="ml-1">{item?.Product?.color}</span>
               </div>
-              <div className="flex justify-end text-accent border-accent border cursor-pointer py-1 px-2">
-                remove
+              <div className="font-body text-gray-500">
+                Quantity:
+                <span className="ml-1">{item?.Product?.stock_quantity}</span>
+              </div>
+              <div className="flex justify-between max-w-[350px] w-full mt-3">
+                <div className="sm:text-xl text-lg font-medium font-heading">
+                  <span className="text-2xl">$</span>
+                  {item.Product?.price}
+                </div>
               </div>
             </div>
           </div>
-        </div>
-
+        ))}
         <div className="font-body md:text-lg text-base md:mt-10 mt-5 flex max-w-[700px] w-full justify-between">
           <div> Order Number: </div>
           <div className="ml-1">#123456789</div>
