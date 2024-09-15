@@ -9,7 +9,6 @@ export const fetchProduct = createAsyncThunk(
   "product/fetchProduct",
   async () => {
     const response = await getAllProduct();
-    console.log("products: ", response.data);
     return response.data;
   }
 );
@@ -18,7 +17,6 @@ export const fetchLatestProduct = createAsyncThunk(
   "product/fetchLatestProduct",
   async () => {
     const response = await getLatestProducts();
-    console.log("products: ", response.data);
     return response.data;
   }
 );
@@ -27,7 +25,6 @@ export const fetchSpecificProduct = createAsyncThunk(
   "product/fetchSpecificProduct",
   async (productId) => {
     const response = await getProductById(productId);
-    console.log("products: ", response.data);
     return response.data;
   }
 );

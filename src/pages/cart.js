@@ -41,16 +41,12 @@ export default function Cart() {
     }
   }, [user, cartStatus, dispatch, router]);
 
-  console.log(cart);
-  console.log(cartStatus);
-
   useEffect(() => {
     const calculateOrderDetails = () => {
       let totalCost = 0;
       let totalQuantity = 0;
       cart.forEach((item) => {
-        console.log("item: ", item);
-        totalCost += parseInt(item.Product.price, 10);
+        totalCost += parseInt(item.Product?.price, 10);
         totalQuantity += 1;
       });
       const tax = totalCost * 0.07;
@@ -104,7 +100,7 @@ export default function Cart() {
 
               <div className="flex-grow sm:pl-8">
                 <h2 className="title-font font-semibold font-heading text-2xl text-gray-900">
-                  {item.Product.product_name}
+                  {item.Product?.product_name}
                 </h2>
 
                 <div className="font-body my-2 text-gray-500">
@@ -118,7 +114,7 @@ export default function Cart() {
                 <div className="flex justify-between max-w-[350px] w-full mt-3">
                   <div className="sm:text-xl text-lg font-medium font-heading">
                     <span className="text-2xl">$</span>
-                    {item.Product.price}
+                    {item.Product?.price}
                   </div>
                   <div
                     onClick={() => handleRemoveItem(item.id)}

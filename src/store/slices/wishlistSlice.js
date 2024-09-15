@@ -10,7 +10,6 @@ export const fetchWishlistItems = createAsyncThunk(
   "wishlist/fetchWishlistItems",
   async () => {
     const response = await getAllWishlist();
-    console.log("Wishlist: ", response.data);
     return response.data;
   }
 );

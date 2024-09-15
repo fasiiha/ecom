@@ -7,7 +7,6 @@ const getAllCategoryAndSubcategory = async (userId) => {
     const response = await axios.get(
       `${BASE_URL}${APIConstant.CATEGORY}/fetch`
     );
-    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error("Error fetching Cart data:", error);

@@ -10,7 +10,6 @@ export const fetchReviewItems = createAsyncThunk(
   "review/fetchReviewItems",
   async () => {
     const response = await getAllReview();
-    console.log("Review: ", response.data);
     return response.data;
   }
 );

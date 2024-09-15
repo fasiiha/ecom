@@ -11,7 +11,6 @@ export default function Latest() {
   const error = useSelector((state) => state.product.error);
   const user = useSelector((state) => state.user);
 
-  console.log("userid: ", user);
   useEffect(() => {
     if (productStatus === "idle") {
       dispatch(fetchLatestProduct());

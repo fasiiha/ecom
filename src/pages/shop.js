@@ -11,7 +11,6 @@ export default function Shop() {
   const error = useSelector((state) => state.product.error);
   const user = useSelector((state) => state.user);
 
-  console.log("userid: ", user);
   useEffect(() => {
     if (productStatus === "idle") {
       dispatch(fetchProduct());

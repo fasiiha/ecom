@@ -10,7 +10,6 @@ export const fetchOrderItems = createAsyncThunk(
   "order/fetchOrderItems",
   async () => {
     const response = await getAllOrder();
-    console.log("Order: ", response.data);
     return response.data;
   }
 );

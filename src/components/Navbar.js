@@ -14,7 +14,6 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const categories = useSelector((state) => state.category?.items);
 
-  console.log("categories: ", categories);
   useEffect(() => {
     dispatch(fetchCategoryAndSubcategoryItems());
   }, [dispatch]);

@@ -27,7 +27,6 @@ export const loginUser = async (data) => {
     const user = response.data.data.user;
     const token = response.data.data.token;
     localStorage.setItem("token", token);
-    console.log("user, token: ", { user, token });
     return { user, token };
   } catch (error) {
     console.error("Error logging in user:", error);

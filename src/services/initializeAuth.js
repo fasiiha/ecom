@@ -22,17 +22,14 @@ export const initializeAuth = () => {
     const token = localStorage.getItem("token");
     if (token) {
       const decodedToken = decodeJWT(token);
-      console.log("decodedToken: ", decodedToken);
       if (!decodedToken) {
         store.dispatch(logoutUser());
         return;
       }
       const currentTime = Date.now() / 1000;
       if (decodedToken.exp < currentTime) {
-        console.log("logging out");
         store.dispatch(logoutUser());
       } else {
-        console.log("setting data in user");
         store.dispatch(
           setUser({
             user: {

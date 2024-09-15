@@ -10,7 +10,6 @@ export const fetchPaymentItems = createAsyncThunk(
   "payment/fetchPaymentItems",
   async () => {
     const response = await getAllPayment();
-    console.log("Payment: ", response.data);
     return response.data;
   }
 );

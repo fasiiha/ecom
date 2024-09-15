@@ -10,7 +10,6 @@ export const fetchShippingAddressItems = createAsyncThunk(
   "shippingAddress/fetchShippingAddressItems",
   async () => {
     const response = await getAllShippingAddress();
-    console.log("ShippingAddress: ", response.data);
     return response.data;
   }
 );
