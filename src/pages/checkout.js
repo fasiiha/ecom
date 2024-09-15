@@ -2,14 +2,16 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCartItems } from "../store/slices/cartSlice";
-import { addShippingAddressItem } from "../store/slices/shippingAddressSlice";
+import {
+  addShippingAddressItem,
+  fetchShippingAddressItems,
+} from "../store/slices/shippingAddressSlice";
 import { getUserDetails } from "../store/slices/userSlice";
 
 export default function Checkout() {
   const dispatch = useDispatch();
   const [step, setStep] = useState("shipping");
   const [shippingAddress, setShippingAddress] = useState({
-    phone_number: "",
     address_line1: "",
     address_line2: "",
     city: "",
@@ -18,13 +20,36 @@ export default function Checkout() {
   });
   const cart = useSelector((state) => state.cart.items);
   const user = useSelector((state) => state.user.user);
+  const address = useSelector((state) => state.address.items);
   const cartStatus = useSelector((state) => state.cart.status);
+
   const error = useSelector((state) => state.cart.error);
+  const [userInfo, setUserInfo] = useState(null);
 
   useEffect(() => {
-    dispatch(getUserDetails(user.id));
-  });
-  console.log(user);
+    if (user?.id) {
+      const fetchAddressInfo = async () => {
+        const data = await dispatch(fetchShippingAddressItems(user?.id));
+        if (data.payload) {
+          setShippingAddress(data.payload.data);
+        }
+      };
+
+      fetchAddressInfo();
+    }
+  }, [user?.id, dispatch]);
+
+  useEffect(() => {
+    if (user?.id) {
+      const fetchUserInfo = async () => {
+        const data = await dispatch(getUserDetails(user.id));
+        setUserInfo(data);
+      };
+
+      fetchUserInfo();
+    }
+  }, [user?.id, dispatch]);
+
   const handleContinue = () => {
     dispatch(addShippingAddressItem({ ...shippingAddress, user_id: user.id }));
     setStep("payment");
@@ -72,16 +97,16 @@ export default function Checkout() {
               <div className="flex">
                 <input
                   name="firstName"
-                  value={shippingAddress.firstName}
-                  onChange={handleChange}
+                  value={userInfo?.payload.data.first_name}
+                  disabled={true}
                   className="border-2 border-gray-500 bg-white h-12 px-3 sm:w-64 w-full focus:outline-none"
                   type="text"
                   placeholder="First Name"
                 />
                 <input
                   name="lastName"
-                  value={shippingAddress.lastName}
-                  onChange={handleChange}
+                  value={userInfo?.payload.data.last_name}
+                  disabled={true}
                   className="border-2 border-gray-500 bg-white h-12 px-3 ml-2 sm:w-64 w-full focus:outline-none"
                   type="text"
                   placeholder="Last Name"
@@ -89,31 +114,31 @@ export default function Checkout() {
               </div>
               <input
                 name="email"
-                value={shippingAddress.email}
-                onChange={handleChange}
+                value={userInfo?.payload.data.email}
+                disabled={true}
                 className="border-2 mt-2 border-gray-500 bg-white h-12 px-3 sm:w-[520px] w-full focus:outline-none"
                 type="email"
                 placeholder="Email"
               />
               <input
                 name="phone"
-                value={shippingAddress.phone}
-                onChange={handleChange}
+                value={userInfo?.payload.data.phone_number}
+                disabled={true}
                 className="border-2 mt-2 border-gray-500 bg-white h-12 px-3 sm:w-[520px] w-full focus:outline-none"
                 type="number"
                 placeholder="Phone Number"
               />
               <input
-                name="address"
-                value={shippingAddress.address}
+                name="address_line1"
+                value={shippingAddress.address_line1 || ""}
                 onChange={handleChange}
                 className="border-2 mt-2 border-gray-500 bg-white h-12 px-3 sm:w-[520px] w-full focus:outline-none"
                 type="text"
                 placeholder="Address"
               />
               <input
-                name="apartment"
-                value={shippingAddress.apartment}
+                name="address_line2"
+                value={shippingAddress.address_line2 || ""}
                 onChange={handleChange}
                 className="border-2 mt-2 border-gray-500 bg-white h-12 px-3 sm:w-[520px] w-full focus:outline-none"
                 type="text"
@@ -122,7 +147,7 @@ export default function Checkout() {
               <div className="flex mt-2">
                 <input
                   name="city"
-                  value={shippingAddress.city}
+                  value={shippingAddress.city || ""}
                   onChange={handleChange}
                   className="border-2 border-gray-500 bg-white h-12 px-3 sm:w-[168px] w-full focus:outline-none"
                   type="text"
@@ -130,19 +155,19 @@ export default function Checkout() {
                 />
                 <input
                   name="country"
-                  value={shippingAddress.country}
+                  value={shippingAddress.country || ""}
                   onChange={handleChange}
                   className="border-2 border-gray-500 bg-white h-12 px-3 ml-2 sm:w-[168px] w-full focus:outline-none"
                   type="text"
                   placeholder="Country"
                 />
                 <input
-                  name="zipcode"
-                  value={shippingAddress.zipcode}
+                  name="postal_code"
+                  value={shippingAddress.postal_code || ""}
                   onChange={handleChange}
                   className="border-2 border-gray-500 bg-white h-12 px-3 ml-2 sm:w-[168px] w-full focus:outline-none"
                   type="text"
-                  placeholder="Zipcode"
+                  placeholder="Postal Code"
                 />
               </div>
             </div>

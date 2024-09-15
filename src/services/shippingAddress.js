@@ -1,6 +1,6 @@
+import APIConstant from "@/constant/APIConstant";
 import axios from "axios";
 import BASE_URL from "../config/baseUrls";
-import APIConstant from "@/constant/APIConstant";
 
 export const addShippingAddress = async (data) => {
   try {
@@ -15,39 +15,14 @@ export const addShippingAddress = async (data) => {
   }
 };
 
-export const getAllShippingAddress = async () => {
+export const getAllShippingAddress = async (id) => {
   try {
-    const { response } = await axios.get(
-      `${BASE_URL}${APIConstant.SHIPPING_ADDRESS}/all`
+    const response = await axios.get(
+      `${BASE_URL}${APIConstant.SHIPPING_ADDRESS}/all/${id}`
     );
     return response;
   } catch (error) {
     console.error("Error fetching ShippingAddress data:", error);
-    throw error;
-  }
-};
-
-export const deleteShippingAddress = async (id) => {
-  try {
-    const response = await axios.delete(
-      `${BASE_URL}${APIConstant.SHIPPING_ADDRESS}/delete/${id}`
-    );
-    return response.data;
-  } catch (error) {
-    console.error("Error deleting ShippingAddress:", error);
-    throw error;
-  }
-};
-
-export const updateShippingAddress = async (data) => {
-  try {
-    const { response } = await axios.put(
-      `${BASE_URL}${APIConstant.SHIPPING_ADDRESS}/update`,
-      data
-    );
-    return response;
-  } catch (error) {
-    console.error("Error updating ShippingAddress data:", error);
     throw error;
   }
 };
