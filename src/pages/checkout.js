@@ -22,9 +22,21 @@ export default function Checkout() {
   const user = useSelector((state) => state.user.user);
   const address = useSelector((state) => state.address.items);
   const cartStatus = useSelector((state) => state.cart.status);
-
   const error = useSelector((state) => state.cart.error);
   const [userInfo, setUserInfo] = useState(null);
+  const [orderDetails, setOrderDetails] = useState({
+    totalCost: 0,
+    totalQuantity: 0,
+    tax: 0,
+    shippingCost: 10,
+    discount: 0,
+  });
+
+  const currentDate = new Date().toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
 
   useEffect(() => {
     if (user?.id) {
@@ -54,6 +66,26 @@ export default function Checkout() {
     dispatch(addShippingAddressItem({ ...shippingAddress, user_id: user.id }));
     setStep("payment");
   };
+
+  useEffect(() => {
+    const calculateOrderDetails = () => {
+      let totalCost = 0;
+      let totalQuantity = 0;
+      cart.forEach((item) => {
+        totalCost += parseInt(item.Product?.price, 10);
+        totalQuantity += 1;
+      });
+      const tax = totalCost * 0.07;
+      setOrderDetails({
+        totalCost,
+        totalQuantity,
+        tax,
+        shippingCost: orderDetails.shippingCost,
+        discount: orderDetails.discount,
+      });
+    };
+    calculateOrderDetails();
+  }, [cart]);
 
   const handleBack = () => {
     setStep("shipping");
@@ -289,33 +321,38 @@ export default function Checkout() {
             </div>
           </div>
         ))}
-        <div className="font-body md:text-lg text-base md:mt-10 mt-5 flex max-w-[700px] w-full justify-between">
-          <div> Order Number: </div>
-          <div className="ml-1">#123456789</div>
-        </div>
-        <div className="font-body md:text-lg text-base mt-2 flex max-w-[700px] w-full justify-between">
+        <div className="font-body  md:text-lg text-base mt-2 flex max-w-[700px] w-full justify-between">
           <div> Order Date: </div>
-          <div className="ml-1">August 21, 2024</div>
+          <div className="ml-1">{currentDate}</div>
         </div>
-        <div className="font-body md:text-lg text-base mt-2 flex max-w-[700px] w-full justify-between">
+        <div className="font-body  md:text-lg text-base mt-2 flex max-w-[700px] w-full justify-between">
           <div> Product Cost: </div>
-          <div className="ml-1">$79.99</div>
+          <div className="ml-1">${orderDetails.totalCost}</div>
         </div>
-        <div className="font-body md:text-lg text-base mt-2 flex max-w-[700px] w-full justify-between">
+        <div className="font-body  md:text-lg text-base mt-2 flex max-w-[700px] w-full justify-between">
+          <div> Products Quantity: </div>
+          <div className="ml-1">{orderDetails.totalQuantity}</div>
+        </div>
+        <div className="font-body  md:text-lg text-base mt-2 flex max-w-[700px] w-full justify-between">
           <div> Discount: </div>
-          <div className="ml-1">$0</div>
+          <div className="ml-1">${orderDetails.discount.toFixed(2)}</div>
         </div>
-        <div className="font-body md:text-lg text-base mt-2 flex max-w-[700px] w-full justify-between">
+        <div className="font-body  md:text-lg text-base mt-2 flex max-w-[700px] w-full justify-between">
           <div> Shipping Cost: </div>
-          <div className="ml-1">$10</div>
+          <div className="ml-1">${orderDetails.shippingCost.toFixed(2)}</div>
         </div>
-        <div className="font-body md:text-lg text-base mt-2 pb-3 border-b border-black flex max-w-[700px] w-full justify-between">
+        <div className="font-body  md:text-lg text-base mt-2 pb-3 border-b border-black flex max-w-[700px] w-full justify-between">
           <div> Tax: </div>
-          <div className="ml-1">$5.59</div>
+          <div className="ml-1">${orderDetails.tax.toFixed(2)}</div>
         </div>
-        <div className="font-body md:text-lg text-base mt-2 flex max-w-[700px] w-full justify-between">
+        <div className="font-body  md:text-lg text-base mt-2 flex max-w-[700px] w-full justify-between">
           <div> Total Amount: </div>
-          <div className="ml-1">$95</div>
+          <div className="ml-1">
+            $
+            {orderDetails.totalCost +
+              orderDetails.shippingCost +
+              orderDetails.tax}
+          </div>
         </div>
       </div>
     </div>

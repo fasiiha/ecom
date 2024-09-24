@@ -11,6 +11,17 @@ export default function Shop() {
   const error = useSelector((state) => state.product.error);
   const user = useSelector((state) => state.user);
 
+  const groupByCategory = (products) => {
+    return products.reduce((acc, product) => {
+      const categoryName = product.Subcategory?.subcategory_name;
+      if (!acc[categoryName]) {
+        acc[categoryName] = [];
+      }
+      acc[categoryName].push(product);
+      return acc;
+    }, {});
+  };
+
   useEffect(() => {
     if (productStatus === "idle") {
       dispatch(fetchProduct());
@@ -24,38 +35,46 @@ export default function Shop() {
   if (productStatus === "failed") {
     return <div>Error loading product: {error}</div>;
   }
+  const groupedProducts = groupByCategory(product);
   return (
     <>
       <section className="text-black  body-font">
-        <div className="container px-5 py-24 mx-auto">
-          <div className="flex flex-wrap -m-4">
-            {product.map((item) => (
-              <div key={item.id} className="sm:p-4 p-2 w-1/2 lg:w-1/4">
-                <Link href={`/product/${item.id}`}>
-                  <div className="shadow-lg rounded-lg overflow-hidden border transform transition-transform duration-300 hover:scale-105 cursor-pointer">
-                    <img
-                      className="w-full h-auto object-cover object-center"
-                      src="https://img.lazcdn.com/g/p/be2723539cde48470da1dc1b9f80f0b1.jpg_720x720q80.jpg"
-                      alt={item.product_name}
-                    />
-                    <div className="p-3 flex justify-center items-center">
-                      <div className="flex flex-col items-center space-y-1">
-                        <div className="inline-flex items-center sm:text-lg text-sm font-body font-medium">
-                          {item.product_name}
-                        </div>
-                        <div className="inline-flex items-center ">
-                          <Rating totalStars={5} />
-                        </div>
-                        <div className="inline-flex items-center font-heading font-semibold">
-                          ${item.price}
+        <div className="container px-5 py-8 mx-auto">
+          {Object.keys(groupedProducts).map((category) => (
+            <div key={category} className="mt-12">
+              <h2 className="text-2xl font-heading font-semibold mb-4">
+                {category}
+              </h2>
+              <div className="flex flex-wrap -m-4">
+                {groupedProducts[category].map((item) => (
+                  <div key={item.id} className="sm:p-4 p-2 w-1/2 lg:w-1/4">
+                    <Link href={`/product/${item.id}`}>
+                      <div className="shadow-lg rounded-lg overflow-hidden border transform transition-transform duration-300 hover:scale-105 cursor-pointer">
+                        <img
+                          className="w-full h-auto object-cover object-center"
+                          src="https://img.lazcdn.com/g/p/be2723539cde48470da1dc1b9f80f0b1.jpg_720x720q80.jpg"
+                          alt={item.product_name}
+                        />
+                        <div className="p-3 flex justify-center items-center">
+                          <div className="flex flex-col items-center space-y-1">
+                            <div className="inline-flex items-center sm:text-lg text-sm font-body font-medium">
+                              {item.product_name}
+                            </div>
+                            <div className="inline-flex items-center ">
+                              <Rating totalStars={5} />
+                            </div>
+                            <div className="inline-flex items-center font-heading font-semibold">
+                              ${item.price}
+                            </div>
+                          </div>
                         </div>
                       </div>
-                    </div>
+                    </Link>
                   </div>
-                </Link>
+                ))}
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
       </section>
     </>
