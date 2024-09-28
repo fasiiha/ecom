@@ -80,6 +80,13 @@ export default function Checkout() {
     const calculateOrderDetails = () => {
       let totalCost = 0;
       let totalQuantity = 0;
+
+      const selectedCartItems = cart.filter((item) => item.selected);
+      selectedCartItems.forEach((item) => {
+        totalCost += parseInt(item.Product?.price, 10);
+        totalQuantity += 1;
+      });
+
       cart.forEach((item) => {
         totalCost += parseInt(item.Product?.price, 10);
         totalQuantity += 1;

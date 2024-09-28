@@ -238,6 +238,7 @@ export default function Product() {
           <button
             className="px-3 py-1 border border-gray-300 rounded text-xl"
             onClick={handleIncrease}
+            disabled={quantity >= selectedProduct?.stock_quantity}
           >
             +
           </button>
