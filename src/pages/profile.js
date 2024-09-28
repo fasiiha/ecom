@@ -1,3 +1,4 @@
+import OrderDetails from "@/components/orderDetails";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { logoutUser } from "../store/slices/userSlice";
@@ -5,6 +6,8 @@ import { logoutUser } from "../store/slices/userSlice";
 export default function Profile() {
   const dispatch = useDispatch();
   const [activeTab, setActiveTab] = useState("orders");
+  const [step, setStep] = useState("orderlist");
+
   const orders = [
     {
       orderNumber: "1001",
@@ -34,6 +37,14 @@ export default function Profile() {
       deliveryDate: "2024-09-06",
     },
   ];
+
+  const handleNext = () => {
+    setStep("orderdetails");
+  };
+
+  const handleBack = () => {
+    setStep("orderlist");
+  };
 
   const handleLogout = () => {
     dispatch(logoutUser());
@@ -80,52 +91,86 @@ export default function Profile() {
 
             <section class="text-gray-600 body-font">
               <div class="w-full mx-auto overflow-auto">
-                <table class="table-auto w-full text-left whitespace-no-wrap">
-                  <thead>
-                    <tr>
-                      <th class="px-4 py-3 tracking-wider font-semibold text-gray-900 text-sm bg-gray-100 rounded-tl rounded-bl font-body">
-                        Order Number
-                      </th>
-                      <th class="px-4 py-3 tracking-wider font-semibold text-gray-900 text-sm bg-gray-100 font-body">
-                        Order Date
-                      </th>
-                      <th class="px-4 py-3 tracking-wider font-semibold text-gray-900 text-sm bg-gray-100 font-body">
-                        Items
-                      </th>
-                      <th class="px-4 py-3 tracking-wider font-semibold text-gray-900 text-sm bg-gray-100 font-body">
-                        Total
-                      </th>
-                      <th class="px-4 py-3 tracking-wider font-semibold text-gray-900 text-sm bg-gray-100 font-body">
-                        Payment Method
-                      </th>
-                      <th class="px-4 py-3 tracking-wider font-semibold text-gray-900 text-sm bg-gray-100 font-body">
-                        Status
-                      </th>
-                      <th class="px-4 py-3 tracking-wider font-semibold text-gray-900 text-sm bg-gray-100 font-body">
-                        Delivery Date
-                      </th>
-                      <th class="px-4 py-3 tracking-wider font-semibold text-gray-900 text-sm bg-gray-100 font-body">
-                        Action
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {orders.map((order) => (
-                      <tr key={order.orderNumber}>
-                        <td className="px-4 py-3">{order.orderNumber}</td>
-                        <td className="px-4 py-3">{order.orderDate}</td>
-                        <td className="px-4 py-3">{order.items}</td>
-                        <td className="px-4 py-3">{order.total}</td>
-                        <td className="px-4 py-3">{order.paymentMethod}</td>
-                        <td className="px-4 py-3">{order.status}</td>
-                        <td className="px-4 py-3">{order.deliveryDate}</td>
-                        <td className="px-4 py-3">
-                          <button className="text-blue-500">View</button>
-                        </td>
+                {step === "orderlist" ? (
+                  <table class="table-auto w-full text-left whitespace-no-wrap">
+                    <thead>
+                      <tr>
+                        <th class="px-4 py-3 tracking-wider font-semibold text-gray-900 text-sm bg-gray-100 rounded-tl rounded-bl font-body">
+                          Order Number
+                        </th>
+                        <th class="px-4 py-3 tracking-wider font-semibold text-gray-900 text-sm bg-gray-100 font-body">
+                          Order Date
+                        </th>
+                        <th class="px-4 py-3 tracking-wider font-semibold text-gray-900 text-sm bg-gray-100 font-body">
+                          Items
+                        </th>
+                        <th class="px-4 py-3 tracking-wider font-semibold text-gray-900 text-sm bg-gray-100 font-body">
+                          Total
+                        </th>
+                        <th class="px-4 py-3 tracking-wider font-semibold text-gray-900 text-sm bg-gray-100 font-body">
+                          Payment Method
+                        </th>
+                        <th class="px-4 py-3 tracking-wider font-semibold text-gray-900 text-sm bg-gray-100 font-body">
+                          Status
+                        </th>
+                        <th class="px-4 py-3 tracking-wider font-semibold text-gray-900 text-sm bg-gray-100 font-body">
+                          Delivery Date
+                        </th>
+                        <th class="px-4 py-3 tracking-wider font-semibold text-gray-900 text-sm bg-gray-100 font-body">
+                          Action
+                        </th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody>
+                      {orders.map((order) => (
+                        <tr key={order.orderNumber}>
+                          <td className="px-4 py-3">{order.orderNumber}</td>
+                          <td className="px-4 py-3">{order.orderDate}</td>
+                          <td className="px-4 py-3">{order.items}</td>
+                          <td className="px-4 py-3">{order.total}</td>
+                          <td className="px-4 py-3">{order.paymentMethod}</td>
+                          <td className="px-4 py-3">{order.status}</td>
+                          <td className="px-4 py-3">{order.deliveryDate}</td>
+                          <td className="px-4 py-3">
+                            <button
+                              className="text-blue-500"
+                              onClick={handleNext}
+                            >
+                              View
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                ) : (
+                  <>
+                    <div
+                      onClick={handleBack}
+                      className="cursor-pointer flex items-center group"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        className="sm:h-7 h-4 sm:w-7 w-4 mr-1"
+                      >
+                        <path
+                          d="M6 12H18M6 12L11 7M6 12L11 17"
+                          stroke="#000000"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                      <span className="relative text-black sm:text-base text-sm">
+                        Back to Orders List
+                        <span className="absolute left-0 bottom-[-4px] w-0 h-[1px] bg-black transition-all duration-300 group-hover:w-full"></span>
+                      </span>
+                    </div>
+                    <OrderDetails />
+                  </>
+                )}
               </div>
             </section>
           </div>
@@ -136,7 +181,6 @@ export default function Profile() {
             <h2 className="sm:text-4xl text-2xl font-bold mb-4 font-heading">
               Your Addresses
             </h2>
-            {/* Replace with actual addresses content */}
             <p>Here is the list of your addresses...</p>
           </div>
         )}

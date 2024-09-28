@@ -28,7 +28,6 @@ export default function Cart() {
 
   useEffect(() => {
     if (user?.id === undefined) {
-      // router.push("/");
       <div>Please Log in first</div>;
     } else {
       if (cartStatus === "idle") {
@@ -97,11 +96,15 @@ export default function Cart() {
 
                 <div className="font-body my-2 text-gray-500">
                   Color:
-                  <span className="ml-1">{item?.Product?.color}</span>
+                  <span className="ml-1">{item?.color}</span>
+                </div>
+                <div className="font-body my-2 text-gray-500">
+                  Size:
+                  <span className="ml-1">{item?.size}</span>
                 </div>
                 <div className="font-body text-gray-500">
                   Quantity:
-                  <span className="ml-1">{item?.Product?.stock_quantity}</span>
+                  <span className="ml-1">{item?.quantity}</span>
                 </div>
                 <div className="flex justify-between max-w-[350px] w-full mt-3">
                   <div className="sm:text-xl text-lg font-medium font-heading">

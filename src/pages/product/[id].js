@@ -1,10 +1,11 @@
-import Toast from "@/components/toast";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import greenTick from "../../assets/images/greentick.png";
 import WishlistButton from "../../components/WishlistButton";
 import { addCartItem } from "../../store/slices/cartSlice";
 import { fetchSpecificProduct } from "../../store/slices/productSlice";
@@ -13,9 +14,7 @@ export default function Product() {
   const dispatch = useDispatch();
   const router = useRouter();
   const { id } = router.query;
-  const [showToast, setShowToast] = useState(false);
-  const [toastMessage, setToastMessage] = useState("");
-
+  const [showModal, setShowModal] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const product = useSelector((state) => state.product.items);
   const productStatus = useSelector((state) => state.product.status);
@@ -98,21 +97,30 @@ export default function Product() {
     return <div>Error loading product: {error}</div>;
   }
 
-  const handleAddToCart = () => {
+  const handleAddToCart = async () => {
     if (selectedProduct) {
-      dispatch(
-        addCartItem({
-          product_id: selectedProduct.id,
-          user_id: user?.id,
-          // quantity: 1,
-          // color: selectedButton,
-        })
-      );
-      setToastMessage("Item added to cart!");
-      setShowToast(true);
-      setTimeout(() => {
-        setShowToast(false);
-      }, 3000);
+      try {
+        const result = await dispatch(
+          addCartItem({
+            product_id: selectedProduct.id,
+            user_id: user?.id,
+            quantity,
+            color: selectedButton,
+            size: sizeSelectedButton,
+          })
+        ).unwrap();
+
+        if (result) {
+          setShowModal(true);
+          setTimeout(() => {
+            setShowModal(false);
+          }, 2000);
+        } else {
+          console.error("Failed to add item to cart.");
+        }
+      } catch (error) {
+        console.error("Error adding to cart:", error);
+      }
     }
   };
 
@@ -155,7 +163,6 @@ export default function Product() {
       </div>
 
       <div className="flex-1 p-4">
-        {showToast && <Toast message={toastMessage} />}
         <h1 className="sm:text-4xl text-2xl font-bold mb-4 font-heading">
           {selectedProduct?.product_name}
         </h1>
@@ -253,6 +260,18 @@ export default function Product() {
           </Link>
         </div>
       </div>
+      {showModal && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 ">
+          <div className="bg-white p-6 rounded shadow-lg text-center max-w-[400px] w-full">
+            <div className="flex items-center justify-center mx-auto pb-5 pt-2">
+              <Image width={50} height={50} src={greenTick} alt="successful" />
+            </div>
+            <h2 className="text-xl font-body font-semibold text-center">
+              Added To Cart!
+            </h2>
+          </div>
+        </div>
+      )}
 
       {isModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-75 z-50">

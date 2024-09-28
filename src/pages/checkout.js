@@ -1,6 +1,8 @@
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import greenTick from "../assets/images/greentick.png";
 import { fetchCartItems } from "../store/slices/cartSlice";
 import {
   addShippingAddressItem,
@@ -31,6 +33,13 @@ export default function Checkout() {
     shippingCost: 10,
     discount: 0,
   });
+  const [showModal, setShowModal] = useState(false);
+  const handlePayment = () => {
+    setShowModal(true);
+    setTimeout(() => {
+      setShowModal(false);
+    }, 2000);
+  };
 
   const currentDate = new Date().toLocaleDateString("en-US", {
     year: "numeric",
@@ -271,7 +280,10 @@ export default function Checkout() {
                 placeholder="Cardholder Name"
               />
               <Link href="/checkout">
-                <div className="relative mt-8 max-w-[520px] w-full py-3 overflow-hidden flex justify-center items-center group cursor-pointer bg-gradient-to-r from-gray-800 to-black hover:bg-gradient-to-r hover:from-gray-700 hover:to-black text-white transition-all ease-out duration-100">
+                <div
+                  className="relative mt-8 max-w-[520px] w-full py-3 overflow-hidden flex justify-center items-center group cursor-pointer bg-gradient-to-r from-gray-800 to-black hover:bg-gradient-to-r hover:from-gray-700 hover:to-black text-white transition-all ease-out duration-100"
+                  onClick={handlePayment}
+                >
                   <span className="absolute right-0 w-10 h-full top-0 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 -skew-x-12 group-hover:-translate-x-36 ease"></span>
                   <span className="relative sm:text-lg text-base font-body text-center">
                     Pay Now
@@ -279,6 +291,34 @@ export default function Checkout() {
                 </div>
               </Link>
             </div>
+            {showModal && (
+              <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                <div className="bg-white p-6 rounded shadow-lg text-center">
+                  <div className="flex items-center justify-center mx-auto pb-5 pt-2">
+                    <Image
+                      width={50}
+                      height={50}
+                      src={greenTick}
+                      alt="successful"
+                    />
+                  </div>
+                  <div className="text-center">
+                    <h2 className="text-xl font-body font-semibold">
+                      Payment Successful
+                    </h2>
+                    <p className="mt-2 text-gray-600 font-body">
+                      Your payment was successful. Your order will be processed
+                      shortly.
+                    </p>
+                    <Link href="/">
+                      <button className="font-body mt-4 bg-gradient-to-r from-gray-800 to-black hover:bg-gradient-to-r hover:from-gray-700 hover:to-black text-white px-6 py-2 rounded-md">
+                        Go to Homepage
+                      </button>
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            )}
           </>
         )}
       </div>
