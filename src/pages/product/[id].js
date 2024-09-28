@@ -25,6 +25,9 @@ export default function Product() {
   const [selectedImage, setSelectedImage] = useState(null);
   const [isZoomed, setIsZoomed] = useState(false);
   const [selectedButton, setSelectedButton] = useState(null);
+  const [sizeSelectedButton, setSizeSelectedButton] = useState(null);
+  const [quantity, setQuantity] = useState(1);
+
   const user = useSelector((state) => state.user.user);
   useEffect(() => {
     if (id) {
@@ -39,11 +42,19 @@ export default function Product() {
     }
   }, [product, id, productStatus]);
 
-  const handleButtonClick = (buttonName) => {
+  const handleColorClick = (buttonName) => {
     if (selectedButton === buttonName) {
       setSelectedButton(null);
     } else {
       setSelectedButton(buttonName);
+    }
+  };
+
+  const handleSizeButton = (buttonName) => {
+    if (sizeSelectedButton === buttonName) {
+      setSizeSelectedButton(null);
+    } else {
+      setSizeSelectedButton(buttonName);
     }
   };
 
@@ -69,6 +80,14 @@ export default function Product() {
 
   const toggleZoom = () => {
     setIsZoomed((prev) => !prev);
+  };
+
+  const handleIncrease = () => {
+    setQuantity((prev) => prev + 1);
+  };
+
+  const handleDecrease = () => {
+    setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
   };
 
   if (productStatus === "loading") {
@@ -137,7 +156,6 @@ export default function Product() {
 
       <div className="flex-1 p-4">
         {showToast && <Toast message={toastMessage} />}
-
         <h1 className="sm:text-4xl text-2xl font-bold mb-4 font-heading">
           {selectedProduct?.product_name}
         </h1>
@@ -149,55 +167,86 @@ export default function Product() {
             <WishlistButton />
           </div>
         </div>
-
         <p className="font-body sm:text-base text-sm xl:w-[75%]">
           {selectedProduct?.description}
         </p>
         <h2 className="text-base font-semibold mt-3 font-heading">
           {selectedProduct?.stock_quantity} items in stock
         </h2>
+        {selectedProduct?.colors ? (
+          <>
+            <h2 className="text-base  mt-3 font-heading font-semibold">
+              Color
+            </h2>
+            <div className="flex flex-wrap gap-4 mt-2 ">
+              {selectedProduct?.colors?.map((src, index) => (
+                <button
+                  key={index}
+                  className={`px-4 sm:py-2 py-1 overflow-hidden border-2 border-secondary ${
+                    selectedButton === src
+                      ? "bg-secondary text-white"
+                      : " text-black"
+                  }`}
+                  onClick={() => handleColorClick(src)}
+                >
+                  <span className="relative sm:text-base text-sm font-body">
+                    {src}
+                  </span>
+                </button>
+              ))}
+            </div>
+          </>
+        ) : null}
+        {selectedProduct?.sizes ? (
+          <>
+            <h2 className="text-base  mt-3 font-heading font-semibold">Size</h2>
+            <div className="flex flex-wrap gap-4 mt-2 ">
+              {selectedProduct?.sizes?.map((src, index) => (
+                <button
+                  key={index}
+                  className={`px-4 sm:py-2 py-1 overflow-hidden border-2 border-secondary ${
+                    sizeSelectedButton === src
+                      ? "bg-secondary text-white"
+                      : " text-black"
+                  }`}
+                  onClick={() => handleSizeButton(src)}
+                >
+                  <span className="relative sm:text-base text-sm font-body">
+                    {src}
+                  </span>
+                </button>
+              ))}
+            </div>
+          </>
+        ) : null}
 
-        <h2 className="text-base  mt-3 font-heading font-semibold">Color</h2>
-        <div className="flex flex-wrap gap-4 mt-2 ">
+        <div className="flex items-center gap-4 mt-3">
           <button
-            className={`px-4 sm:py-2 py-1 overflow-hidden border-2 border-secondary ${
-              selectedButton === "Silver"
-                ? "bg-secondary text-white"
-                : " text-black"
-            }`}
-            onClick={() => handleButtonClick("Silver")}
+            className="px-3 py-1 border border-gray-300 rounded text-xl"
+            onClick={handleDecrease}
           >
-            <span className="relative sm:text-base text-sm font-body">
-              Silver
-            </span>
+            -
           </button>
-
+          <span className="text-lg">{quantity}</span>
           <button
-            className={`px-4 sm:py-2 py-1 overflow-hidden border-2 border-secondary  ${
-              selectedButton === "Gold"
-                ? "bg-secondary text-white"
-                : " text-black"
-            }`}
-            onClick={() => handleButtonClick("Gold")}
+            className="px-3 py-1 border border-gray-300 rounded text-xl"
+            onClick={handleIncrease}
           >
-            <span className="relative sm:text-base text-sm font-body">
-              Gold
-            </span>
+            +
           </button>
         </div>
-
         <div className="flex flex-wrap gap-4 mt-5 ">
           <button onClick={handleAddToCart}>
-            <div class="relative px-20  py-2.5 overflow-hidden group cursor-pointer bg-gradient-to-r from-gray-800 to-black hover:bg-gradient-to-r hover:from-gray-700 hover:to-black text-white transition-all ease-out duration-100">
-              <span class="absolute right-0 w-10 h-full top-0 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 -skew-x-12 group-hover:-translate-x-36 ease"></span>
-              <span class="relative sm:text-lg text-base font-body">
+            <div className="relative px-20  py-2.5 overflow-hidden group cursor-pointer bg-gradient-to-r from-gray-800 to-black hover:bg-gradient-to-r hover:from-gray-700 hover:to-black text-white transition-all ease-out duration-100">
+              <span className="absolute right-0 w-10 h-full top-0 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 -skew-x-12 group-hover:-translate-x-36 ease"></span>
+              <span className="relative sm:text-lg text-base font-body">
                 Add to Cart
               </span>
             </div>
           </button>
           <Link href="/">
-            <div class="px-20 py-2 overflow-hidden border-2 border-black cursor-pointer">
-              <span class="relative sm:text-lg text-base font-body text-black">
+            <div className="px-20 py-2 overflow-hidden border-2 border-black cursor-pointer">
+              <span className="relative sm:text-lg text-base font-body text-black">
                 Buy Now
               </span>
             </div>
