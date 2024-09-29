@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import greenTick from "../assets/images/greentick.png";
 import { fetchCartItems } from "../store/slices/cartSlice";
+import { addOrderItem } from "../store/slices/orderSlice";
 import {
   addShippingAddressItem,
   fetchShippingAddressItems,
@@ -34,7 +35,28 @@ export default function Checkout() {
     discount: 0,
   });
   const [showModal, setShowModal] = useState(false);
+
   const handlePayment = () => {
+    const estimatedDeliveryDate = new Date();
+    estimatedDeliveryDate.setDate(estimatedDeliveryDate.getDate() + 14);
+
+    const formattedEstimatedDeliveryDate =
+      estimatedDeliveryDate.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      });
+
+    dispatch(
+      addOrderItem({
+        user_id: user?.id,
+        address_id: shippingAddress?.id,
+        estimated_delivery_date: formattedEstimatedDeliveryDate,
+        total_amount: orderDetails.totalCost,
+        orderitems: cart,
+      })
+    );
+    console.log("cart", cart);
     setShowModal(true);
     setTimeout(() => {
       setShowModal(false);
