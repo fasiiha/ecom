@@ -15,6 +15,18 @@ export const addWishlist = async (data) => {
   }
 };
 
+export const getSpecificWishlist = async () => {
+  try {
+    const { response } = await axios.get(
+      `${BASE_URL}${APIConstant.WISHLIST}/all`
+    );
+    return response;
+  } catch (error) {
+    console.error("Error fetching Wishlist data:", error);
+    throw error;
+  }
+};
+
 export const getAllWishlist = async () => {
   try {
     const { response } = await axios.get(
@@ -35,19 +47,6 @@ export const deleteWishlist = async (id) => {
     return response.data;
   } catch (error) {
     console.error("Error deleting Wishlist:", error);
-    throw error;
-  }
-};
-
-export const updateWishlist = async (data) => {
-  try {
-    const { response } = await axios.put(
-      `${BASE_URL}${APIConstant.WISHLIST}/update`,
-      data
-    );
-    return response;
-  } catch (error) {
-    console.error("Error updating Wishlist data:", error);
     throw error;
   }
 };

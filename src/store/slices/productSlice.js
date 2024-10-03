@@ -8,6 +8,7 @@ import {
 export const fetchProduct = createAsyncThunk(
   "product/fetchProduct",
   async () => {
+    console.log("Fetching product...");
     const response = await getAllProduct();
     return response.data;
   }

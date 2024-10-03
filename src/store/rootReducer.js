@@ -6,6 +6,7 @@ import orderReducer from "./slices/orderSlice";
 import productReducer from "./slices/productSlice";
 import shippingAddressReducer from "./slices/shippingAddressSlice";
 import userReducer from "./slices/userSlice";
+import wishlistReducer from "./slices/wishlistSlice";
 
 const rootReducer = combineReducers({
   cart: cartReducer,
@@ -14,6 +15,7 @@ const rootReducer = combineReducers({
   product: productReducer,
   category: categoryReducer,
   address: shippingAddressReducer,
+  wishlist: wishlistReducer,
 });
 
 export default rootReducer;

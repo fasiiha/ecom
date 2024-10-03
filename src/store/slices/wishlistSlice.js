@@ -3,7 +3,6 @@ import {
   addWishlist,
   deleteWishlist,
   getAllWishlist,
-  updateWishlist,
 } from "../../services/wishlistService";
 
 export const fetchWishlistItems = createAsyncThunk(
@@ -27,14 +26,6 @@ export const removeWishlistItem = createAsyncThunk(
   async (id) => {
     await deleteWishlist(id);
     return id;
-  }
-);
-
-export const updateWishlistItem = createAsyncThunk(
-  "wishlist/updateWishlistItem",
-  async (item) => {
-    const response = await updateWishlist(item);
-    return response.data;
   }
 );
 
@@ -66,14 +57,6 @@ const wishlistSlice = createSlice({
       })
       .addCase(removeWishlistItem.fulfilled, (state, action) => {
         state.items = state.items.filter((item) => item.id !== action.payload);
-      })
-      .addCase(updateWishlistItem.fulfilled, (state, action) => {
-        const index = state.items.findIndex(
-          (item) => item.id === action.payload.id
-        );
-        if (index !== -1) {
-          state.items[index] = action.payload;
-        }
       });
   },
 });

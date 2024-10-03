@@ -26,7 +26,6 @@ export default function Product() {
   const [selectedButton, setSelectedButton] = useState(null);
   const [sizeSelectedButton, setSizeSelectedButton] = useState(null);
   const [quantity, setQuantity] = useState(1);
-
   const user = useSelector((state) => state.user.user);
   useEffect(() => {
     if (id) {
@@ -171,7 +170,7 @@ export default function Product() {
             ${selectedProduct?.price}
           </h2>
           <div>
-            <WishlistButton />
+            <WishlistButton productId={selectedProduct?.id} userId={user?.id} />
           </div>
         </div>
         <p className="font-body sm:text-base text-sm xl:w-[75%]">

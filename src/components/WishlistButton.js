@@ -1,10 +1,27 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addWishlistItem,
+  removeWishlistItem,
+} from "../store/slices/wishlistSlice";
 
-const WishlistButton = () => {
-  const [fillColor, setFillColor] = useState("none");
+const WishlistButton = ({ productId, userId }) => {
+  const dispatch = useDispatch();
+  const wishlistItems = useSelector((state) => state.wishlist.items);
+  const [isInWishlist, setIsInWishlist] = useState(false);
+
+  useEffect(() => {
+    const isWishlisted = wishlistItems.some((item) => item.id === productId);
+    setIsInWishlist(isWishlisted);
+  }, [wishlistItems, productId]);
 
   const handleClick = () => {
-    setFillColor(fillColor === "none" ? "#000" : "none"); // Toggle between no fill and red fill
+    if (isInWishlist) {
+      dispatch(removeWishlistItem({ product_id: productId, user_id: userId }));
+    } else {
+      dispatch(addWishlistItem({ product_id: productId, user_id: userId }));
+    }
+    setIsInWishlist(!isInWishlist);
   };
 
   return (
@@ -14,7 +31,7 @@ const WishlistButton = () => {
       viewBox="0 0 24 24"
       fill="none"
       onClick={handleClick}
-      style={{ cursor: "pointer" }} // Add cursor pointer for better UX
+      style={{ cursor: "pointer" }}
     >
       <path
         fillRule="evenodd"
@@ -24,7 +41,7 @@ const WishlistButton = () => {
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
-        fill={fillColor}
+        fill={isInWishlist ? "#000" : "none"}
       />
     </svg>
   );
