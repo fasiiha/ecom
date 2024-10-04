@@ -9,7 +9,6 @@ export default function Latest() {
   const product = useSelector((state) => state.product.items);
   const productStatus = useSelector((state) => state.product.status);
   const error = useSelector((state) => state.product.error);
-  const user = useSelector((state) => state.user);
 
   useEffect(() => {
     if (productStatus === "idle") {

@@ -65,12 +65,21 @@ export default function Profile() {
             </a>
             <a
               className={`pl-3 sm:text-base text-sm font-heading mr-5 hover:text-gray-900 ${
-                activeTab === "addresses" ? "text-gray-700 font-semibold" : ""
+                activeTab === "toreview" ? "text-gray-700 font-semibold" : ""
               }`}
-              onClick={() => setActiveTab("addresses")}
+              onClick={() => setActiveTab("toreview")}
               style={{ cursor: "pointer" }}
             >
-              My Addresses
+              My Reviews
+            </a>
+            <a
+              className={`pl-3 sm:text-base text-sm font-heading mr-5 hover:text-gray-900 ${
+                activeTab === "myreview" ? "text-gray-700 font-semibold" : ""
+              }`}
+              onClick={() => setActiveTab("myreview")}
+              style={{ cursor: "pointer" }}
+            >
+              To Review
             </a>
           </nav>
           <div
@@ -89,34 +98,34 @@ export default function Profile() {
               Your Orders
             </h2>
 
-            <section class="text-gray-600 body-font">
-              <div class="w-full mx-auto overflow-auto">
+            <section className="text-gray-600 body-font">
+              <div className="w-full mx-auto overflow-auto">
                 {step === "orderlist" ? (
-                  <table class="table-auto w-full text-left whitespace-no-wrap">
+                  <table className="table-auto w-full text-left whitespace-no-wrap">
                     <thead>
                       <tr>
-                        <th class="px-4 py-3 tracking-wider font-semibold text-gray-900 text-sm bg-gray-100 rounded-tl rounded-bl font-body">
+                        <th className="px-4 py-3 tracking-wider font-semibold text-gray-900 text-sm bg-gray-100 rounded-tl rounded-bl font-body">
                           Order Number
                         </th>
-                        <th class="px-4 py-3 tracking-wider font-semibold text-gray-900 text-sm bg-gray-100 font-body">
+                        <th className="px-4 py-3 tracking-wider font-semibold text-gray-900 text-sm bg-gray-100 font-body">
                           Order Date
                         </th>
-                        <th class="px-4 py-3 tracking-wider font-semibold text-gray-900 text-sm bg-gray-100 font-body">
+                        <th className="px-4 py-3 tracking-wider font-semibold text-gray-900 text-sm bg-gray-100 font-body">
                           Items
                         </th>
-                        <th class="px-4 py-3 tracking-wider font-semibold text-gray-900 text-sm bg-gray-100 font-body">
+                        <th className="px-4 py-3 tracking-wider font-semibold text-gray-900 text-sm bg-gray-100 font-body">
                           Total
                         </th>
-                        <th class="px-4 py-3 tracking-wider font-semibold text-gray-900 text-sm bg-gray-100 font-body">
+                        <th className="px-4 py-3 tracking-wider font-semibold text-gray-900 text-sm bg-gray-100 font-body">
                           Payment Method
                         </th>
-                        <th class="px-4 py-3 tracking-wider font-semibold text-gray-900 text-sm bg-gray-100 font-body">
+                        <th className="px-4 py-3 tracking-wider font-semibold text-gray-900 text-sm bg-gray-100 font-body">
                           Status
                         </th>
-                        <th class="px-4 py-3 tracking-wider font-semibold text-gray-900 text-sm bg-gray-100 font-body">
+                        <th className="px-4 py-3 tracking-wider font-semibold text-gray-900 text-sm bg-gray-100 font-body">
                           Delivery Date
                         </th>
-                        <th class="px-4 py-3 tracking-wider font-semibold text-gray-900 text-sm bg-gray-100 font-body">
+                        <th className="px-4 py-3 tracking-wider font-semibold text-gray-900 text-sm bg-gray-100 font-body">
                           Action
                         </th>
                       </tr>
@@ -176,12 +185,21 @@ export default function Profile() {
           </div>
         )}
 
-        {activeTab === "addresses" && (
+        {activeTab === "toreview" && (
           <div>
             <h2 className="sm:text-4xl text-2xl font-bold mb-4 font-heading">
-              Your Addresses
+              Review Products Now
             </h2>
-            <p>Here is the list of your addresses...</p>
+            <p>Here is the list of your toreview...</p>
+          </div>
+        )}
+
+        {activeTab === "myreview" && (
+          <div>
+            <h2 className="sm:text-4xl text-2xl font-bold mb-4 font-heading">
+              Your Review
+            </h2>
+            <p>Here is the list of your myreview...</p>
           </div>
         )}
       </div>
