@@ -1,42 +1,57 @@
 import OrderDetails from "@/components/orderDetails";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchSpecificOrderItems } from "../store/slices/orderSlice";
 import { logoutUser } from "../store/slices/userSlice";
 
 export default function Profile() {
   const dispatch = useDispatch();
   const [activeTab, setActiveTab] = useState("orders");
   const [step, setStep] = useState("orderlist");
+  const orders = useSelector((state) => state.order.items);
+  const orderStatus = useSelector((state) => state.order.status);
+  const error = useSelector((state) => state.order.error);
+  const user = useSelector((state) => state.user.user);
 
-  const orders = [
-    {
-      orderNumber: "1001",
-      orderDate: "2024-09-01",
-      items: "Product A, Product B",
-      total: "$45.00",
-      paymentMethod: "Credit Card",
-      status: "Shipped",
-      deliveryDate: "2024-09-05",
-    },
-    {
-      orderNumber: "1002",
-      orderDate: "2024-09-02",
-      items: "Product C",
-      total: "$20.00",
-      paymentMethod: "PayPal",
-      status: "Pending",
-      deliveryDate: "2024-09-07",
-    },
-    {
-      orderNumber: "1003",
-      orderDate: "2024-09-03",
-      items: "Product D, Product E, Product F",
-      total: "$75.00",
-      paymentMethod: "Debit Card",
-      status: "Delivered",
-      deliveryDate: "2024-09-06",
-    },
-  ];
+  useEffect(() => {
+    if (user?.id === undefined) {
+      <div>Please Log in first</div>;
+    } else {
+      if (orderStatus === "idle") {
+        dispatch(fetchSpecificOrderItems(user?.id));
+      }
+    }
+  }, [user, orderStatus, dispatch]);
+
+  // const orders = [
+  //   {
+  //     orderNumber: "1001",
+  //     orderDate: "2024-09-01",
+  //     items: "Product A, Product B",
+  //     total: "$45.00",
+  //     paymentMethod: "Credit Card",
+  //     status: "Shipped",
+  //     deliveryDate: "2024-09-05",
+  //   },
+  //   {
+  //     orderNumber: "1002",
+  //     orderDate: "2024-09-02",
+  //     items: "Product C",
+  //     total: "$20.00",
+  //     paymentMethod: "PayPal",
+  //     status: "Pending",
+  //     deliveryDate: "2024-09-07",
+  //   },
+  //   {
+  //     orderNumber: "1003",
+  //     orderDate: "2024-09-03",
+  //     items: "Product D, Product E, Product F",
+  //     total: "$75.00",
+  //     paymentMethod: "Debit Card",
+  //     status: "Delivered",
+  //     deliveryDate: "2024-09-06",
+  //   },
+  // ];
 
   const handleNext = () => {
     setStep("orderdetails");
@@ -49,6 +64,16 @@ export default function Profile() {
   const handleLogout = () => {
     dispatch(logoutUser());
   };
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+  };
+
+  console.log(orders);
   return (
     <>
       <header className="text-gray-600 body-font">
@@ -133,13 +158,20 @@ export default function Profile() {
                     <tbody>
                       {orders.map((order) => (
                         <tr key={order.orderNumber}>
-                          <td className="px-4 py-3">{order.orderNumber}</td>
-                          <td className="px-4 py-3">{order.orderDate}</td>
-                          <td className="px-4 py-3">{order.items}</td>
-                          <td className="px-4 py-3">{order.total}</td>
-                          <td className="px-4 py-3">{order.paymentMethod}</td>
-                          <td className="px-4 py-3">{order.status}</td>
-                          <td className="px-4 py-3">{order.deliveryDate}</td>
+                          <td className="px-4 py-3">{order.id}</td>
+                          <td className="px-4 py-3">
+                            {formatDate(order.createdAt)}
+                          </td>
+                          <td className="px-4 py-3">
+                            {order.OrderItems.length}
+                          </td>
+                          <td className="px-4 py-3">{order.total_amount}</td>
+                          <td className="px-4 py-3">Easy Paisa</td>
+                          <td className="px-4 py-3">{order.order_status}</td>
+                          <td className="px-4 py-3">
+                            {" "}
+                            {formatDate(order.estimated_delivery_date)}
+                          </td>
                           <td className="px-4 py-3">
                             <button
                               className="text-blue-500"

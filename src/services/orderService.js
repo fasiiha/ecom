@@ -1,6 +1,6 @@
+import APIConstant from "@/constant/APIConstant";
 import axios from "axios";
 import BASE_URL from "../config/baseUrls";
-import APIConstant from "@/constant/APIConstant";
 
 export const addOrder = async (data) => {
   try {
@@ -19,6 +19,18 @@ export const getAllOrder = async () => {
   try {
     const { response } = await axios.get(`${BASE_URL}${APIConstant.ORDER}/all`);
     return response;
+  } catch (error) {
+    console.error("Error fetching Order data:", error);
+    throw error;
+  }
+};
+
+export const getSpecificOrder = async (userId) => {
+  try {
+    const response = await axios.get(
+      `${BASE_URL}${APIConstant.ORDER}/specific/${userId}`
+    );
+    return response.data;
   } catch (error) {
     console.error("Error fetching Order data:", error);
     throw error;

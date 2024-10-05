@@ -1,9 +1,10 @@
+import Image from "next/image.js";
 import Link from "next/link";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import NotFound from "../assets/images/not-found.jpg";
 import Rating from "../components/Rating.js";
 import { fetchProduct } from "../store/slices/productSlice";
-
 export default function Shop() {
   const dispatch = useDispatch();
   const product = useSelector((state) => state.product.items);
@@ -50,10 +51,20 @@ export default function Shop() {
                   <div key={item.id} className="sm:p-4 p-2 w-1/2 lg:w-1/4">
                     <Link href={`/product/${item.id}`}>
                       <div className="shadow-lg rounded-lg overflow-hidden border transform transition-transform duration-300 hover:scale-105 cursor-pointer">
-                        <img
-                          className="w-full h-auto object-cover object-center"
-                          src="https://img.lazcdn.com/g/p/be2723539cde48470da1dc1b9f80f0b1.jpg_720x720q80.jpg"
+                        <Image
+                          src={
+                            item.images && item.images.length > 0
+                              ? item.images[0]
+                              : NotFound
+                          }
                           alt={item.product_name}
+                          // layout="responsive"
+                          // width={500}
+                          // height={300}
+                          height={500}
+                          width={300}
+                          style={{ width: "500px", height: "300px" }}
+                          // className="w-full h-full object-cover"
                         />
                         <div className="p-3 flex justify-center items-center">
                           <div className="flex flex-col items-center space-y-1">

@@ -3,6 +3,7 @@ import {
   addOrder,
   deleteOrder,
   getAllOrder,
+  getSpecificOrder,
   updateOrder,
 } from "../../services/orderService";
 
@@ -10,6 +11,14 @@ export const fetchOrderItems = createAsyncThunk(
   "order/fetchOrderItems",
   async () => {
     const response = await getAllOrder();
+    return response.data;
+  }
+);
+
+export const fetchSpecificOrderItems = createAsyncThunk(
+  "order/fetchSpecificOrderItems",
+  async (userId) => {
+    const response = await getSpecificOrder(userId);
     return response.data;
   }
 );
@@ -58,6 +67,17 @@ const orderSlice = createSlice({
         state.items = action.payload;
       })
       .addCase(fetchOrderItems.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message;
+      })
+      .addCase(fetchSpecificOrderItems.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(fetchSpecificOrderItems.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.items = action.payload;
+      })
+      .addCase(fetchSpecificOrderItems.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
       })

@@ -6,7 +6,6 @@ import { fetchCartItems, removeCartItem } from "../store/slices/cartSlice";
 export default function Cart() {
   const dispatch = useDispatch();
   const router = useRouter();
-
   const cart = useSelector((state) => state.cart.items);
   const cartStatus = useSelector((state) => state.cart.status);
   const error = useSelector((state) => state.cart.error);
