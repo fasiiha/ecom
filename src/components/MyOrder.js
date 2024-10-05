@@ -7,6 +7,7 @@ export default function MyOrder() {
   const user = useSelector((state) => state.user.user);
   const [step, setStep] = useState("orderlist");
   const [orders, setOrders] = useState([]);
+  const [selectedOrder, setSelectedOrder] = useState(null);
 
   const fetchData = async () => {
     try {
@@ -23,12 +24,14 @@ export default function MyOrder() {
     }
   }, [user?.id]);
 
-  const handleNext = () => {
+  const handleNext = (order) => {
+    setSelectedOrder(order);
     setStep("orderdetails");
   };
 
   const handleBack = () => {
     setStep("orderlist");
+    setSelectedOrder(null);
   };
 
   const formatDate = (dateString) => {
@@ -90,11 +93,13 @@ export default function MyOrder() {
                       <td className="px-4 py-3">Easy Paisa</td>
                       <td className="px-4 py-3">{order.order_status}</td>
                       <td className="px-4 py-3">
-                        {" "}
                         {formatDate(order.estimated_delivery_date)}
                       </td>
                       <td className="px-4 py-3">
-                        <button className="text-blue-500" onClick={handleNext}>
+                        <button
+                          className="text-blue-500"
+                          onClick={() => handleNext(order)}
+                        >
                           View
                         </button>
                       </td>
@@ -127,7 +132,7 @@ export default function MyOrder() {
                     <span className="absolute left-0 bottom-[-4px] w-0 h-[1px] bg-black transition-all duration-300 group-hover:w-full"></span>
                   </span>
                 </div>
-                <OrderDetails />
+                <OrderDetails order={selectedOrder} />
               </>
             )}
           </div>

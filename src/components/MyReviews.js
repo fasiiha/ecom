@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { getAllUserReviews } from "../services/reviewService";
@@ -6,6 +7,7 @@ export default function MyReviews() {
   const [step, setStep] = useState("myReviewList");
   const user = useSelector((state) => state.user.user);
   const [myReviews, setMyReviews] = useState([]);
+  const [selectedReview, setSelectedReview] = useState(null);
 
   const fetchData = async () => {
     try {
@@ -22,12 +24,14 @@ export default function MyReviews() {
     }
   }, [user?.id]);
 
-  const handleNext = () => {
+  const handleNext = (review) => {
+    setSelectedReview(review);
     setStep("myReviewDetails");
   };
 
   const handleBack = () => {
     setStep("myReviewList");
+    setSelectedReview(null);
   };
 
   const formatDate = (dateString) => {
@@ -67,15 +71,24 @@ export default function MyReviews() {
                 <tbody>
                   {myReviews.map((review) => (
                     <tr key={review.id}>
-                      <td className="px-4 py-3">{review.name}</td>
+                      <Link href={`/product/${review.Product.id}`}>
+                        <td className="px-4 py-3 text-blue-400 underline">
+                          {review.Product.product_name}
+                        </td>
+                      </Link>
                       <td className="px-4 py-3">{review.rating}</td>
-                      <td className="px-4 py-3">{review.review}</td>
-                      <td className="px-4 py-3">1/1/2024</td>
+                      <td className="px-4 py-3">{review.comment}</td>
                       <td className="px-4 py-3">
-                        <button className="text-blue-500" onClick={handleNext}>
+                        {formatDate(review.createdAt)}
+                      </td>
+                      {/* <td className="px-4 py-3">
+                        <button
+                          className="text-blue-500"
+                          onClick={() => handleNext(review)}
+                        >
                           View
                         </button>
-                      </td>
+                      </td> */}
                     </tr>
                   ))}
                 </tbody>
@@ -101,11 +114,11 @@ export default function MyReviews() {
                     />
                   </svg>
                   <span className="relative text-black sm:text-base text-sm">
-                    Back to Orders List
+                    Back to Reviews List
                     <span className="absolute left-0 bottom-[-4px] w-0 h-[1px] bg-black transition-all duration-300 group-hover:w-full"></span>
                   </span>
                 </div>
-                {/* <OrderDetails /> */}
+                {/* <MyReviewsDetail review={selectedReview} /> */}
               </>
             )}
           </div>

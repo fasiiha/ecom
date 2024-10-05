@@ -97,7 +97,7 @@ const Navbar = () => {
             New Arrivals
           </Link>
           <Link
-            href="/wishlist"
+            href="/"
             className="block mt-4 lg:inline-block lg:mt-0 px-4 py-2 hover:bg-gray-200 "
           >
             Best Selling Products
@@ -147,7 +147,7 @@ const Navbar = () => {
             )}
           </span>
           <Link
-            href="/"
+            href="/review"
             className="block mt-4 lg:inline-block lg:mt-0 px-4 py-2 hover:bg-gray-200 "
           >
             Reviews

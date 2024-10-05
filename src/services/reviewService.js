@@ -17,10 +17,8 @@ export const addReview = async (data) => {
 
 export const getAllReview = async () => {
   try {
-    const { response } = await axios.get(
-      `${BASE_URL}${APIConstant.REVIEW}/all`
-    );
-    return response;
+    const response = await axios.get(`${BASE_URL}${APIConstant.REVIEW}/all`);
+    return response.data;
   } catch (error) {
     console.error("Error fetching Review data:", error);
     throw error;

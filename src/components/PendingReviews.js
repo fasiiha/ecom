@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { getPendingReviews } from "../services/reviewService";
+import PendingReviewDetail from "./PendingReviewDetail";
 
 export default function PendingReviews() {
   const [step, setStep] = useState("pendingReviewlist");
   const user = useSelector((state) => state.user.user);
   const [pendingReviews, setPendingReviews] = useState([]);
+  const [selectedReview, setSelectedReview] = useState(null);
 
   const fetchData = async () => {
     try {
@@ -22,12 +24,14 @@ export default function PendingReviews() {
     }
   }, [user?.id]);
 
-  const handleNext = () => {
+  const handleNext = (review) => {
+    setSelectedReview(review);
     setStep("pendingReviewDetails");
   };
 
   const handleBack = () => {
     setStep("pendingReviewlist");
+    setSelectedReview(null);
   };
 
   console.log(pendingReviews);
@@ -67,11 +71,10 @@ export default function PendingReviews() {
                         <td className="px-4 py-3">disabled</td>
                         <td className="px-4 py-3">sdsd</td>
                         <td className="px-4 py-3">Pending</td>
-
                         <td className="px-4 py-3">
                           <button
                             className="text-blue-500"
-                            onClick={handleNext}
+                            onClick={() => handleNext(review)}
                           >
                             Review Now
                           </button>
@@ -101,11 +104,11 @@ export default function PendingReviews() {
                     />
                   </svg>
                   <span className="relative text-black sm:text-base text-sm">
-                    Back to Orders List
+                    Back to Pending Review List
                     <span className="absolute left-0 bottom-[-4px] w-0 h-[1px] bg-black transition-all duration-300 group-hover:w-full"></span>
                   </span>
                 </div>
-                {/* <OrderDetails /> */}
+                <PendingReviewDetail review={selectedReview} />
               </>
             )}
           </div>
