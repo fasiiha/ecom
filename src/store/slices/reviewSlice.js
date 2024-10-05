@@ -3,6 +3,8 @@ import {
   addReview,
   deleteReview,
   getAllReview,
+  getAllUserReviews,
+  getPendingReviews,
   updateReview,
 } from "../../services/reviewService";
 
@@ -10,6 +12,22 @@ export const fetchReviewItems = createAsyncThunk(
   "review/fetchReviewItems",
   async () => {
     const response = await getAllReview();
+    return response.data;
+  }
+);
+
+export const fetchUserReviewItems = createAsyncThunk(
+  "review/fetchUserReviewItems",
+  async (userId) => {
+    const response = await getAllUserReviews(userId);
+    return response.data;
+  }
+);
+
+export const fetchPendingReviewItems = createAsyncThunk(
+  "review/fetchPendingReviewItems",
+  async (userId) => {
+    const response = await getPendingReviews(userId);
     return response.data;
   }
 );
@@ -58,6 +76,28 @@ const reviewSlice = createSlice({
         state.items = action.payload;
       })
       .addCase(fetchReviewItems.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message;
+      })
+      .addCase(fetchUserReviewItems.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(fetchUserReviewItems.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.items = action.payload;
+      })
+      .addCase(fetchUserReviewItems.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message;
+      })
+      .addCase(fetchPendingReviewItems.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(fetchPendingReviewItems.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.items = action.payload;
+      })
+      .addCase(fetchPendingReviewItems.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
       })

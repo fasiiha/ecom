@@ -1,6 +1,6 @@
+import APIConstant from "@/constant/APIConstant";
 import axios from "axios";
 import BASE_URL from "../config/baseUrls";
-import APIConstant from "@/constant/APIConstant";
 
 export const addReview = async (data) => {
   try {
@@ -21,6 +21,30 @@ export const getAllReview = async () => {
       `${BASE_URL}${APIConstant.REVIEW}/all`
     );
     return response;
+  } catch (error) {
+    console.error("Error fetching Review data:", error);
+    throw error;
+  }
+};
+
+export const getAllUserReviews = async (userId) => {
+  try {
+    const response = await axios.get(
+      `${BASE_URL}${APIConstant.REVIEW}/user/${userId}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching Review data:", error);
+    throw error;
+  }
+};
+
+export const getPendingReviews = async (userId) => {
+  try {
+    const response = await axios.get(
+      `${BASE_URL}${APIConstant.REVIEW}/pending-reviews/${userId}`
+    );
+    return response.data;
   } catch (error) {
     console.error("Error fetching Review data:", error);
     throw error;
