@@ -3,7 +3,7 @@ import Image from "next/image.js";
 import Link from "next/link";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import bgImage from "../assets/images/bg.png";
+import bgImage from "../assets/images/bg.jpg";
 import Rating from "../components/Rating.js";
 import { fetchLatestProduct } from "../store/slices/productSlice";
 

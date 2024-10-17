@@ -96,13 +96,26 @@ const Navbar = () => {
           >
             New Arrivals
           </Link>
-          <Link
+          {/* <Link
             href="/"
             className="block mt-4 lg:inline-block lg:mt-0 px-4 py-2 hover:bg-gray-200 "
           >
             Best Selling Products
-          </Link>
-          <span className="relative">
+          </Link> */}
+          {categories.map((category) => (
+            <span key={category.id}>
+              {category.Subcategories?.map((sub) => (
+                <Link
+                  href={`/category/${sub.id}`}
+                  key={sub.id}
+                  className="block mt-4 lg:inline-block lg:mt-0 px-4 py-2 hover:bg-gray-200"
+                >
+                  {sub.subcategory_name}
+                </Link>
+              ))}
+            </span>
+          ))}
+          {/* <span className="relative">
             <button
               onMouseEnter={() => setIsCategoryHovered(true)}
               onMouseLeave={() => setIsCategoryHovered(false)}
@@ -128,7 +141,6 @@ const Navbar = () => {
                       </div>
                     </Link>
 
-                    {/* Subcategories dropdown */}
                     {hoveredCategoryId === category.id &&
                       category.subcategories && (
                         <div className="absolute left-full top-0 mt-0 w-48 bg-white border border-gray-200 shadow-lg">
@@ -145,14 +157,14 @@ const Navbar = () => {
                 ))}
               </div>
             )}
-          </span>
+          </span> */}
           <Link
             href="/review"
             className="block mt-4 lg:inline-block lg:mt-0 px-4 py-2 hover:bg-gray-200 "
           >
             Reviews
           </Link>
-          <Link
+          {/* <Link
             href="/"
             className="block mt-4 lg:inline-block lg:mt-0 px-4 py-2 hover:bg-gray-200 "
           >
@@ -163,7 +175,7 @@ const Navbar = () => {
             className="block mt-4 lg:inline-block lg:mt-0 px-4 py-2 hover:bg-gray-200 "
           >
             FAQs
-          </Link>
+          </Link> */}
         </div>
         {/* <div className="relative mx-auto text-gray-600 lg:block hidden mr-5">
           <span className="absolute inset-y-0 left-0 flex items-center pl-3">

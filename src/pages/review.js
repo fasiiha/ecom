@@ -33,7 +33,10 @@ export default function Review() {
             const year = date.getFullYear().toString().slice(-2);
 
             return (
-              <div className="py-8 px-4 lg:w-1/3" key={item.id}>
+              <div
+                className="py-8 px-4 lg:w-1/3 shadow-md bg-slate-100"
+                key={item.id}
+              >
                 <div className="h-full flex items-start">
                   <div className="w-12 flex-shrink-0 flex flex-col text-center leading-none">
                     <span className="text-gray-500 pb-2 mb-2 border-b-2 border-gray-200">
