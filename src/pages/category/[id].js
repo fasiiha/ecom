@@ -9,7 +9,7 @@ import { fetchProduct } from "../../store/slices/productSlice";
 export default function Shop() {
   const dispatch = useDispatch();
   const router = useRouter();
-  const { id } = router.query; // Get the subcategory ID from URL parameters
+  const { id } = router.query;
   console.log(id);
   const product = useSelector((state) => state.product.items);
   const productStatus = useSelector((state) => state.product.status);
@@ -60,24 +60,22 @@ export default function Shop() {
               <h2 className="text-2xl font-heading mb-4">Products</h2>
               <div className="flex flex-wrap -m-4">
                 {filteredProducts.map((item) => (
-                  <div
-                    key={item.id}
-                    className="sm:p-4 p-2 sm:max-w-[300px] max-w-[160px] "
-                  >
+                  <div key={item.id} className="sm:m-4 m-2 ">
                     <Link href={`/product/${item.id}`}>
                       <div className="shadow-md overflow-hidden transform transition-transform duration-300 hover:scale-105 cursor-pointer">
-                        <Image
-                          src={
-                            item.images && item.images.length > 0
-                              ? item.images[0]
-                              : NotFound
-                          }
-                          alt={item.product_name}
-                          layout="responsive"
-                          height={500}
-                          width={300}
-                          className="w-full h-full object-cover"
-                        />
+                        <div className="relative sm:w-[250px] w-[150px] sm:h-[250px] h-[140px] overflow-hidden">
+                          <Image
+                            src={
+                              item.images && item.images.length > 0
+                                ? item.images[0]
+                                : NotFound
+                            }
+                            alt={item.product_name}
+                            layout="fill"
+                            objectFit="cover"
+                            objectPosition="center"
+                          />
+                        </div>
                         <div className="p-5 flex justify-center items-center">
                           <div className="flex flex-col items-center space-y-1">
                             <div className="inline-flex items-center sm:text-base text-xs font-body font-medium">

@@ -44,40 +44,45 @@ export default function MyReviews() {
   return (
     <>
       <div>
-        <h2 className="sm:text-4xl text-2xl font-bold mb-4 font-heading">
+        <h2 className="sm:text-5xl text-3xl  mb-4 font-heading">
           Your Reviews
         </h2>
 
-        <section className="text-gray-600 body-font">
+        <section className="text-gray-700 body-font">
           <div className="w-full mx-auto overflow-auto">
             {step === "myReviewList" ? (
-              <table className="table-auto w-full text-left whitespace-no-wrap">
+              <table className="table-auto w-full text-left whitespace-no-wrap sm:mt-4 mt-2">
                 <thead>
                   <tr>
-                    <th className="px-4 py-3 tracking-wider font-semibold text-gray-900 text-sm bg-gray-100 rounded-tl rounded-bl font-body">
+                    <th className="px-4 py-3 font-semibold text-gray-900 sm:text-base text-sm bg-gray-100 rounded-tl rounded-bl font-heading">
                       Product Name
                     </th>
-                    <th className="px-4 py-3 tracking-wider font-semibold text-gray-900 text-sm bg-gray-100 font-body">
+                    <th className="px-4 py-3 font-semibold text-gray-900 sm:text-base text-sm bg-gray-100 font-heading">
                       Rating
                     </th>
-                    <th className="px-4 py-3 tracking-wider font-semibold text-gray-900 text-sm bg-gray-100 font-body">
+                    <th className="px-4 py-3 font-semibold text-gray-900 sm:text-base text-sm bg-gray-100 font-heading">
                       Review
                     </th>
-                    <th className="px-4 py-3 tracking-wider font-semibold text-gray-900 text-sm bg-gray-100 font-body">
+                    <th className="px-4 py-3 font-semibold text-gray-900 sm:text-base text-sm bg-gray-100 font-heading">
                       Date
                     </th>
+                    {/* <th className="px-4 py-3 font-semibold text-gray-900 sm:text-base text-sm bg-gray-100 font-heading">
+                      Action
+                    </th> */}
                   </tr>
                 </thead>
                 <tbody>
                   {myReviews.map((review) => (
                     <tr key={review.id}>
                       <Link href={`/product/${review.Product.id}`}>
-                        <td className="px-4 py-3 text-blue-400 underline">
+                        <td className="px-4 py-3 underline">
                           {review.Product.product_name}
                         </td>
                       </Link>
                       <td className="px-4 py-3">{review.rating}</td>
-                      <td className="px-4 py-3">{review.comment}</td>
+                      <td className="px-4 py-3 max-w-[800px] min-w-[200px]">
+                        {review.comment}
+                      </td>
                       <td className="px-4 py-3">
                         {formatDate(review.createdAt)}
                       </td>

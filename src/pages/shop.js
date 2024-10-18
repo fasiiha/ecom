@@ -38,8 +38,8 @@ export default function Shop() {
   }
   const groupedProducts = groupByCategory(product);
   return (
-    <div className="max-w-[1400px] flex justify-center items-center mx-auto">
-      <div>
+    <div className="max-w-[1400px] flex justify-center  mx-auto">
+      <div className="w-full">
         <div className="flex flex-col p-4 sm:mt-10 mt-3">
           <div className="flex text-gray-500 sm:text-sm text-xs font-body">
             <Link href="/" className="sm:p-2 p-1">
@@ -57,26 +57,22 @@ export default function Shop() {
                 <h2 className="text-2xl font-heading mb-4">{category}</h2>
                 <div className="flex flex-wrap -m-4">
                   {groupedProducts[category].map((item) => (
-                    <div
-                      key={item.id}
-                      className="sm:p-4 p-2 sm:max-w-[300px] max-w-[160px] "
-                    >
+                    <div key={item.id} className="sm:m-4 m-2 ">
                       <Link href={`/product/${item.id}`}>
                         <div className="shadow-md overflow-hidden transform transition-transform duration-300 hover:scale-105 cursor-pointer">
-                          <Image
-                            src={
-                              item.images && item.images.length > 0
-                                ? item.images[0]
-                                : NotFound
-                            }
-                            alt={item.product_name}
-                            layout="responsive"
-                            // width={500}
-                            // height={300}
-                            height={500}
-                            width={300}
-                            className="w-full h-full object-cover"
-                          />
+                          <div className="relative sm:w-[250px] w-[150px] sm:h-[250px] h-[140px] overflow-hidden">
+                            <Image
+                              src={
+                                item.images && item.images.length > 0
+                                  ? item.images[0]
+                                  : NotFound
+                              }
+                              alt={item.product_name}
+                              layout="fill"
+                              objectFit="cover"
+                              objectPosition="center"
+                            />
+                          </div>
                           <div className="p-5 flex justify-center items-center">
                             <div className="flex flex-col items-center space-y-1">
                               <div className="inline-flex items-center sm:text-base text-xs font-body font-medium">

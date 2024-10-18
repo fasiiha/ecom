@@ -21,52 +21,56 @@ export default function Profile() {
   };
 
   return (
-    <>
-      <header className="text-gray-600 body-font">
-        <div className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center justify-between">
-          <nav className="md:border-gray-400 flex flex-wrap items-center justify-center border-b border-gray-500 pb-2 mt-4">
-            <a
-              className={`sm:text-base text-sm font-heading mr-3 hover:text-gray-900 ${
-                activeTab === "orders" ? "text-gray-700 font-semibold" : ""
-              }`}
-              onClick={() => setActiveTab("orders")}
-              style={{ cursor: "pointer" }}
+    <div className="max-w-[1400px] flex justify-center  mx-auto">
+      <div className="w-full">
+        <header className=" body-font sm:mt-10 mt-3">
+          <div className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center justify-between">
+            <nav className="md:border-gray-400 flex flex-wrap items-center justify-center border-b border-gray-500 pb-2 mt-4">
+              <a
+                className={`sm:text-base text-sm font-heading mr-3 hover:text-gray-400 ${
+                  activeTab === "orders" ? "font-semibold" : ""
+                }`}
+                onClick={() => setActiveTab("orders")}
+                style={{ cursor: "pointer" }}
+              >
+                Orders Status
+              </a>
+              <span>|</span>
+              <a
+                className={`pl-3 sm:text-base text-sm font-heading mr-5 hover:text-gray-400 ${
+                  activeTab === "toreview" ? "font-semibold" : ""
+                }`}
+                onClick={() => setActiveTab("toreview")}
+                style={{ cursor: "pointer" }}
+              >
+                Pending Reviews
+              </a>{" "}
+              <span>|</span>
+              <a
+                className={`pl-3 sm:text-base text-sm font-heading mr-5 hover:text-gray-400 ${
+                  activeTab === "myreview" ? " font-semibold" : ""
+                }`}
+                onClick={() => setActiveTab("myreview")}
+                style={{ cursor: "pointer" }}
+              >
+                My Reviews
+              </a>
+            </nav>
+            <div
+              className="mt-2 font-heading cursor-pointer font-semibold text-red-800"
+              onClick={handleLogout}
             >
-              Orders Status
-            </a>
-            <a
-              className={`pl-3 sm:text-base text-sm font-heading mr-5 hover:text-gray-900 ${
-                activeTab === "toreview" ? "text-gray-700 font-semibold" : ""
-              }`}
-              onClick={() => setActiveTab("toreview")}
-              style={{ cursor: "pointer" }}
-            >
-              Pending Reviews
-            </a>
-            <a
-              className={`pl-3 sm:text-base text-sm font-heading mr-5 hover:text-gray-900 ${
-                activeTab === "myreview" ? "text-gray-700 font-semibold" : ""
-              }`}
-              onClick={() => setActiveTab("myreview")}
-              style={{ cursor: "pointer" }}
-            >
-              My Reviews
-            </a>
-          </nav>
-          <div
-            className="mt-2 font-heading cursor-pointer font-semibold text-blue-400"
-            onClick={handleLogout}
-          >
-            logout
+              logout
+            </div>
           </div>
-        </div>
-      </header>
+        </header>
 
-      <div className="container mx-auto p-5">
-        {activeTab === "orders" && <MyOrder />}
-        {activeTab === "toreview" && <PendingReviews />}
-        {activeTab === "myreview" && <MyReviews />}
+        <div className="container mx-auto p-5">
+          {activeTab === "orders" && <MyOrder />}
+          {activeTab === "toreview" && <PendingReviews />}
+          {activeTab === "myreview" && <MyReviews />}
+        </div>
       </div>
-    </>
+    </div>
   );
 }

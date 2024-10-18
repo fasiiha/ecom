@@ -45,38 +45,36 @@ export default function MyOrder() {
   return (
     <>
       <div>
-        <h2 className="sm:text-4xl text-2xl font-bold mb-4 font-heading">
-          Your Orders
-        </h2>
+        <h2 className="sm:text-5xl text-3xl  mb-4 font-heading">Your Orders</h2>
 
-        <section className="text-gray-600 body-font">
-          <div className="w-full mx-auto overflow-auto">
+        <section className="text-gray-700 body-font ">
+          <div className="w-full mx-auto overflow-auto ">
             {step === "orderlist" ? (
-              <table className="table-auto w-full text-left whitespace-no-wrap">
+              <table className="table-auto w-full text-left whitespace-no-wrap sm:mt-4 mt-2">
                 <thead>
                   <tr>
-                    <th className="px-4 py-3 tracking-wider font-semibold text-gray-900 text-sm bg-gray-100 rounded-tl rounded-bl font-body">
+                    <th className="px-4 py-3 font-semibold text-gray-900 sm:text-base text-sm bg-gray-100 rounded-tl rounded-bl font-heading">
                       Order Number
                     </th>
-                    <th className="px-4 py-3 tracking-wider font-semibold text-gray-900 text-sm bg-gray-100 font-body">
+                    <th className="px-4 py-3 font-semibold text-gray-900 sm:text-base text-sm bg-gray-100 font-heading">
                       Order Date
                     </th>
-                    <th className="px-4 py-3 tracking-wider font-semibold text-gray-900 text-sm bg-gray-100 font-body">
+                    <th className="px-4 py-3 font-semibold text-gray-900 sm:text-base text-sm bg-gray-100 font-heading">
                       Items
                     </th>
-                    <th className="px-4 py-3 tracking-wider font-semibold text-gray-900 text-sm bg-gray-100 font-body">
+                    <th className="px-4 py-3 font-semibold text-gray-900 sm:text-base text-sm bg-gray-100 font-heading">
                       Total
                     </th>
-                    <th className="px-4 py-3 tracking-wider font-semibold text-gray-900 text-sm bg-gray-100 font-body">
+                    <th className="px-4 py-3 font-semibold text-gray-900 sm:text-base text-sm bg-gray-100 font-heading">
                       Payment Method
                     </th>
-                    <th className="px-4 py-3 tracking-wider font-semibold text-gray-900 text-sm bg-gray-100 font-body">
+                    <th className="px-4 py-3 font-semibold text-gray-900 sm:text-base text-sm bg-gray-100 font-heading">
                       Status
                     </th>
-                    <th className="px-4 py-3 tracking-wider font-semibold text-gray-900 text-sm bg-gray-100 font-body">
+                    <th className="px-4 py-3 font-semibold text-gray-900 sm:text-base text-sm bg-gray-100 font-heading">
                       Delivery Date
                     </th>
-                    <th className="px-4 py-3 tracking-wider font-semibold text-gray-900 text-sm bg-gray-100 font-body">
+                    <th className="px-4 py-3 font-semibold text-gray-900 sm:text-base text-sm bg-gray-100 font-heading">
                       Action
                     </th>
                   </tr>
