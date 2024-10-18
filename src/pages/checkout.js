@@ -1,5 +1,7 @@
+import Loading from "@/components/Loading";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import greenTick from "../assets/images/greentick.png";
@@ -12,6 +14,7 @@ import {
 import { getUserDetails } from "../store/slices/userSlice";
 
 export default function Checkout() {
+  const router = useRouter();
   const dispatch = useDispatch();
   const [step, setStep] = useState("shipping");
   const [shippingAddress, setShippingAddress] = useState({
@@ -24,6 +27,7 @@ export default function Checkout() {
   const cart = useSelector((state) => state.cart.items);
   const user = useSelector((state) => state.user.user);
   const address = useSelector((state) => state.address.items);
+  const [isLoading, setIsLoading] = useState(false);
   const cartStatus = useSelector((state) => state.cart.status);
   const error = useSelector((state) => state.cart.error);
   const [userInfo, setUserInfo] = useState(null);
@@ -46,7 +50,7 @@ export default function Checkout() {
         month: "long",
         day: "numeric",
       });
-
+    setIsLoading(true);
     dispatch(
       addOrderItem({
         user_id: user?.id,
@@ -56,7 +60,7 @@ export default function Checkout() {
         orderitems: cart,
       })
     );
-    console.log("cart", cart);
+    setIsLoading(false);
     setShowModal(true);
     setTimeout(() => {
       setShowModal(false);
@@ -79,8 +83,10 @@ export default function Checkout() {
       };
 
       fetchAddressInfo();
+    } else {
+      router.push("/login");
     }
-  }, [user?.id, dispatch]);
+  }, [user?.id, dispatch, router]);
 
   useEffect(() => {
     if (user?.id) {
@@ -94,7 +100,9 @@ export default function Checkout() {
   }, [user?.id, dispatch]);
 
   const handleContinue = () => {
+    setIsLoading(true);
     dispatch(addShippingAddressItem({ ...shippingAddress, user_id: user.id }));
+    setIsLoading(false);
     setStep("payment");
   };
 
@@ -134,19 +142,14 @@ export default function Checkout() {
       [e.target.name]: e.target.value,
     });
   };
-  useEffect(() => {
-    if (user?.id === undefined) {
-      <div>Please Log in first</div>;
-    } else {
-      if (cartStatus === "idle") {
-        dispatch(fetchCartItems(user?.id));
-      }
-    }
-  }, [user, cartStatus, dispatch]);
 
-  if (cartStatus === "loading") {
-    return <div>Loading your cart...</div>;
-  }
+  useEffect(() => {
+    if (user?.id) {
+      dispatch(fetchCartItems(user.id));
+    } else {
+      router.push("/login");
+    }
+  }, [user, dispatch, router]);
 
   if (cartStatus === "failed") {
     return <div>Error loading cart: {error}</div>;
@@ -315,7 +318,7 @@ export default function Checkout() {
                 >
                   <span className="absolute right-0 w-10 h-full top-0 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 -skew-x-12 group-hover:-translate-x-36 ease"></span>
                   <span className="relative sm:text-lg text-base font-body text-center">
-                    Pay Now
+                    {isLoading ? <Loading /> : "Pay Now"}
                   </span>
                 </div>
               </Link>

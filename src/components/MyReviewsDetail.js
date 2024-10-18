@@ -1,5 +1,4 @@
 export default function MyReviewsDetail({ review }) {
-  console.log(review);
   return (
     <>
       <div className="flex items-center justify-center mx-auto h-[60vh]">

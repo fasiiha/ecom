@@ -1,11 +1,13 @@
 // components/Rating.js
 import { useState } from "react";
 
-const Rating = ({ totalStars = 5 }) => {
+const Rating = ({ totalStars = 5, onRatingChange }) => {
   const [rating, setRating] = useState(0);
 
   const handleRating = (index) => {
-    setRating(index + 1);
+    const newRating = index + 1;
+    setRating(newRating);
+    onRatingChange(newRating);
   };
 
   return (

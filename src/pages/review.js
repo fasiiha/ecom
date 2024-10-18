@@ -1,3 +1,4 @@
+import Loading from "@/components/Loading";
 import Link from "next/link";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,7 +17,7 @@ export default function Review() {
   }, [reviewStatus, dispatch]);
 
   if (reviewStatus === "loading") {
-    return <div>Loading your review...</div>;
+    return <Loading />;
   }
 
   if (reviewStatus === "failed") {
@@ -65,12 +66,12 @@ export default function Review() {
                           href={`/category/${item.Product?.Subcategory?.id}`}
                         >
                           <h2 className="tracking-wider text-xs title-font font-medium text-indigo-500 mb-1 font-body">
-                            {item.Product.Subcategory.subcategory_name}
+                            {item.Product?.Subcategory?.subcategory_name}
                           </h2>{" "}
                         </Link>
                         <Link href={`/product/${item.Product?.id}`}>
                           <h1 className="title-font text-xl font-medium text-gray-900 mb-3">
-                            {item.Product.product_name}
+                            {item.Product?.product_name}
                           </h1>
                         </Link>
                         <p className="leading-relaxed mb-5">

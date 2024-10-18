@@ -74,11 +74,11 @@ export default function MyReviews() {
                 <tbody>
                   {myReviews.map((review) => (
                     <tr key={review.id}>
-                      <Link href={`/product/${review.Product.id}`}>
-                        <td className="px-4 py-3 underline">
-                          {review.Product.product_name}
-                        </td>
-                      </Link>
+                      <td className="px-4 py-3 underline">
+                        <Link href={`/product/${review.Product?.id}`}>
+                          {review.Product?.product_name}
+                        </Link>
+                      </td>
                       <td className="px-4 py-3">{review.rating}</td>
                       <td className="px-4 py-3 max-w-[800px] min-w-[200px]">
                         {review.comment}

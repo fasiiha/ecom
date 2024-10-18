@@ -1,8 +1,9 @@
-import Link from "next/link";
+import Loading from "@/components/Loading";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCartItems, removeCartItem } from "../store/slices/cartSlice";
+
 export default function Cart() {
   const dispatch = useDispatch();
   const router = useRouter();
@@ -10,6 +11,7 @@ export default function Cart() {
   const cartStatus = useSelector((state) => state.cart.status);
   const error = useSelector((state) => state.cart.error);
   const user = useSelector((state) => state.user.user);
+  const [isLoading, setIsLoading] = useState(false);
   const [orderDetails, setOrderDetails] = useState({
     totalCost: 0,
     totalQuantity: 0,
@@ -26,14 +28,12 @@ export default function Cart() {
   });
 
   useEffect(() => {
-    if (user?.id === undefined) {
-      <div>Please Log in first</div>;
+    if (user?.id) {
+      dispatch(fetchCartItems(user.id));
     } else {
-      if (cartStatus === "idle") {
-        dispatch(fetchCartItems(user?.id));
-      }
+      router.push("/login");
     }
-  }, [user, cartStatus, dispatch, router]);
+  }, [user, dispatch, router]);
 
   useEffect(() => {
     const calculateOrderDetails = () => {
@@ -58,6 +58,13 @@ export default function Cart() {
 
   const handleRemoveItem = async (id) => {
     await dispatch(removeCartItem(id));
+  };
+
+  const handleCheckout = async () => {
+    setIsLoading(true);
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+    setIsLoading(false);
+    router.push("/checkout");
   };
 
   if (cartStatus === "loading") {
@@ -160,14 +167,17 @@ export default function Cart() {
                 orderDetails.tax}
             </div>
           </div>
-          <Link href="/checkout">
-            <div className="relative mt-8 max-w-[700px] w-full py-3 overflow-hidden flex justify-center items-center group cursor-pointer bg-gradient-to-r from-gray-800 to-black hover:bg-gradient-to-r hover:from-gray-700 hover:to-black text-white transition-all ease-out duration-100">
-              <span className="absolute right-0 w-10 h-full top-0 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 -skew-x-12 group-hover:-translate-x-36 ease"></span>
-              <span className="relative sm:text-lg text-base font-body text-center">
-                Continue to Checkout
-              </span>
-            </div>
-          </Link>
+          {/* <Link href="/checkout"> */}
+          <div
+            onClick={handleCheckout}
+            className="relative mt-8 max-w-[700px] w-full py-3 overflow-hidden flex justify-center items-center group cursor-pointer bg-gradient-to-r from-gray-800 to-black hover:bg-gradient-to-r hover:from-gray-700 hover:to-black text-white transition-all ease-out duration-100"
+          >
+            <span className="absolute right-0 w-10 h-full top-0 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 -skew-x-12 group-hover:-translate-x-36 ease"></span>
+            <span className="relative sm:text-lg text-base font-body text-center">
+              {isLoading ? <Loading /> : "Continue to Checkout"}
+            </span>
+          </div>
+          {/* </Link> */}
         </div>
       </div>
     </>

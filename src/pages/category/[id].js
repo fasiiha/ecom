@@ -10,7 +10,6 @@ export default function Shop() {
   const dispatch = useDispatch();
   const router = useRouter();
   const { id } = router.query;
-  console.log(id);
   const product = useSelector((state) => state.product.items);
   const productStatus = useSelector((state) => state.product.status);
   const error = useSelector((state) => state.product.error);
@@ -29,8 +28,6 @@ export default function Shop() {
   if (productStatus === "failed") {
     return <div>Error loading product: {error}</div>;
   }
-
-  console.log(product);
   const filteredProducts = product.filter((item) => item?.subcategory_id == id);
 
   if (filteredProducts.length === 0) {

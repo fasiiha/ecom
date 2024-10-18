@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import NotFound from "../assets/images/not-found.jpg";
 import { fetchLatestProduct } from "../store/slices/productSlice";
+import Loading from "@/components/Loading";
 
 export default function Latest() {
   const dispatch = useDispatch();
@@ -18,7 +19,7 @@ export default function Latest() {
   }, [productStatus, dispatch]);
 
   if (productStatus === "loading") {
-    return <div>Loading your product...</div>;
+    return <Loading/>;
   }
 
   if (productStatus === "failed") {
