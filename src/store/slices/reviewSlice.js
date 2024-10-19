@@ -5,6 +5,7 @@ import {
   getAllReview,
   getAllUserReviews,
   getPendingReviews,
+  getProductReviews,
   updateReview,
 } from "../../services/reviewService";
 
@@ -28,6 +29,14 @@ export const fetchPendingReviewItems = createAsyncThunk(
   "review/fetchPendingReviewItems",
   async (userId) => {
     const response = await getPendingReviews(userId);
+    return response.data;
+  }
+);
+
+export const fetchProductReviews = createAsyncThunk(
+  "review/fetchProductReviews",
+  async (productId) => {
+    const response = await getProductReviews(productId);
     return response.data;
   }
 );
@@ -98,6 +107,17 @@ const reviewSlice = createSlice({
         state.items = action.payload;
       })
       .addCase(fetchPendingReviewItems.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message;
+      })
+      .addCase(fetchProductReviews.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(fetchProductReviews.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.items = action.payload;
+      })
+      .addCase(fetchProductReviews.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
       })

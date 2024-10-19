@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import greenTick from "../assets/images/greentick.png";
+import NotFound from "../assets/images/not-found.jpg";
 import { fetchCartItems } from "../store/slices/cartSlice";
 import { addOrderItem } from "../store/slices/orderSlice";
 import {
@@ -364,25 +365,37 @@ export default function Checkout() {
         {cart.map((item) => (
           <div
             key={item.id}
-            className="md:py-4 py-2 flex sm:flex-row flex-col justify-start sm:text-left"
+            className="md:py-4 py-2 flex sm:flex-row flex-col justify-start max-w-[600px] sm:text-left bg-gray-100 px-5 m-1"
           >
-            <img
-              alt="order"
-              className="flex-shrink-0 w-36 h-36 object-cover object-center sm:mb-0 mb-4"
-              src="https://img.lazcdn.com/g/p/be2723539cde48470da1dc1b9f80f0b1.jpg_720x720q80.jpg"
+            <Image
+              src={
+                item.Product?.images && item.Product?.images.length > 0
+                  ? item.Product?.images[0]
+                  : NotFound
+              }
+              alt={item.Product?.product_name}
+              width={500}
+              height={500}
+              className="w-36 h-36"
             />
-            <div className="flex-grow sm:pl-8">
-              <h2 className="title-font font-semibold font-heading text-2xl text-gray-900">
-                {item.Product?.product_name}
-              </h2>
 
+            <div className="flex-grow sm:pl-8">
+              <div className="flex justify-between">
+                <h2 className="title-font font-semibold font-heading text-2xl text-gray-900">
+                  {item.Product?.product_name}
+                </h2>
+              </div>
               <div className="font-body my-2 text-gray-500">
                 Color:
-                <span className="ml-1">{item?.Product?.color}</span>
+                <span className="ml-1">{item?.color}</span>
+              </div>
+              <div className="font-body my-2 text-gray-500">
+                Size:
+                <span className="ml-1">{item?.size}</span>
               </div>
               <div className="font-body text-gray-500">
                 Quantity:
-                <span className="ml-1">{item?.Product?.stock_quantity}</span>
+                <span className="ml-1">{item?.quantity}</span>
               </div>
               <div className="flex justify-between max-w-[350px] w-full mt-3">
                 <div className="sm:text-xl text-lg font-medium font-heading">
@@ -393,31 +406,31 @@ export default function Checkout() {
             </div>
           </div>
         ))}
-        <div className="font-body  md:text-lg text-base mt-2 flex max-w-[700px] w-full justify-between">
+        <div className="font-body  md:text-lg text-base mt-2 flex max-w-[600px] w-full justify-between">
           <div> Order Date: </div>
           <div className="ml-1">{currentDate}</div>
         </div>
-        <div className="font-body  md:text-lg text-base mt-2 flex max-w-[700px] w-full justify-between">
+        <div className="font-body  md:text-lg text-base mt-2 flex max-w-[600px] w-full justify-between">
           <div> Product Cost: </div>
           <div className="ml-1">${orderDetails.totalCost}</div>
         </div>
-        <div className="font-body  md:text-lg text-base mt-2 flex max-w-[700px] w-full justify-between">
+        <div className="font-body  md:text-lg text-base mt-2 flex max-w-[600px] w-full justify-between">
           <div> Products Quantity: </div>
           <div className="ml-1">{orderDetails.totalQuantity}</div>
         </div>
-        <div className="font-body  md:text-lg text-base mt-2 flex max-w-[700px] w-full justify-between">
+        <div className="font-body  md:text-lg text-base mt-2 flex max-w-[600px] w-full justify-between">
           <div> Discount: </div>
           <div className="ml-1">${orderDetails.discount.toFixed(2)}</div>
         </div>
-        <div className="font-body  md:text-lg text-base mt-2 flex max-w-[700px] w-full justify-between">
+        <div className="font-body  md:text-lg text-base mt-2 flex max-w-[600px] w-full justify-between">
           <div> Shipping Cost: </div>
           <div className="ml-1">${orderDetails.shippingCost.toFixed(2)}</div>
         </div>
-        <div className="font-body  md:text-lg text-base mt-2 pb-3 border-b border-black flex max-w-[700px] w-full justify-between">
+        <div className="font-body  md:text-lg text-base mt-2 pb-3 border-b border-black flex max-w-[600px] w-full justify-between">
           <div> Tax: </div>
           <div className="ml-1">${orderDetails.tax.toFixed(2)}</div>
         </div>
-        <div className="font-body  md:text-lg text-base mt-2 flex max-w-[700px] w-full justify-between">
+        <div className="font-body  md:text-lg text-base mt-2 flex max-w-[600px] w-full justify-between">
           <div> Total Amount: </div>
           <div className="ml-1">
             $

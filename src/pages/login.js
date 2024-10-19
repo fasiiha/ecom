@@ -1,3 +1,4 @@
+import Loading from "@/components/Loading";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,11 +8,12 @@ export default function Login() {
   const dispatch = useDispatch();
   // const { status, error } = useSelector((state) => state.user);
   const router = useRouter();
-
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+  const [errorMessage, setErrorMessage] = useState("");
   const loginStatus = useSelector((state) => state.user.status);
   const user = useSelector((state) => state.user.user);
 
@@ -24,11 +26,26 @@ export default function Login() {
     if (loginStatus === "succeeded" && user) {
       router.push("/");
     }
+    if (loginStatus === "failed") {
+      setErrorMessage("Credentials are wrong.");
+    }
   }, [loginStatus, user, router]);
 
   const handleSubmit = (e) => {
+    setIsLoading(true);
     e.preventDefault();
+    setErrorMessage("");
     dispatch(loginExistingUser(formData));
+    setIsLoading(false);
+  };
+
+  const isEmailValid = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const isFormValid = () => {
+    return formData.email && formData.password && isEmailValid(formData.email);
   };
 
   return (
@@ -57,13 +74,23 @@ export default function Login() {
             value={formData.password}
             onChange={handleChange}
           />
+          {errorMessage && (
+            <p className="text-red-500 mt-1 text-sm">{errorMessage}</p>
+          )}
           <button
             type="submit"
-            className="relative mt-8 max-w-[520px] w-full py-3 overflow-hidden flex justify-center items-center group cursor-pointer bg-gradient-to-r from-gray-800 to-black hover:bg-gradient-to-r hover:from-gray-700 hover:to-black text-white transition-all ease-out duration-100"
+            disabled={!isFormValid()}
+            className={`${
+              !isFormValid() ? "cursor-not-allowed" : "cursor-pointer"
+            }  relative mt-4 max-w-[520px] w-full py-3 overflow-hidden flex justify-center items-center group cursor-pointer bg-gradient-to-r from-gray-800 to-black hover:bg-gradient-to-r hover:from-gray-700 hover:to-black text-white transition-all ease-out duration-100`}
           >
-            <span className="absolute right-0 w-10 h-full top-0 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 -skew-x-12 group-hover:-translate-x-36 ease"></span>
+            <span
+              className={`${
+                !isFormValid() ? "cursor-not-allowed" : "cursor-pointer"
+              } absolute right-0 w-10 h-full top-0 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 -skew-x-12 group-hover:-translate-x-36 ease`}
+            ></span>
             <span className="relative sm:text-lg text-base font-body text-center">
-              Login
+              {isLoading ? <Loading /> : "Login"}
             </span>
           </button>
         </form>

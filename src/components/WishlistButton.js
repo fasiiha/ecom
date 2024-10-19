@@ -1,19 +1,12 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   addWishlistItem,
   removeWishlistItem,
 } from "../store/slices/wishlistSlice";
 
-const WishlistButton = ({ productId, userId }) => {
+const WishlistButton = ({ productId, userId, isInWishlist }) => {
+  console.log(isInWishlist);
   const dispatch = useDispatch();
-  const wishlistItems = useSelector((state) => state.wishlist.items);
-  const [isInWishlist, setIsInWishlist] = useState(false);
-
-  useEffect(() => {
-    const isWishlisted = wishlistItems.some((item) => item.id === productId);
-    setIsInWishlist(isWishlisted);
-  }, [wishlistItems, productId]);
 
   const handleClick = () => {
     if (isInWishlist) {
@@ -21,7 +14,6 @@ const WishlistButton = ({ productId, userId }) => {
     } else {
       dispatch(addWishlistItem({ product_id: productId, user_id: userId }));
     }
-    setIsInWishlist(!isInWishlist);
   };
 
   return (

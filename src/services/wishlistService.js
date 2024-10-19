@@ -15,10 +15,10 @@ export const addWishlist = async (data) => {
   }
 };
 
-export const getSpecificWishlist = async () => {
+export const getSpecificWishlist = async (productId, userId) => {
   try {
     const { response } = await axios.get(
-      `${BASE_URL}${APIConstant.WISHLIST}/all`
+      `${BASE_URL}${APIConstant.WISHLIST}/all/${productId}/${userId}`
     );
     return response;
   } catch (error) {
@@ -27,12 +27,12 @@ export const getSpecificWishlist = async () => {
   }
 };
 
-export const getAllWishlist = async () => {
+export const getAllWishlist = async (userId) => {
   try {
-    const { response } = await axios.get(
-      `${BASE_URL}${APIConstant.WISHLIST}/all`
+    const response = await axios.get(
+      `${BASE_URL}${APIConstant.WISHLIST}/all/${userId}`
     );
-    return response;
+    return response.data;
   } catch (error) {
     console.error("Error fetching Wishlist data:", error);
     throw error;

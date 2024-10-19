@@ -1,3 +1,4 @@
+import Loading from "@/components/Loading";
 import Image from "next/image.js";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -22,7 +23,11 @@ export default function Shop() {
   }, [productStatus, dispatch]);
 
   if (productStatus === "loading") {
-    return <div>Loading your product...</div>;
+    return (
+      <div className="h-screen w-full flex justify-center items-center">
+        <Loading />
+      </div>
+    );
   }
 
   if (productStatus === "failed") {
@@ -37,7 +42,7 @@ export default function Shop() {
   const categoryName =
     filteredProducts[0].Subcategory?.subcategory_name || "Category";
   return (
-    <div className="max-w-[1400px] flex justify-center  mx-auto">
+    <div className="max-w-[1400px] flex justify-center  mx-auto min-h-screen">
       <div className="w-full">
         <div className="flex flex-col p-4 sm:mt-10 mt-3">
           <div className="flex text-gray-500 sm:text-sm text-xs font-body">

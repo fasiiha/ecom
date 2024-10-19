@@ -1,11 +1,17 @@
-import { useState } from "react";
+import Loading from "@/components/Loading";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { registerNewUser } from "../store/slices/userSlice";
 
 export default function Signup() {
   const dispatch = useDispatch();
   const { status, error } = useSelector((state) => state.user);
-
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const signupStatus = useSelector((state) => state.user.status);
+  const user = useSelector((state) => state.user.user);
   const [formData, setFormData] = useState({
     first_name: "",
     last_name: "",
@@ -15,6 +21,15 @@ export default function Signup() {
     confirmPassword: "",
   });
 
+  useEffect(() => {
+    if (signupStatus === "succeeded" && user) {
+      router.push("/");
+    }
+    if (signupStatus === "failed") {
+      setErrorMessage("Credentials are wrong.");
+    }
+  }, [signupStatus, user, router]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -23,11 +38,13 @@ export default function Signup() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (formData.password !== formData.confirmPassword) {
-      alert("Passwords do not match");
+      setErrorMessage("Passwords do not match");
       return;
     }
     try {
+      setIsLoading(true);
       const result = dispatch(registerNewUser(formData));
+      setIsLoading(false);
       if (result.payload.status != 500) {
         router.push("/");
       } else {
@@ -36,6 +53,17 @@ export default function Signup() {
     } catch (error) {
       console.error("An unexpected error occurred", error);
     }
+  };
+
+  const isFormValid = () => {
+    return (
+      formData.first_name &&
+      formData.last_name &&
+      formData.email &&
+      formData.phone_number &&
+      formData.password &&
+      formData.confirmPassword
+    );
   };
 
   return (
@@ -96,18 +124,24 @@ export default function Signup() {
             value={formData.confirmPassword}
             onChange={handleChange}
           />{" "}
+          {errorMessage && (
+            <p className="text-red-500 mt-1 text-sm">{errorMessage}</p>
+          )}
           <button
             type="submit"
-            className="relative mt-8 max-w-[520px] w-full py-3 overflow-hidden flex justify-center items-center group cursor-pointer bg-gradient-to-r from-gray-800 to-black hover:bg-gradient-to-r hover:from-gray-700 hover:to-black text-white transition-all ease-out duration-100"
+            disabled={!isFormValid()}
+            className={`${
+              !isFormValid() ? "cursor-not-allowed" : "cursor-pointer"
+            } relative mt-4 max-w-[520px] w-full py-3 overflow-hidden flex justify-center items-center group cursor-pointer bg-gradient-to-r from-gray-800 to-black hover:bg-gradient-to-r hover:from-gray-700 hover:to-black text-white transition-all ease-out duration-100`}
           >
             <span className="absolute right-0 w-10 h-full top-0 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 -skew-x-12 group-hover:-translate-x-36 ease"></span>
             <span className="relative sm:text-lg text-base font-body text-center">
-              Signup
+              {isLoading ? <Loading /> : "Signup"}
             </span>
           </button>
         </form>
-        {status === "loading" && <p>Loading...</p>}
-        {status === "failed" && <p>Error: {error.message}</p>}
+        {/* {status === "loading" && <p>Loading...</p>}
+        {status === "failed" && <p>Error: {error.message}</p>} */}
       </div>
     </div>
   );

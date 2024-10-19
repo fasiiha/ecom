@@ -1,12 +1,14 @@
 import MyOrder from "@/components/MyOrder";
 import MyReviews from "@/components/MyReviews";
 import PendingReviews from "@/components/PendingReviews";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../store/slices/userSlice";
 
 export default function Profile() {
   const dispatch = useDispatch();
+  const router = useRouter();
   const [activeTab, setActiveTab] = useState("orders");
   const user = useSelector((state) => state.user.user);
 
@@ -18,10 +20,11 @@ export default function Profile() {
 
   const handleLogout = () => {
     dispatch(logoutUser());
+    router.push("/login");
   };
 
   return (
-    <div className="max-w-[1400px] flex justify-center  mx-auto">
+    <div className="max-w-[1400px] flex justify-center  mx-auto min-h-screen">
       <div className="w-full">
         <header className=" body-font sm:mt-10 mt-3">
           <div className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center justify-between">
@@ -57,7 +60,7 @@ export default function Profile() {
               </a>
             </nav>
             <div
-              className="mt-2 font-heading cursor-pointer font-semibold text-red-800"
+              className="max-w-[120px] flex justify-center text-white bg-[#0047AB] border cursor-pointer mt-3 py-2 px-4 text-sm font-body rounded-lg"
               onClick={handleLogout}
             >
               logout

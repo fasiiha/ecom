@@ -33,7 +33,11 @@ export default function Shop() {
   }, [dispatch]);
 
   if (productStatus === "loading" || categoryStatus === "loading") {
-    return <Loading />;
+    return (
+      <div className="h-screen w-full flex justify-center items-center">
+        <Loading />
+      </div>
+    );
   }
 
   if (productStatus === "failed" || categoryStatus === "failed") {
@@ -43,7 +47,7 @@ export default function Shop() {
   const groupedProducts = groupByCategory(product);
 
   return (
-    <div className="max-w-[1400px] flex justify-center mx-auto">
+    <div className="max-w-[1400px] flex justify-center mx-auto min-h-screen">
       <div className="w-full">
         <div className="flex flex-col p-4 sm:mt-10 mt-3">
           <div className="flex text-gray-500 sm:text-sm text-xs font-body">

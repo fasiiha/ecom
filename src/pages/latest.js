@@ -19,7 +19,11 @@ export default function Latest() {
   }, [productStatus, dispatch]);
 
   if (productStatus === "loading") {
-    return <Loading/>;
+    return (
+      <div className="h-screen w-full flex justify-center items-center">
+        <Loading />
+      </div>
+    );
   }
 
   if (productStatus === "failed") {

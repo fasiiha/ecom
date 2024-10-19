@@ -33,7 +33,7 @@ export function SuggestItems() {
   return (
     <div className="max-w-[1400px] flex justify-center  mx-auto">
       <div className="w-full">
-        <div className="sm:text-2xl text-lg font-semibold font-heading">
+        <div className="sm:text-3xl text-2xl font-semibold font-heading mt-8">
           You May Also Like
         </div>
         <section className="text-black  body-font">

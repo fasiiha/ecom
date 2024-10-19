@@ -1,6 +1,7 @@
+import Loading from "@/components/Loading";
 import { SuggestItems } from "@/components/suggestItems";
+import UserReviews from "@/components/UserReviews";
 import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -27,6 +28,12 @@ export default function Product() {
   const [selectedButton, setSelectedButton] = useState(null);
   const [sizeSelectedButton, setSizeSelectedButton] = useState(null);
   const [quantity, setQuantity] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
+  const productId = selectedProduct?.id;
+  const isInWishlist = useSelector((state) =>
+    state.wishlist.items.some((item) => item.product_id === productId)
+  );
+
   const user = useSelector((state) => state.user.user);
   useEffect(() => {
     if (id) {
@@ -38,6 +45,12 @@ export default function Product() {
     if (productStatus === "succeeded" && id) {
       const foundProduct = product.find((item) => item.id == id);
       setSelectedProduct(foundProduct);
+      if (foundProduct?.colors?.length > 0) {
+        setSelectedButton(foundProduct.colors[0]);
+      }
+      if (foundProduct?.sizes?.length > 0) {
+        setSizeSelectedButton(foundProduct.sizes[0]);
+      }
     }
   }, [product, id, productStatus]);
 
@@ -90,7 +103,11 @@ export default function Product() {
   };
 
   if (productStatus === "loading") {
-    return <div>Loading your product...</div>;
+    return (
+      <div className="h-screen w-full flex justify-center items-center">
+        <Loading />
+      </div>
+    );
   }
 
   if (productStatus === "failed") {
@@ -100,6 +117,7 @@ export default function Product() {
   const handleAddToCart = async () => {
     if (selectedProduct) {
       try {
+        setIsLoading(true);
         const result = await dispatch(
           addCartItem({
             product_id: selectedProduct.id,
@@ -109,6 +127,7 @@ export default function Product() {
             size: sizeSelectedButton,
           })
         ).unwrap();
+        setIsLoading(false);
         console.log(result);
         if (result) {
           setShowModal(true);
@@ -126,207 +145,229 @@ export default function Product() {
 
   return (
     <>
-      <div className="flex flex-col md:flex-row lg:mt-14 md:mt-7 h-screen">
-        <div className="flex-1 flex items-start justify-center lg:px-20 lg:py-2 md:px-10 md:py-2 p-4">
-          {isMobile ? (
-            <Carousel showArrows={true} showThumbs={false} infiniteLoop={true}>
-              {selectedProduct?.images?.map((src, index) => (
-                <div
-                  key={index}
-                  className="flex items-center justify-center h-64"
+      <div className="max-w-[1400px] flex justify-center  mx-auto">
+        <div className="w-full">
+          <div className="flex flex-col md:flex-row lg:mt-14 md:mt-7 ">
+            <div className="flex-1 flex items-start justify-center lg:px-20 lg:py-2 md:px-10 md:py-2 p-4">
+              {isMobile ? (
+                <Carousel
+                  showArrows={true}
+                  showThumbs={false}
+                  infiniteLoop={true}
                 >
-                  <img
-                    className="max-w-full max-h-full object-contain cursor-pointer"
-                    src={src}
-                    alt={`Image ${index}`}
-                    onClick={() => openModal(src)}
+                  {selectedProduct?.images?.map((src, index) => (
+                    <div
+                      key={index}
+                      className="flex items-center justify-center h-64"
+                    >
+                      <img
+                        className="max-w-full max-h-full object-contain cursor-pointer"
+                        src={src}
+                        alt={`Image ${index}`}
+                        onClick={() => openModal(src)}
+                      />
+                    </div>
+                  ))}
+                </Carousel>
+              ) : (
+                <div className="grid grid-cols-2 gap-4">
+                  {selectedProduct?.images?.map((src, index) => (
+                    <div
+                      key={index}
+                      className="flex items-center justify-center h-64"
+                    >
+                      <img
+                        className="max-w-full max-h-full object-contain cursor-pointer"
+                        src={src}
+                        alt={`Image ${index}`}
+                        onClick={() => openModal(src)}
+                      />
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            <div className="flex-1 p-4">
+              <h1 className="sm:text-4xl text-2xl font-bold mb-4 font-heading">
+                {selectedProduct?.product_name}
+              </h1>
+              <div className="flex justify-between gap-4 mb-4 xl:w-[85%]">
+                <h2 className="sm:text-xl text-lg font-semibold font-heading">
+                  ${selectedProduct?.price}
+                </h2>
+                <div>
+                  <WishlistButton
+                    productId={selectedProduct?.id}
+                    userId={user?.id}
+                    isInWishlist={isInWishlist}
                   />
                 </div>
-              ))}
-            </Carousel>
-          ) : (
-            <div className="grid grid-cols-2 gap-4">
-              {selectedProduct?.images?.map((src, index) => (
-                <div
-                  key={index}
-                  className="flex items-center justify-center h-64"
+              </div>
+              <p className="font-body sm:text-base text-sm xl:w-[75%]">
+                {selectedProduct?.description}
+              </p>
+              <h2 className="text-base font-semibold mt-3 font-heading">
+                {selectedProduct?.stock_quantity} items in stock
+              </h2>
+              {selectedProduct?.colors ? (
+                <>
+                  <h2 className="text-base  mt-3 font-heading font-semibold">
+                    Color
+                  </h2>
+                  <div className="flex flex-wrap gap-4 mt-2 ">
+                    {selectedProduct?.colors?.map((src, index) => (
+                      <button
+                        key={index}
+                        className={`px-4 sm:py-2 py-1 overflow-hidden border-2 border-secondary ${
+                          selectedButton === src
+                            ? "bg-secondary text-white"
+                            : " text-black"
+                        }`}
+                        onClick={() => handleColorClick(src)}
+                      >
+                        <span className="relative sm:text-base text-sm font-body">
+                          {src}
+                        </span>
+                      </button>
+                    ))}
+                  </div>
+                </>
+              ) : null}
+              {selectedProduct?.sizes ? (
+                <>
+                  <h2 className="text-base  mt-3 font-heading font-semibold">
+                    Size
+                  </h2>
+                  <div className="flex flex-wrap gap-4 mt-2 ">
+                    {selectedProduct?.sizes?.map((src, index) => (
+                      <button
+                        key={index}
+                        className={`px-4 sm:py-2 py-1 overflow-hidden border-2 border-secondary ${
+                          sizeSelectedButton === src
+                            ? "bg-secondary text-white"
+                            : " text-black"
+                        }`}
+                        onClick={() => handleSizeButton(src)}
+                      >
+                        <span className="relative sm:text-base text-sm font-body">
+                          {src}
+                        </span>
+                      </button>
+                    ))}
+                  </div>
+                </>
+              ) : null}
+
+              <div className="flex items-center gap-4 mt-3">
+                <button
+                  className="px-3 py-1 border border-gray-300 rounded text-xl"
+                  onClick={handleDecrease}
                 >
-                  <img
-                    className="max-w-full max-h-full object-contain cursor-pointer"
-                    src={src}
-                    alt={`Image ${index}`}
-                    onClick={() => openModal(src)}
-                  />
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-
-        <div className="flex-1 p-4">
-          <h1 className="sm:text-4xl text-2xl font-bold mb-4 font-heading">
-            {selectedProduct?.product_name}
-          </h1>
-          <div className="flex justify-between gap-4 mb-4 xl:w-[85%]">
-            <h2 className="sm:text-xl text-lg font-semibold font-heading">
-              ${selectedProduct?.price}
-            </h2>
-            <div>
-              <WishlistButton
-                productId={selectedProduct?.id}
-                userId={user?.id}
-              />
-            </div>
-          </div>
-          <p className="font-body sm:text-base text-sm xl:w-[75%]">
-            {selectedProduct?.description}
-          </p>
-          <h2 className="text-base font-semibold mt-3 font-heading">
-            {selectedProduct?.stock_quantity} items in stock
-          </h2>
-          {selectedProduct?.colors ? (
-            <>
-              <h2 className="text-base  mt-3 font-heading font-semibold">
-                Color
-              </h2>
-              <div className="flex flex-wrap gap-4 mt-2 ">
-                {selectedProduct?.colors?.map((src, index) => (
-                  <button
-                    key={index}
-                    className={`px-4 sm:py-2 py-1 overflow-hidden border-2 border-secondary ${
-                      selectedButton === src
-                        ? "bg-secondary text-white"
-                        : " text-black"
-                    }`}
-                    onClick={() => handleColorClick(src)}
-                  >
-                    <span className="relative sm:text-base text-sm font-body">
-                      {src}
-                    </span>
-                  </button>
-                ))}
+                  -
+                </button>
+                <span className="text-lg">{quantity}</span>
+                <button
+                  className="px-3 py-1 border border-gray-300 rounded text-xl"
+                  onClick={handleIncrease}
+                  disabled={quantity >= selectedProduct?.stock_quantity}
+                >
+                  +
+                </button>
               </div>
-            </>
-          ) : null}
-          {selectedProduct?.sizes ? (
-            <>
-              <h2 className="text-base  mt-3 font-heading font-semibold">
-                Size
-              </h2>
-              <div className="flex flex-wrap gap-4 mt-2 ">
-                {selectedProduct?.sizes?.map((src, index) => (
-                  <button
-                    key={index}
-                    className={`px-4 sm:py-2 py-1 overflow-hidden border-2 border-secondary ${
-                      sizeSelectedButton === src
-                        ? "bg-secondary text-white"
-                        : " text-black"
-                    }`}
-                    onClick={() => handleSizeButton(src)}
-                  >
-                    <span className="relative sm:text-base text-sm font-body">
-                      {src}
-                    </span>
-                  </button>
-                ))}
-              </div>
-            </>
-          ) : null}
-
-          <div className="flex items-center gap-4 mt-3">
-            <button
-              className="px-3 py-1 border border-gray-300 rounded text-xl"
-              onClick={handleDecrease}
-            >
-              -
-            </button>
-            <span className="text-lg">{quantity}</span>
-            <button
-              className="px-3 py-1 border border-gray-300 rounded text-xl"
-              onClick={handleIncrease}
-              disabled={quantity >= selectedProduct?.stock_quantity}
-            >
-              +
-            </button>
-          </div>
-          <div className="flex flex-wrap gap-4 mt-5 ">
-            <button onClick={handleAddToCart}>
+              <div className="flex mt-5 ">
+                {/* <button onClick={handleAddToCart}>
               <div className="relative px-20  py-2.5 overflow-hidden group cursor-pointer bg-gradient-to-r from-gray-800 to-black hover:bg-gradient-to-r hover:from-gray-700 hover:to-black text-white transition-all ease-out duration-100">
-                <span className="absolute right-0 w-10 h-full top-0 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 -skew-x-12 group-hover:-translate-x-36 ease"></span>
+                <span className="absolute right-0 max-w-[700px] h-full top-0 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 -skew-x-12 group-hover:-translate-x-36 ease"></span>
                 <span className="relative sm:text-lg text-base font-body">
                   Add to Cart
                 </span>
               </div>
-            </button>
-            <Link href="/">
+            </button> */}
+                <div
+                  onClick={handleAddToCart}
+                  className="relative mt-8 max-w-[500px] w-full py-3 overflow-hidden flex justify-center items-center group cursor-pointer bg-gradient-to-r from-gray-800 to-black hover:bg-gradient-to-r hover:from-gray-700 hover:to-black text-white transition-all ease-out duration-100"
+                >
+                  <span className="absolute right-0 w-10 h-full top-0 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 -skew-x-12 group-hover:-translate-x-36 ease"></span>
+                  <span className="relative sm:text-lg text-base font-body text-center">
+                    {isLoading ? <Loading /> : "Add to Cart"}
+                  </span>
+                </div>
+                {/* <Link href="/">
               <div className="px-20 py-2 overflow-hidden border-2 border-black cursor-pointer">
                 <span className="relative sm:text-lg text-base font-body text-black">
                   Buy Now
                 </span>
               </div>
-            </Link>
-          </div>
-        </div>
-
-        {showModal && (
-          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 ">
-            <div className="bg-white p-6 rounded shadow-lg text-center max-w-[400px] w-full">
-              <div className="flex items-center justify-center mx-auto pb-5 pt-2">
-                <Image
-                  width={50}
-                  height={50}
-                  src={greenTick}
-                  alt="successful"
-                />
+            </Link> */}
               </div>
-              <h2 className="text-xl font-body font-semibold text-center">
-                Added To Cart!
-              </h2>
             </div>
-          </div>
-        )}
 
-        {isModalOpen && (
-          <div
-            onClick={closeModal}
-            className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-75 z-50"
-          >
-            <div
-              className="relative max-w-3xl mx-auto p-4"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <button
-                className="absolute top-[-25px] right-[-25px] p-2 text-white"
+            {showModal && (
+              <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 ">
+                <div className="bg-white p-6 rounded shadow-lg text-center max-w-[400px] w-full">
+                  <div className="flex items-center justify-center mx-auto pb-5 pt-2">
+                    <Image
+                      width={50}
+                      height={50}
+                      src={greenTick}
+                      alt="successful"
+                    />
+                  </div>
+                  <h2 className="text-xl font-body font-semibold text-center">
+                    Added To Cart!
+                  </h2>
+                </div>
+              </div>
+            )}
+
+            {isModalOpen && (
+              <div
                 onClick={closeModal}
+                className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-75 z-50"
               >
-                <svg
-                  className="w-6 h-6"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
+                <div
+                  className="relative max-w-3xl mx-auto p-4"
+                  onClick={(e) => e.stopPropagation()}
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M6 18L18 6M6 6l12 12"
+                  <button
+                    className="absolute top-[-25px] right-[-25px] p-2 text-white"
+                    onClick={closeModal}
+                  >
+                    <svg
+                      className="w-6 h-6"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M6 18L18 6M6 6l12 12"
+                      />
+                    </svg>
+                  </button>
+                  <img
+                    className={`transition-transform transform ${
+                      isZoomed ? "scale-150" : "scale-100"
+                    } max-w-full max-h-full object-contain cursor-pointer`}
+                    src={selectedImage}
+                    alt="Modal Content"
+                    onClick={toggleZoom}
                   />
-                </svg>
-              </button>
-              <img
-                className={`transition-transform transform ${
-                  isZoomed ? "scale-150" : "scale-100"
-                } max-w-full max-h-full object-contain cursor-pointer`}
-                src={selectedImage}
-                alt="Modal Content"
-                onClick={toggleZoom}
-              />
-            </div>
+                </div>
+              </div>
+            )}
           </div>
-        )}
+          <div className="m-4 sm:pt-24">
+            <UserReviews productId={productId} />
+
+            <SuggestItems />
+          </div>{" "}
+        </div>{" "}
       </div>
-      <SuggestItems />
     </>
   );
 }

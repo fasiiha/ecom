@@ -7,8 +7,9 @@ import {
 
 export const fetchWishlistItems = createAsyncThunk(
   "wishlist/fetchWishlistItems",
-  async () => {
-    const response = await getAllWishlist();
+  async (userId) => {
+    const response = await getAllWishlist(userId);
+    console.log(response);
     return response.data;
   }
 );

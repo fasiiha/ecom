@@ -73,3 +73,15 @@ export const updateReview = async (data) => {
     throw error;
   }
 };
+
+export const getProductReviews = async (productId) => {
+  try {
+    const response = await axios.get(
+      `${BASE_URL}${APIConstant.REVIEW}/product-reviews/${productId}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching Review data:", error);
+    throw error;
+  }
+};

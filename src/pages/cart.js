@@ -1,7 +1,11 @@
 import Loading from "@/components/Loading";
+import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import DeleteImg from "../assets/images/delete.png";
+import NotFound from "../assets/images/not-found.jpg";
 import { fetchCartItems, removeCartItem } from "../store/slices/cartSlice";
 
 export default function Cart() {
@@ -28,10 +32,11 @@ export default function Cart() {
   });
 
   useEffect(() => {
+    if (user?.id === undefined) {
+      <div>Please Log in first</div>;
+    }
     if (user?.id) {
       dispatch(fetchCartItems(user.id));
-    } else {
-      router.push("/login");
     }
   }, [user, dispatch, router]);
 
@@ -68,7 +73,11 @@ export default function Cart() {
   };
 
   if (cartStatus === "loading") {
-    return <div>Loading your cart...</div>;
+    return (
+      <div className="h-screen w-full flex justify-center items-center">
+        <Loading />
+      </div>
+    );
   }
 
   if (cartStatus === "failed") {
@@ -76,7 +85,7 @@ export default function Cart() {
   }
   return (
     <>
-      <div className="flex flex-col md:flex-row lg:mt-14 md:mt-7 max-w-[1400px] w-full  mx-auto">
+      <div className="flex flex-col md:flex-row lg:mt-14 md:mt-7 max-w-[1400px] w-full mx-auto min-h-screen">
         <div className="flex-1 p-4">
           <h1 className="sm:text-4xl text-2xl font-bold mb-4 font-heading">
             Your Cart
@@ -87,19 +96,37 @@ export default function Cart() {
           {cart.map((item) => (
             <div
               key={item.id}
-              className="md:py-4 py-2 flex sm:flex-row flex-col justify-start  sm:text-left"
+              className="md:py-4 py-2 flex sm:flex-row flex-col justify-start max-w-[600px] sm:text-left bg-gray-100 px-5 m-1"
             >
-              {/* <img
-                alt={item.Product.product_name}
-                className="flex-shrink-0 w-36 h-36 object-cover object-center sm:mb-0 mb-4 text-xs"
-                src={require(`${item.Product.ProductImages.image_url}`)}
-              /> */}
+              <Image
+                src={
+                  item.Product?.images && item.Product?.images.length > 0
+                    ? item.Product?.images[0]
+                    : NotFound
+                }
+                alt={item.Product?.product_name}
+                width={500}
+                height={500}
+                className="w-36 h-36"
+              />
 
               <div className="flex-grow sm:pl-8">
-                <h2 className="title-font font-semibold font-heading text-2xl text-gray-900">
-                  {item.Product?.product_name}
-                </h2>
-
+                <div className="flex justify-between">
+                  {" "}
+                  <Link href={`/product/${item.Product?.id}`}>
+                    <h2 className="title-font font-semibold font-heading text-2xl text-gray-900">
+                      {item.Product?.product_name}
+                    </h2>{" "}
+                  </Link>
+                  <Image
+                    onClick={() => handleRemoveItem(item.id)}
+                    src={DeleteImg}
+                    width={500}
+                    height={500}
+                    alt="delete"
+                    className="w-6 h-6 cursor-pointer"
+                  />
+                </div>
                 <div className="font-body my-2 text-gray-500">
                   Color:
                   <span className="ml-1">{item?.color}</span>
@@ -116,12 +143,6 @@ export default function Cart() {
                   <div className="sm:text-xl text-lg font-medium font-heading">
                     <span className="text-2xl">$</span>
                     {item.Product?.price}
-                  </div>
-                  <div
-                    onClick={() => handleRemoveItem(item.id)}
-                    className="flex justify-end text-accent border-accent border cursor-pointer py-1 px-2"
-                  >
-                    remove
                   </div>
                 </div>
               </div>

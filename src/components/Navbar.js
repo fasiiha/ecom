@@ -47,7 +47,7 @@ const Navbar = () => {
   }, [user]);
 
   return (
-    <nav className="flex items-center justify-between flex-wrap bg-white py-3 lg:px-12 shadow  border-b border-black font-body">
+    <nav className="flex items-center justify-between flex-wrap  py-3 lg:px-12 shadow   bg-gray-100 font-body">
       <div className="flex justify-between lg:w-auto w-full pl-6 pr-2 border-solid border-gray-300">
         <div className="flex items-center flex-shrink-0 text-gray-800 mr-8">
           <span className="font-semibold font-heading text-xl tracking-tight">
@@ -203,7 +203,7 @@ const Navbar = () => {
 
         <div className="flex flex-col lg:flex-row">
           {isUser ? (
-            <div className="flex">
+            <div className={` ${isMenuOpen ? "flex-col" : "flex"}`}>
               {/* <button onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
                 <Image
                   width={35}
@@ -212,25 +212,90 @@ const Navbar = () => {
                   alt="profile"
                 />
               </button> */}
-              <Link href="/profile">
-                <Image
-                  width={35}
-                  height={35}
-                  src={profileImage}
-                  alt="profile"
-                />
-              </Link>
-              <Link href="/wishlist">
-                <Image
-                  width={35}
-                  height={35}
-                  src={wishlistImage}
-                  alt="wishlist"
-                />
-              </Link>
-              <Link href="/cart">
-                <Image width={35} height={35} src={cartImage} alt="cart" />
-              </Link>
+              {isMenuOpen ? (
+                <Link
+                  href="/profile"
+                  className="block mt-3 lg:inline-block lg:mt-0 px-3 py-2 hover:bg-gray-200 "
+                >
+                  <div className="flex">
+                    <Image
+                      width={25}
+                      height={20}
+                      src={profileImage}
+                      alt="profile"
+                      className="mr-1"
+                    />
+                    <span>Profile</span>
+                  </div>
+                </Link>
+              ) : (
+                <Link href="/profile">
+                  <Image
+                    width={35}
+                    height={35}
+                    src={profileImage}
+                    alt="profile"
+                    className="mx-1"
+                  />
+                </Link>
+              )}
+
+              {isMenuOpen ? (
+                <Link
+                  href="/wishlist"
+                  className="block mt-3 lg:inline-block lg:mt-0 px-3 py-2 hover:bg-gray-200 "
+                >
+                  <div className="flex">
+                    <Image
+                      width={25}
+                      height={20}
+                      src={wishlistImage}
+                      alt="wishlist"
+                      className="mr-1"
+                    />
+                    <span>Wishlist</span>
+                  </div>
+                </Link>
+              ) : (
+                <Link href="/wishlist">
+                  <Image
+                    width={35}
+                    height={35}
+                    src={wishlistImage}
+                    className="mx-1"
+                    alt="wishlist"
+                  />
+                </Link>
+              )}
+
+              {isMenuOpen ? (
+                <Link
+                  href="/cart"
+                  className="block mt-3 lg:inline-block lg:mt-0 px-3 py-2 hover:bg-gray-200 "
+                >
+                  <div className="flex">
+                    <Image
+                      width={25}
+                      height={20}
+                      src={cartImage}
+                      alt="cart"
+                      className="mr-1"
+                    />
+                    <span>Cart</span>
+                  </div>
+                </Link>
+              ) : (
+                <Link href="/cart">
+                  <Image
+                    width={35}
+                    height={35}
+                    src={cartImage}
+                    alt="cart"
+                    className="mx-1"
+                  />
+                </Link>
+              )}
+
               {/* {isDropdownOpen && (
                 <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 shadow-lg">
                   <button

@@ -1,10 +1,19 @@
 import Link from "next/link";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchCategoryAndSubcategoryItems } from "../store/slices/categorySlice";
 
 const Footer = () => {
+  const dispatch = useDispatch();
+  const categories = useSelector((state) => state.category?.items);
+  useEffect(() => {
+    dispatch(fetchCategoryAndSubcategoryItems());
+  }, [dispatch]);
+
   return (
-    <div className="w-full px-4 sm:pt-8 pt-5 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen  md:px-24 lg:px-16 border-t border-black ">
+    <div className="w-full px-4 sm:pt-8 pt-5 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen  md:px-24 lg:px-16 border-t border-gray-200 bg-gray-100">
       <div className="grid sm:gap-16 gap-7 row-gap-10 sm:mb-8 mb-4 lg:grid-cols-6">
-        <div className="md:max-w-md lg:col-span-2">
+        <div className="md:max-w-md lg:col-span-2 my-3">
           <Link
             href="/"
             aria-label="Go home"
@@ -27,7 +36,7 @@ const Footer = () => {
               <rect x="14" y="11" width="7" height="12" />
             </svg>
             <span className="ml-2 text-xl font-bold tracking-wide text-gray-800 uppercase">
-              Company
+              ToZee
             </span>
           </Link>
           <div className="mt-4 lg:max-w-sm">
@@ -44,66 +53,23 @@ const Footer = () => {
         </div>
         <div className="grid grid-cols-2 gap-5 row-gap-8 lg:col-span-3 md:grid-cols-3">
           <div>
-            <p className="font-semibold tracking-wide text-gray-800">
-              Customer Service
+            <p className="font-semibold font-heading text-lg text-gray-800 my-3">
+              Shop
             </p>
+
             <ul className="space-y-1">
+              {" "}
               <li>
                 <Link
-                  href="/"
+                  href="/shop"
                   className="text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400 sm:text-sm text-xs"
                 >
-                  Contact Us
+                  Shop All
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/"
-                  className="text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400 sm:text-sm text-xs"
-                >
-                  FAQ
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/"
-                  className="text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400 sm:text-sm text-xs"
-                >
-                  Returns & Exchanges
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/"
-                  className="text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400 sm:text-sm text-xs"
-                >
-                  Shipping Information
-                </Link>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <p className="font-semibold tracking-wide text-gray-800">Shop</p>
-            <ul className="space-y-1">
-              <li>
-                <Link
-                  href="/"
-                  className="text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400 sm:text-sm text-xs"
-                >
-                  Clothing
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/"
-                  className="text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400 sm:text-sm text-xs"
-                >
-                  Jewelry
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/"
+                  href="/latest"
                   className="text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400 sm:text-sm text-xs"
                 >
                   New Arrivals
@@ -111,16 +77,28 @@ const Footer = () => {
               </li>
               <li>
                 <Link
-                  href="/"
+                  href="/review"
                   className="text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400 sm:text-sm text-xs"
                 >
-                  Sale
+                  Review
                 </Link>
               </li>
+              {categories.map((category) =>
+                category.Subcategories?.map((sub) => (
+                  <li key={sub.id}>
+                    <Link
+                      href={`/category/${sub.id}`}
+                      className="text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400 sm:text-sm text-xs"
+                    >
+                      {sub.subcategory_name}
+                    </Link>
+                  </li>
+                ))
+              )}
             </ul>
           </div>
           <div>
-            <p className="font-semibold tracking-wide text-gray-800">
+            <p className="font-semibold font-heading text-lg text-gray-800 my-3">
               Connect With Us
             </p>
             <ul className="space-y-1">
@@ -154,7 +132,7 @@ const Footer = () => {
       </div>
       <div className="flex flex-col justify-between py-2 border-t sm:flex-row">
         <p className="text-xs text-gray-600">
-          © Copyright 2020 Lorem Inc. All rights reserved.
+          © Copyright 2020 ToZee Inc. All rights reserved.
         </p>
         <div className="flex items-center mt-4 space-x-4 sm:mt-0">
           <Link
