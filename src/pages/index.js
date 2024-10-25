@@ -52,7 +52,7 @@ export default function Home() {
         <div className="absolute inset-0 flex items-center sm:pl-20 pl-5">
           <div className="flex flex-col">
             <h1 className="font-heading sm:text-7xl text-2xl mb-2 text-white">
-              ToZee
+              Ecommerce
             </h1>
             <h1 className="sm:w-full w-[50%] font-heading sm:text-xl text-sm sm:mt-3 sm:mb-10 mb-3 text-white">
               From Chic Apparel to Dazzling Jewelry {`-`} Find It All Here!

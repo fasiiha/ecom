@@ -36,7 +36,7 @@ const Footer = () => {
               <rect x="14" y="11" width="7" height="12" />
             </svg>
             <span className="ml-2 text-xl font-bold tracking-wide text-gray-800 uppercase">
-              ToZee
+              Ecommerce
             </span>
           </Link>
           <div className="mt-4 lg:max-w-sm">
@@ -132,7 +132,7 @@ const Footer = () => {
       </div>
       <div className="flex flex-col justify-between py-2 border-t sm:flex-row">
         <p className="text-xs text-gray-600">
-          © Copyright 2020 ToZee Inc. All rights reserved.
+          © Copyright 2020 Ecommerce Inc. All rights reserved.
         </p>
         <div className="flex items-center mt-4 space-x-4 sm:mt-0">
           <Link
