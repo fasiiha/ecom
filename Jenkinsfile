@@ -21,7 +21,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    bat "docker build -t ${DOCKER_IMAGE} -f selenium/Dockerfile ."
+                    bat "docker build ${DOCKER_IMAGE}"
                 }
             }
         }
@@ -29,9 +29,13 @@ pipeline {
         stage('Run Tests') {
             steps {
                 script {
-                     bat """
-                        docker run --rm ${DOCKER_IMAGE} cmd /c "cd selenium && npm install && npm test"
-                    """
+                    bat """
+                docker run --rm \
+                -v %CD%:/workspace \
+                -w /workspace/selenium \
+                ${DOCKER_IMAGE} \
+                sh -c "npm install && npm test"
+            """
                 }
             }
         }
@@ -41,6 +45,7 @@ pipeline {
         always {
             bat 'docker system prune -f'
             archiveArtifacts artifacts: 'selenium/screenshots/**/*', allowEmptyArchive: true
+            junit '**/target/surefire-reports/*.xml'
         }
     }
 }
