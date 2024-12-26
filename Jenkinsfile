@@ -2,15 +2,17 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = 'markhobson/maven-chrome'
+        DOCKER_IMAGE = 'markhobson/maven-chrome:latest'
         GITHUB_REPO = 'https://github.com/fasiiha/ecom.git'
     }
 
     stages {
         stage('Checkout') {
             steps {
-                checkout([$class: 'GitSCM',
-                    branches: [[name: '*/main']],
+               checkout([
+                    $class: 'GitSCM',
+                    branches: [[name: '*/master']],
+                    extensions: [[$class: 'CleanBeforeCheckout']],
                     userRemoteConfigs: [[url: env.GITHUB_REPO]]
                 ])
             }
