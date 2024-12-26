@@ -9,14 +9,17 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: env.GITHUB_REPO
+                checkout([$class: 'GitSCM',
+                    branches: [[name: '*/main']],
+                    userRemoteConfigs: [[url: env.GITHUB_REPO]]
+                ])
             }
         }
 
         stage('Build Docker Image') {
             steps {
                 script {
-                    docker.build(DOCKER_IMAGE, '-f selenium/Dockerfile .')
+                    bat "docker build -t ${DOCKER_IMAGE} -f selenium/Dockerfile ."
                 }
             }
         }
@@ -24,13 +27,9 @@ pipeline {
         stage('Run Tests') {
             steps {
                 script {
-                    docker.image(DOCKER_IMAGE).inside {
-                        sh '''
-                            cd selenium
-                            npm install
-                            npm test
-                        '''
-                    }
+                     bat """
+                        docker run --rm ${DOCKER_IMAGE} cmd /c "cd selenium && npm install && npm test"
+                    """
                 }
             }
         }
@@ -38,7 +37,7 @@ pipeline {
 
     post {
         always {
-            sh 'docker system prune -f'
+            bat 'docker system prune -f'
             archiveArtifacts artifacts: 'selenium/screenshots/**/*', allowEmptyArchive: true
         }
     }
