@@ -2,11 +2,23 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = 'markhobson/maven-chrome:latest'
+        DOCKER_IMAGE = 'selenium-test-image:latest'
         GITHUB_REPO = 'https://github.com/fasiiha/ecom.git'
     }
 
     stages {
+        stage('Check Docker') {
+            steps {
+                script {
+                    try {
+                        bat 'docker info'
+                    } catch (Exception e) {
+                        error 'Docker is not running. Please start Docker Desktop and try again.'
+                    }
+                }
+            }
+        }
+
         stage('Checkout') {
             steps {
                checkout([
@@ -21,7 +33,8 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    bat "docker build ${DOCKER_IMAGE}"
+                    bat 'docker system prune -f'
+                    bat "docker build -t ${DOCKER_IMAGE} -f selenium/Dockerfile ."
                 }
             }
         }
@@ -30,12 +43,10 @@ pipeline {
             steps {
                 script {
                     bat """
-                docker run --rm \
-                -v %CD%:/workspace \
-                -w /workspace/selenium \
-                ${DOCKER_IMAGE} \
-                sh -c "npm install && npm test"
-            """
+                        docker run --rm ^
+                        -v "${WORKSPACE}/selenium:/usr/src/app/selenium" ^
+                        ${DOCKER_IMAGE} cmd /c "cd selenium && npm install && npm test"
+                    """
                 }
             }
         }
@@ -43,9 +54,24 @@ pipeline {
 
     post {
         always {
-            bat 'docker system prune -f'
+            script {
+                try {
+                    bat 'docker system prune -f'
+                } catch (Exception e) {
+                    echo "Failed to clean up Docker resources: ${e.message}"
+                }
+            }
             archiveArtifacts artifacts: 'selenium/screenshots/**/*', allowEmptyArchive: true
-            junit '**/target/surefire-reports/*.xml'
+        }
+        failure {
+            script {
+                echo "Pipeline failed. Checking Docker status..."
+                try {
+                    bat 'docker info'
+                } catch (Exception e) {
+                    echo "Docker is not running or not accessible: ${e.message}"
+                }
+            }
         }
     }
 }
