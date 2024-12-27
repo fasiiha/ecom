@@ -45,7 +45,7 @@ pipeline {
                     bat """
                         docker run --rm ^
                         -v "${WORKSPACE}/selenium:/usr/src/app/selenium" ^
-                        ${DOCKER_IMAGE} cmd /c "cd selenium && npm install && npm test"
+                        ${DOCKER_IMAGE} /bin/sh -c "cd selenium && npm install && npm test"
                     """
                 }
             }
